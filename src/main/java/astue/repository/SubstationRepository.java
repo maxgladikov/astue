@@ -7,7 +7,7 @@ import astue.entity.Substation;
 
 
 public interface SubstationRepository extends CrudRepository<Substation,Long>{
-	List<Substation> findByNumber(Integer number);
+	Optional<Substation> findByNumber(Integer number);
 	List<Substation> findAll();
 //	void save(Substation Substation);
 	Optional<Substation> findById(Long id);

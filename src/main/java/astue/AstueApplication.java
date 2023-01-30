@@ -12,21 +12,20 @@ import astue.repository.BookRepository;
 public class AstueApplication implements CommandLineRunner{
 	@Autowired
 	BookRepository bookRepository;
-		//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
+		//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
 	public static void main(String[] args) {
 		SpringApplication.run(AstueApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		Book book1=new Book("Война и мир","Л.Н. Толстой");
-		Book book2=new Book("Капитанская дочка","А.С. Пушкин");
-		
-		bookRepository.save(book1);
-		bookRepository.save(book2);
-		
-		Test test=new Test();
-		test.getA();
+//		Book book1=new Book("Война и мир","Л.Н. Толстой");
+//		Book book2=new Book("Капитанская дочка","А.С. Пушкин");
+//		bookRepository.save(book1);
+//		bookRepository.save(book2);
+
+
+
 	}
 
 }
