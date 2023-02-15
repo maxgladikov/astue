@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>АСТУЭ</title>
+
+    <!--CSS -->
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
+    <link href="css/main.css" rel="stylesheet">
+    <!-- JS -->
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
+
+    <title>
+        Home
+    </title>
+    <!-- add icon link -->
+    <link rel = "icon" href="images/Bulb.webp" type = "image/x-icon">
+</head>
+<body>
+
+    <div  class="container">
+            <!-- ****** MENU ***** -->
+            <div class="header">
+                <div class="menu">
+                    <ul class="nav-area">
+                        <li><a href="#">About</a></li>
+                        <li><a href="/ieds">IED</a></li>
+                        <li class="dropdown"><a href="#">Substations</a>
+                            <ul id="substations"></ul>
+                        </li>
+                        <li class="dropdown"><a href="#">MENU</a>
+                            <ul>
+                                <li class="dropdown"><a>1</a>
+                                    <ul>>
+                                        <li><a>1.1</a></li>
+                                    </ul>
+                                </li>
+                             </ul>
+                        </li>
+                        <li class="dropdown"><a href="#">SS</a>
+                            <ul>
+                                <li class="dropdown"><a class="ss" href="#">SS-01</a><ul><li><a>01-SWGR-1001</a></li><li><a>01-SWGR-1002</a></li></ul></li>
+                                <li class="dropdown"><a class="ss" href="#">SS-02</a><ul><li><a>02-PMCC-3001</a></li><li><a>02-EPMCC-3002</a></li><li><a>02-PMCC-3003</a></li></ul></li>
+                                <li class="dropdown"><a class="ss" href="#">SS-03</a><ul><li><a>03-SWGR-1001</a></li><li><a>03-EPMCC-3001</a></li><li><a>03-PMCC-3002</a></li><li><a>03-EPMCC-3003</a></li><li><a>03-PMCC-3004</a></li></ul></li>
+                                <li class="dropdown"><a class="ss" href="#">SS-04</a><ul><li><a>04-PMCC-3001</a></li></ul></li>
+                                <li class="dropdown"><a class="ss" href="#">SS-05</a><ul><li><a>05-PMCC-3001</a></li></ul></li>
+                                <li class="dropdown"><a class="ss" href="#">SS-06</a><ul><li><a>06-EPMCC-3001</a></li><li><a>06-PMCC-3002</a></li></ul></li>
+                                <li class="dropdown"><a class="ss" href="#">SS-07</a><ul><li><a>07-SWGR-1001</a></li><li><a>07-ESWGR-1001</a></li><li><a>07-EPMCC-3001</a></li><li><a>85-SWGR-DG-8501-01</a></li></ul></li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        <!-- **** BODY **** -->
+            <div class="content-large">
+                <span th:remove="tag"></span>
+                    <!-- **** CHART **** -->
+                    <div id="tableDiv">
+                       <table id="table1" class="display">
+                            <!-- Header Table -->
+                            <thead>
+                            <tr id="rows">
+                               <!-- Dynamically appended <th></th>  -->
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+            </div>
+
+            <div class="content-small_1">
+                <button id="clear">CLEAR</button>
+            </div>
+
+            <div class="content-small_2"></div>
+
+            <div class="footer">
+                <p id="footer" class="label" align='right'></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="js/index.js"></script>
+</body>
+</html>

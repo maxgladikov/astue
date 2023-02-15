@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+
+    <!--CSS -->
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
+    <!-- JS -->
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
+
+    <title>
+        Home
+    </title>
+</head>
+<body>
+        <h1>Devices</h1>
+
+
+        <link rel="icon" href="data:;base64,=">
+        <table id="table1" class="display">
+
+            <!-- Header Table -->
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Plant</th>
+                <th>Substation</th>
+                <th>Switchgear</th>
+                <th>Line</th>
+                <th>ip</th>
+                <th>description</th>
+            </tr>
+            </thead>
+        </table>
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax(
+            {
+                url:'http://localhost:8080/api/v1/devices',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#table1').DataTable({
+                        data:data,
+                        "paging":false,
+                        "sort":false,
+                        "searching":false,
+                        columns:[
+                                {   "data": "name",
+                                    "searchable":true,
+                                    "sortable":true,
+                                },
+                                {   "data": "plant.name",
+                                    "searchable":true,
+                                    "sortable":true
+                                },
+                                {   "data": "substation.name",
+                                    "searchable":true,
+                                    "sortable":true
+                                },
+                                {   "data": "switchgear.name",
+                                    "searchable":true,
+                                    "sortable":true
+                                },
+                                {   "data": "line",
+                                    "searchable":true,
+                                    "sortable":true
+                                },
+                                {   "data": "hostAddress",
+                                    "searchable":true,
+                                    "sortable":true
+                                },
+                                {   "data": "description",
+                                    "searchable":true,
+                                    "sortable":false
+                                }
+                        ]
+                    });
+                }
+            }
+        )
+
+
+    });
+</script>
+
+</body>
+</html>

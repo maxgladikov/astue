@@ -1,0 +1,85 @@
+/**
+ * Box model adjustments
+ * `border-box`... ALL THE THINGS - http://cbrac.co/RQrDL5
+ */
+
+html,body{
+    margin:0;
+    padding:0;
+    color: #f0f0f0;
+}
+
+
+.container{
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Fira sams', sans-serif;
+    display: grid;
+    /*grid-template-columns: 1fr 1fr 1fr; /*repeat)3,1fr)*/
+    /*grid-template-rows: 50px 1fr 1fr 100px;*/
+    grid-template: 50px 1fr 1fr 100px/repeat(3, 1fr);
+    gap: 0px;
+}
+.header1{
+    grid-column-start:1;
+    grid-column-end:3;
+    background: #777777;
+    grid-row-start:1;
+    grid-row-end:span 1;
+    text-align: left;
+    display: inline-block;
+}
+.header2{
+    grid-column-start:3;
+    grid-column-end:4;
+    background: #777777;
+    grid-row-start:1;
+    grid-row-end:span 1;
+    text-align: left;
+    display: inline-block;
+}
+
+.content{
+    position:relative;
+    grid-column-start:1;
+    grid-column-end:4;
+    grid-row-start:2;
+    grid-row-end:span 2;
+    /*border: solid 1px;*/
+}
+.footer{
+    grid-row-start:4;
+    grid-row-end:span 1;
+    grid-column-start:1;
+    grid-column-end:4;
+    background: #777777;
+}
+.popup {
+    position: absolute;
+    z-index: 10000;
+    top: 100px;
+    left: 100px;
+    width: 500px;
+    height: 100%;
+    display: none;
+
+}
+#ied_form{
+    opacity: 0.9;
+    background: #777777;
+}
+.input{
+    opacity: 0.9;
+    background: #aaaaaa;
+
+}
+.label{
+    color: #777777;
+}
+.btn{
+    border-radius: 0px;
+}
+
+.line{
+    border: 1px solid beige;
+}

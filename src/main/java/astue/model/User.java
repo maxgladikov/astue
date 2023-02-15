@@ -1,4 +1,4 @@
-package astue.entity;
+package astue.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,11 +9,11 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-@Entity
+//@Entity
 @Data
-@Table(name="USERS", schema="PUBLIC")
+@Table(name="user", schema="PUBLIC")
 public class User {
-	
+
 	public User() {}
 	public User(String name, String password, String roles) {
 		super();
@@ -22,7 +22,7 @@ public class User {
 		this.roles = roles;
 		active = true;
 	}
-	
+
 	
 	
 	public User(String name, String password, String roles, Boolean active) {

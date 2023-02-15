@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test page</title>
+
+    <!--CSS -->
+    <link href="css/test.css" rel="stylesheet">
+    <!-- JS -->
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+    <title>
+        Test
+    </title>
+</head>
+<body>
+
+    <div class="hidden">
+        <form class="form" action="#">
+            <label>Name</label>
+            <input type="text" name="name">
+            <label>slave ID</label>
+            <input type="number" name="slaveId">
+            <label>Offset</label>
+            <input type="number" name="address">
+            <label>Quantity</label>
+            <input type="number" name="quantity">
+            <label>Scale</label>
+            <input type="number" name="scale">
+            <label>Data type</label>
+            <input type="text" name="dataType">
+            <input type="reset" name="dataType">
+            <input type="submit" id="submit"  class="submit" value="save"/>
+        </form>
+    </div>
+
+
+<script>
+    $(document).ready(function () {
+// *** BEGIN ***
+        $("body").on("click",".btn",function (){
+            $(".hidden").fadeToggle( "slow", "linear" );
+        }
+    ),
+
+
+        $("form").submit(function(){
+            const data=$("form").serializeArray();
+            // console.log("data"+data);
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/test/1',
+                type: 'PUT',
+                data: data,
+                success: function(data) {
+                    alert('Load was performed.');
+                                        },
+                error(){
+                    console.log("ERROR");
+                }
+                    });
+                                    });
+
+// *** END ***
+})
+</script>
+</body>
+</html>

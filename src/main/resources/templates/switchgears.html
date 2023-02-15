@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+
+    <!--CSS -->
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
+    <!-- JS -->
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+    <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
+
+    <title>
+        Home
+    </title>
+</head>
+<body>
+        <h1>Switchgears</h1>
+
+
+        <link rel="icon" href="data:;base64,=">
+        <table id="table1" class="display">
+
+            <!-- Header Table -->
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Substation</th>
+            </tr>
+            </thead>
+        </table>
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax(
+            {
+                url:'http://localhost:8080/api/v1/switchgears',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#table1').DataTable({
+                        data:data,
+                        "paging":false,
+                        "sort":false,
+                        "searching":false,
+                        columns:[
+                                {   "data": "name",
+                                    "searchable":true,
+                                    "sortable":true,
+                                    "render":function (name){
+                                    return '<a href='+name+'>'+name.slice(0,5)+'</a>';}
+                                },
+                                {   "data": "substation.name",
+                                    "searchable":true,
+                                    "sortable":true
+                                }
+                        ]
+                    });
+                }
+            }
+        )
+
+
+    });
+</script>
+
+</body>
+</html>

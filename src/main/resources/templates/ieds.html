@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IED</title>
+
+    <!--CSS -->
+    <link rel='stylesheet' href='css/mymodal.css'>
+    <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
+    <!-- JS -->
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
+
+    <title>
+        Home
+    </title>
+</head>
+<body>
+<div  class="container">
+    <div class="header1">
+        <h>HEADER</h>
+    </div>
+    <div class="header2">
+        <button class="add btn popup-toggle">Add</button>
+    </div>
+
+    <div class="content">
+            <link rel="icon" href="data:;base64,=">
+            <table id="table1" class="display">
+                <!-- Table -->
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>slave id</th>
+                        <th>offset</th>
+                        <th>quantity</th>
+                        <th>scale</th>
+                        <th>data type</th>
+                        <th>EDIT</th>
+                    </tr>
+                </thead>
+            </table>
+    </div>
+    <div class="footer">
+        <h>FOOTER</h>
+    </div>
+</div>
+
+        <!--  *** MODAL ***   -->
+        <div class="popup">
+            <form id="ied_form" action="#" method="put">
+                <div class="form-header">
+                    <button  class="btn popup-toggle">Close</button>
+                </div>
+                <hr class="line">
+                <div class="form-body">
+                    <input type="hidden" class="input" id="id"  value=""/>
+                    <label class="label">name</label>
+                    <input type="text" class="input" id="name" name="name" placeholder="Name" value=""/>
+                    <label class="label">slave id</label>
+                    <input type="text" class="input" id="slaveId" name="slaveId" placeholder="slave ID" value=""/>
+                    <label class="label">offset</label>
+                    <input type="text" class="input" id="address" name="address" placeholder="offset" value=""/>
+                    <label class="label">quantity</label>
+                    <input type="text" class="input" id="quantity" name="quantity" placeholder="quantity" value=""/>
+                    <label class="label">scale</label>
+                    <input type="text" class="input" id="scale" name="scale" placeholder="scale" value=""/>
+                    <label class="label">data type</label>
+                    <select id="dataType" name="dataType" class="input" placeholder="data type">
+                        <option value="Bint" selected>Int</option>
+                        <option value="Sint" selected>DInt</option>
+                        <option value="Uint" selected>DInt</option>
+                    </select>
+                </div>
+                <hr class="line">
+                <div class="modal-footer">
+                    <button id="sub" class="btn popup-toggle">Save</button>
+                    <button id="add" class="btn popup-toggle">Add</button>
+                </div>
+            </form>
+        </div>
+        <!--  ***  ***   -->
+    <script>
+        $(document).ready(function () {
+            // *** Global VARS ****
+            let curId;
+            // *** DRAW A TABLE ***
+            let table;
+            let dynUrl="http://localhost:8080/api/v1/ieds";
+            $.ajax(
+                {
+                    url:dynUrl,
+                    method: 'GET',
+                    // dataType: 'json',
+                    success: function (data) {
+                       table=$("#table1").DataTable({
+                            data:data,
+                            // "paging":false,
+                            // "sort":false,
+                            // "searching":false,
+                            columns:[
+                                    {   "data": "name",
+                                        // "searchable":true,
+                                        // "sortable":true,
+                                    },
+                                    {   "data": "slaveId",
+                                        // "searchable":true,
+                                        // "sortable":true
+                                    },
+                                    {   "data": "address",
+                                        // "searchable":true,
+                                        // "sortable":true
+                                    },
+                                    {   "data": "quantity",
+                                        // "searchable":true,
+                                        // "sortable":true
+                                    },
+                                    {   "data": "scale",
+                                        // "searchable":true,
+                                        // "sortable":true
+                                    },
+                                    {   "data": "dataType",
+                                        // "searchable":true,
+                                        // "sortable":true
+                                    },
+                                {
+                                    "data": null,
+                                    "render": function (data, type, full, meta) {
+                                        return '<button id=' + data.id + ' class="btn popup-toggle">Edit</button>' +
+                                            '<span></span>'+
+                                            '<button id=d' + data.id + ' class="btn delete">Delete</button>'
+                                            ;
+                                    }
+                                    }
+                                // {
+                                //     "data": null,
+                                //     "render": function (data, type, full, meta) {
+                                //         return '<button id=d' + data.id + ' class="btn">Delete</button>';
+                                //     }
+                                // }
+                            ]
+                        });
+                    }
+                }
+            )
+            // *** POP UP ***
+            $("body").on("click", ".popup-toggle", function(e){
+                e.preventDefault();
+                // $('.popup').toggleClass('is-visible');
+
+                if($('.popup').css('display')=="none"){
+                    let id=this.id;
+                    let url="http://localhost:8080/api/v1/ieds/"+id;
+                    $.ajax(
+                        {
+                            url:url,
+                            method: 'GET',
+                            // dataType: 'json',
+                            success: function (data) {
+                                let form=$('.popup');
+                                curId=data.id;
+                                form.find("#id").val(data.id);
+                                form.find("#name").val(data.name);
+                                form.find("#slaveId").val(data.slaveId);
+                                form.find("#address").val(data.address);
+                                form.find("#quantity").val(data.quantity);
+                                form.find("#scale").val(data.scale);
+                                form.find("#dataType").val(data.dataType);
+                            }}
+                    );
+                }
+
+               $('.popup').fadeToggle( "slow", "linear" );
+            });
+            // *** DELETE ***
+            $("body").on("click", ".delete", function(e){
+                if (confirm('sure?')) {
+                       let id=$(this).attr('id');
+                       id=id.substring(1,id.length);
+                       let url='http://localhost:8080/api/v1/ieds/'+id;
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            success: function(result) {
+                                console.log("Successfully deleted");
+                                window.location.reload();
+                            },
+                            error: function (){
+                                console.log("not deleted")
+                            }
+                        });
+                };
+            }),
+            // *** ADD ***
+            $("body").on("click", "#add", function(e){
+                e.preventDefault();
+                    let url='http://localhost:8080/api/v1/ieds/';
+                    let data=$('#ied_form').serialize();
+                    $.ajax({url: url,type: 'POST',data:data,
+                        success: function() {
+                            console.log("Successfully added");
+                            window.location.reload();
+                        },
+                        error: function (){
+                            console.log("not added")
+                        }
+                    });
+            }),
+            // *** SUBMIT ***
+            $("body").on("click","#sub",  function(e){
+                    e.preventDefault();
+                    let url="http://localhost:8080/api/v1/ieds/"+curId;
+                    let data=$('#ied_form').serialize();
+                    $.ajax({method: "PUT",url: url,data: data,
+                            success: function(data) {
+                             console.log('everything was OK');
+                                window.location.reload();
+                                                    },
+                              error: function(jqXHR, textStatus, errorThrown) {
+                                console.log("jqXHR.status:"+jqXHR.status);
+                                                                              }
+                            })
+                });
+
+// ****** END ****** \\
+        });
+    </script>
+</body>
+</html>

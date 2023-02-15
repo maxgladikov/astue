@@ -1,0 +1,16 @@
+/**
+ * Box model adjustments
+ * `border-box`... ALL THE THINGS - http://cbrac.co/RQrDL5
+ */
+.hidden {
+    position: absolute;
+    z-index: 10000;
+    top: 10px;
+    left: 10px;
+    width: 100%;
+    height: 100%;
+
+}
+
+
+
