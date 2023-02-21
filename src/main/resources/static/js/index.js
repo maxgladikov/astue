@@ -1,113 +1,366 @@
-$(document).ready(function(){
+$(document).ready(function () {
+// *** BEGIN ***
 
-// Drop down menu management
-	$("body").on("click", ".dropdown > a", function(){
-		$(this).parent().siblings().find('ul').fadeOut(500);
-		//$(this).children().fadeIn(500);
-		$(this).next().stop(true,false,true).fadeToggle(500);
-		return false;
-	});
+    // *** GLOBAL VARS ***
+    let urlBase='http://localhost:8080/api/v1/devices';
+    let editing=false;
+    let adding=false;
+    let curId;
+    let swgr;
+    // Drop down menu management
+    $("body").on("click", ".dropdown > a", function(){
+        $(this).parent().siblings().find('ul').fadeOut(500);
+        $(this).next().stop(true,false,true).fadeToggle(500);
+        return false;
+    });
+    // drop down menu fill in  substations
+    $.ajax({url: 'http://localhost:8080/api/v1/substations/',
+            method: 'GET',
+            //dataType: 'json',
+            success:function(data) {
+                $.each(data, function (key, value) {
+                    let str='<li class="dropdown"><a class="ss" href="#">'+value.name+'</a>';
+                    str=str+"<ul>";
+                    value.switchgears.forEach(element => str=str+"<li><a class='switchgear' href='#'>"+element.name+"</a></li>");
+                    str=str+"</ul></li>";
+                    $('#substations').append(str);
+                })
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.status);
+            }
+            //dataType: "jsonp"
+        })
 
 
-// drop down menu fill in  substations
-	$.ajax(
-		{
-			url: 'http://localhost:8080/api/v1/substations/',
-			method: 'GET',
-			//dataType: 'json',
-			success:function(data) {
-				$.each(data, function (key, value) {
-					let str='<li class="dropdown"><a class="ss" href="#">'+value.name+'</a>';
-					str=str+"<ul>";
-					value.switchgears.forEach(element => str=str+"<li><a class='switchgear' href='#'>"+element.name+"</a></li>");
-					str=str+"</ul></li>";
-					$('#substations').append(str);
-				})
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				console.log(jqXHR.status);
-			}
-			//dataType: "jsonp"
-		})
+    // *** DRAW THE CHART ***
+    function drawTable(tableData) {
+        const rowsId = "#rows";
+        $(rowsId).children().remove();
+        $(rowsId).append("<th>name</th>>");
+        $(rowsId).append("<th>line</th>>");
+        $(rowsId).append("<th>drawer</th>>");
+        $(rowsId).append("<th>letter</th>>");
+        $(rowsId).append("<th>ied</th>>");
+        $(rowsId).append("<th>P,kW</th>>");
+        $(rowsId).append("<th>V</th>>");
+        $(rowsId).append("<th>host</th>>");
+        $(rowsId).append("<th>incomer</th>>");
+        $(rowsId).append("<th>active</th>>");
+        $(rowsId).append("<th>description</th>>");
+        $(rowsId).append("<th>Edit</th>>");
+    }
+    // *** POPULATE THE CHART ***
+    let table;
+    $("body").on("click", ".switchgear", function(){
+        swgr=$(this).text();
+        updateTable();
+    });
+    // *** UPDATE THE TABLE ***
+        function updateTable(){
+            $("#tableName").remove();
+            if( $.fn.dataTable.isDataTable( table )){
+                table.destroy() ;
+            }
+            let dynUrl='http://localhost:8080/api/v1/switchgears/name/'+swgr;
+            $.ajax(
+                {
+                    url:dynUrl,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('<div id="tableName" ><h5>'+data.name+'</h5><a class="add popup-toggle fa-thin fa-plus" href="#"></a></div>').insertBefore( '#table1');
+                        drawTable(data.devices);
+                        table=$('#table1').DataTable({
+                            // retrieve: true,
+                            data:data.devices,
+                            searching: false,
+                            // "paging":false,
+                            // "sort":false,
+                            "searching":false,
+                            "iDisplayLength": 10,
+                            "bPaginate": false,
+                            "bInfo" : false,
+                            columns:[
+                                {   "data": "name",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                { "data": "line",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                { "data": "drawerNum",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                { "data": "drawerLetter",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                { "data": "ied",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                { "data": "power",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                { "data": "voltage",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                {   "data": "hostAddress",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                {   "data": "incomer",
+                                    // searchable: false,
+                                    // sortable: false,
+                                    // //visible: (aDurchgang==1 ? true : false),
+                                    // className: "text-center",
+                                    render: function ( data, type, row ) {
+                                        return (data === true) ? '<span class="far fa-check-circle"> </span>'
+                                            : '<span class="far fa-circle"></span>';}
+                                },
+                                {   "data": "active",
+                                    render: function ( data, type, row ) {
+                                        return (data === true) ? '<span class="far fa-check-circle"> </span>'
+                                            : '<span class="far fa-circle"></span>';}
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                {   "data": "description",
+                                    // "searchable":true,
+                                    // "sortable":true,
+                                },
+                                {
+                                    "data": null,
+                                    "render": function (data, type, full, meta) {
+                                        return '<button id=e' + data.id + ' class="edit fas fa-edit popup-toggle"></button>' +
+                                            '<span></span>'+
+                                            '<button id=d' + data.id + ' class="delete transparent far fa-trash-alt"></button>'
+                                            ;
+                                    }
+                                }
+
+                            ]
+                        });
+                    }
+                }
+            )
+        };
 
 
-// dynamic chart
-	let table;
-	$("body").on("click", ".switchgear", function(){
-		if( $.fn.dataTable.isDataTable( table )){
-			table.destroy() ;
-			$("#table1").children().remove();
-		}
-		// Read data
-	let swgr=$(this).text();
-	let dynUrl='http://localhost:8080/api/v1/switchgears/name/'+swgr;
-	$.ajax(
-		{
-			url:dynUrl,
-			method: 'GET',
-			dataType: 'json',
-			success: function (data) {
-				drawTable(data.devices);
-				table=$('#table1').DataTable({
-					// retrieve: true,
-					data:data.devices,
-					searching: false,
-					// "paging":false,
-					// "sort":false,
-					// "searching":false,
-					columns:[
-						{   "data": "name",
-							// "searchable":true,
-							// "sortable":true,
-						},
-						{   "data": "hostAddress",
-							// "searchable":true,
-							// "sortable":true,
-						},
-						{   "data": "ied",
-							// "searchable":true,
-							// "sortable":true,
-						}
+        // *** POP UP ***
+    $("body").on("click", ".popup-toggle", function(e){
+        e.preventDefault();
+        if($('.popup').css('display')=="none"){
+            if($(this).hasClass('edit')){
+                editing=true;
+                prepareEdit(this);
+            }else if ($(this).hasClass('add')){
+                adding=true;
+                prepareAdd();
+            }else {
+                editing=false;
+                adding=false;
+            }
+        }
+        $('.popup').fadeToggle( "slow", "linear" );
+        $('.popup').draggable();
+    });
 
-					]
-				});
-			}
-		}
-	)
-		// console.log(response.switchgears);
-	});
+    // *** SAVE ***
+    $("body").on("click", ".submit", function(e){
+        e.preventDefault();
+        if(adding){
+            // *** POST ***
+            let url='http://localhost:8080/api/v1/devices/';
+            let device=new Device();
+            device.createFromForm("#form");
+            device.switchgear=swgr;
+            device.post(url);
+            console.log(device);
+            updateTable();
+            // console.log(device);
+            // $.ajax({url: url,type: 'POST',data:data,
+            //     success: function() {
+            //         console.log("Successfully added");
+            //         updateTable();
+            //     },
+            //     error: function (){
+            //         console.log("not added")
+            //     }
+            // });
+        } else if(editing){
+            // *** PUT ***
+            let url="http://localhost:8080/api/v1/devices/"+curId;
+            let data=$('#form').serialize();
+            $.ajax({method: "PUT",url: url,data: data,
+                success: function(data) {
+                    console.log('everything was OK');
+                    updateTable();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("jqXHR.status:"+jqXHR.status);
+                }
+            })
+        }
+    })
+    // *** DELETE ***
+    $("body").on("click", ".delete", function(e){
+        if (confirm('sure?')) {
+            let id=$(this).attr('id');
+            id=id.substring(1,id.length);
+            let url='http://localhost:8080/api/v1/devices/'+id;
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function(result) {
+                    console.log("Successfully deleted");
+                    updateTable();
+                },
+                error: function (){
+                    console.log("not deleted")
+                }
+            });
+        };
+    });
+    // Fill in modal when edit
+    function prepareEdit(obj){
+        let id=$(obj).attr('id');
+        id=id.substring(1,id.length);
+        let url="http://localhost:8080/api/v1/devices/"+id;
+        $.ajax(
+            {
+                url:url,
+                method: 'GET',
+                // dataType: 'json',
+                success: function (data) {
+                    let form=$('.popup');
+                    curId=data.id;
+                    form.find("#id").val(curId);
+                    form.find("#name").val(data.name);
+                    form.find("#line").val(data.line);
+                    form.find("#drawerNum").val(data.drawerNum);
+                    form.find("#drawerLetter").val(data.drawerLetter);
+                    form.find("#power").val(data.power);
+                    form.find("#hostAddress").val(data.hostAddress);
+                    form.find("#description").val(data.description);
+                    form.find("#ied").val(data.ied);
+                    form.find("#voltage").val(data.voltage);
+                    form.find("#incomer").prop('checked', data.incomer);
+                    form.find("#active").prop('checked', data.active);
+                    form.find("#incomer").val(data.incomer==true?'true':'false');
+                    form.find("#active").val(data.active==true?'true':'false');
+                }}
+        );
+    };
+    // Fill in modal when add
+    function prepareAdd(){
+        let form=$('.popup');
+        form.find("#id").val("");
+        form.find("#switchgear").val(swgr);
+        form.find("#name").val("");
+        form.find("#line").val("");
+        form.find("#drawerNum").val("");
+        form.find("#drawerLetter").val("");
+        form.find("#power").val("");
+        form.find("#hostAddress").val("");
+        form.find("#description").val("");
+        form.find("#ied").val("");
+        form.find("#voltage").val("");
+        form.find("#incomer").prop('checked', false);
+        form.find("#active").prop('checked', false);
+        form.find("#incomer").val(false);
+        form.find("#active").val(false);
+    }
 
-})
+    // Checkbox management
+    $(".checkbox").on('change', function() {
+        if ($(this).is(':checked')) {
+            $(this).attr('value', 'true');
+        } else {
+            $(this).attr('value', 'false');
+        }
+    });
+// *** TEST ***
 
-// *************** Aux functions ******************** \\
+    $('body').on('click','.test',function (){
+        test();
+    })
 
-// function getData(source) {
-// 	let result=null;
-// 	$.ajax(
-// 		{
-// 			url: source,
-// 			method: 'GET',
-// 			//dataType: 'json',
-// 			success:function(data) {
-// 				result=data;
-// 			},
-// 			error: function(jqXHR, textStatus, errorThrown) {
-// 				console.log(jqXHR.status);
-// 			}
-// 		})
-// 	return result;
-// }
+    // *** TEST *** \\
 
-function drawTable(tableData) {
-	const tableId="table1";
-	const rowsId="#rows";
-	$(rowsId).children().remove();
-	$(rowsId).append("<th>name</th>>");
-	$(rowsId).append("<th>host</th>>");
-	$(rowsId).append("<th>ied</th>>");
-	$.each(tableData, function (key, value) {
-		// let row="<th>"+value.name+"</th>>";
-		//let row="<th>"+key+"</th>>";
+    function test(){
+        let device=new Device("pidor");
+        device.post("http://localhost:8080/api/v1/devices/");
+        device.serialize();
 
-	})
-}
+    }
+
+
+    // *** CLASSES *** \\
+    class Device{
+        constructor(name,hostAddress,line) {
+            this.name=name;
+            this.hostAddress=hostAddress;
+            this.line=line;
+        }
+        id;
+        name;
+        hostAddress;
+        line;
+        drawerNum;
+        drawerLetter;
+        incomer;
+        active;
+        power;
+        ied;
+        description;
+        switchgear;
+        fromArray(arr){
+            let map=new Map(arr.map((obj) => [obj.name, obj.value]));
+            this.name=map.get("name");
+            this.hostAddress=map.get("hostAddress");
+            this.line=map.get("line");
+            this.drawerNum=map.get("drawerNum");
+            this.drawerLetter=map.get("drawerLetter");
+            this.power=map.get("power");
+            this.description=map.get("description");
+            this.ied=map.get("ied");
+            this.incomer=map.get("incomer");
+            this.active=map.get("active");
+            return map;
+        }
+        post(url){
+            $.ajax(
+                {
+                    type:"POST",
+                    url:url,
+                    contentType: "application/json; charset=utf-8",
+                    traditional: true,
+                    data:this.serialize(),
+                    success: function() {
+                        console.log("Successfully added");
+                    },
+                    error: function (){
+                        console.log("not added")
+                    }
+                });
+        }
+        serialize(){
+          return  JSON.stringify(this);
+        }
+        createFromForm(form){
+            let arr=$(form).serializeArray();
+            $("#form input:checkbox").each(function () {
+                arr.push({ name: this.name, value: this.checked });})
+            this.fromArray(arr);
+        }
+    }
+
+
+    // *** END ***
+});
