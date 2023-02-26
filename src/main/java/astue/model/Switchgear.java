@@ -4,10 +4,8 @@ package astue.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,11 +22,15 @@ public class Switchgear extends BaseEntity {
 		this.substation = substation;
 		super.setName(name);
 	}
-	@JsonBackReference
+	public Switchgear(String name){
+		this.setName(name);
+	}
+	@JsonBackReference(value="substation->switchgear")
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="substation_id")
 	private Substation substation;
-	@JsonManagedReference
-	@OneToMany(mappedBy ="switchgear",cascade = CascadeType.ALL)
+	@JsonManagedReference(value="switchgear->device")
+	@OneToMany(mappedBy ="switchgear",cascade = CascadeType.PERSIST)
 	private List<Device> devices =new ArrayList<Device>();
 
 	@Override

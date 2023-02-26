@@ -47,8 +47,8 @@ public class TesysDate {
         String pattern = pat;
         SimpleDateFormat simpleDateFormat =new SimpleDateFormat(pat);
         String dateString = simpleDateFormat.format(date);
-        Integer num=new Integer(dateString);
-        Integer mostSign= (int) Math.floor(new Integer(num/10));
+        Integer num=Integer.valueOf(dateString);
+        Integer mostSign= (int) Math.floor(Integer.valueOf(num/10));
         Integer leastSign= num-mostSign*10;
         Map<String,Integer> tempMap=new HashMap<>();
         tempMap.put("mostSign", mostSign);
@@ -59,11 +59,11 @@ public class TesysDate {
         String pattern = pat;
         SimpleDateFormat simpleDateFormat =new SimpleDateFormat(pat);
         String dateString = simpleDateFormat.format(date);
-        Integer num=new Integer(dateString);
+        Integer num=Integer.valueOf(dateString);
 
-        Integer mostSign= (int) Math.floor(new Integer(num/1000));
-        Integer secondSign= (int) Math.floor(new Integer(num/100))-mostSign*10;
-        Integer thirdSign= (int) Math.floor(new Integer(num/10))-mostSign*100- secondSign*10;
+        Integer mostSign= (int) Math.floor(Integer.valueOf(num/1000));
+        Integer secondSign= (int) Math.floor(Integer.valueOf(num/100))-mostSign*10;
+        Integer thirdSign= (int) Math.floor(Integer.valueOf(num/10))-mostSign*100- secondSign*10;
         Integer leastSign= num-thirdSign*10-secondSign*100-mostSign*1000;
         Map<String,Integer> tempMap=new HashMap<>();
         tempMap.put("mostSign", mostSign);

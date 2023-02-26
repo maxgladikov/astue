@@ -1,16 +1,13 @@
 package astue.service;
 
-import astue.exception.NoRequestedIed;
 import astue.model.Device;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Map;
 
 @Service
-public class Metering {
+public class Schedule {
     @Autowired
     private RecordService recordService;
     @Autowired

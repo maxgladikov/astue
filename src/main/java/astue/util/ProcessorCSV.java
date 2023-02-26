@@ -20,7 +20,7 @@ public class ProcessorCSV {
 	return records;
 	}
 
-	public static List<List<String>> readUTF(String path) throws IOException {
+	public static List<List<String>> readUTF(String path)  {
 		List<List<String>> records = new ArrayList<>();
 		try (FileInputStream fis = new FileInputStream(path);
 			       InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);

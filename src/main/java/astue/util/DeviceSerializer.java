@@ -19,13 +19,24 @@ public class DeviceSerializer extends StdSerializer<Device> {
 
     @Override
     public void serialize(
-            Device value, JsonGenerator jgen, SerializerProvider provider)
+            Device device, JsonGenerator jgen, SerializerProvider provider)
             throws IOException, JsonProcessingException {
 
         jgen.writeStartObject();
-        jgen.writeNumberField("id", value.id);
-        jgen.writeStringField("itemName", value.itemName);
-        jgen.writeNumberField("owner", value.owner.id);
+        jgen.writeNumberField("id", device.getId());
+        jgen.writeStringField("name", device.getName());
+        jgen.writeStringField("description", device.getDescription());
+        jgen.writeStringField("hostAddress", device.getHostAddress());
+        jgen.writeStringField("line", device.getLine());
+        jgen.writeNumberField("drawerColumn", device.getDrawerColumn());
+        jgen.writeStringField("drawerRow", device.getDrawerRow().toString());
+        jgen.writeBooleanField("incomer", device.isIncomer());
+        jgen.writeBooleanField("consumer", device.isConsumer());
+        jgen.writeNumberField("power", device.getPower());
+        jgen.writeStringField("voltage", device.getVoltage().toString());
+        jgen.writeStringField("ied", device.getIed().toString());
+        jgen.writeStringField("switchgear", device.getSwitchgear().getName());
+        jgen.writeStringField("division", device.getDivision().getName());
         jgen.writeEndObject();
     }
 }

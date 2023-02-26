@@ -1,37 +1,32 @@
 package astue.controller;
 
-import astue.model.Plant;
-import astue.service.PlantService;
-import astue.service.PlantServiceImpl;
-import astue.util.CustomResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import astue.model.Division;
+import astue.service.DivisionService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/plants")
-public class PlantController {
+@RequestMapping("/api/v1/divisions")
+public class DivisionController {
 
-	private final PlantService service;
-	public PlantController(PlantService service) {
+	private final DivisionService service;
+	public DivisionController(DivisionService service) {
 		this.service = service;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Collection<Plant> getAll(){
+	public Collection<Division> getAll(){
 		return service.getAll();
 	}
 
-//	@GetMapping("/{name}")
-//	public CustomResponse<Plant> getByName(@PathVariable("name") String name){
-//		return  service.getByName(name);
-//	}
+	@GetMapping("/name/{name}")
+	public Division getByName(@PathVariable("name") String name){
+		return  service.getByName(name).orElseThrow();
+	}
 
 	@PostMapping("/")
-	public  void add(@RequestBody Plant plant){
-		 service.add(plant);
+	public  void add(@RequestBody Division division){
+		 service.add(division);
 	}
 
 }

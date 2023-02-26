@@ -1,8 +1,9 @@
-package astue.util;
+package astue.service;
 
 import astue.exception.NoRequestedIed;
 import astue.model.Device;
 import astue.service.RecordService;
+import astue.util.Ied;
 import com.intelligt.modbus.jlibmodbus.Modbus;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusNumberException;
@@ -23,15 +24,20 @@ public class ModbusAgent {
         private int timeOut = 3000;
         private final int PORT = Modbus.TCP_PORT;
         private  final boolean KEEPALIVE =true;
+        private Device device;
 
-    public List<Integer> call(Device device) {
+    public ModbusAgent(Device device) {
+        this.device = device;
+    }
+
+    public List<Integer> call() {
         Ied ied=device.getIed();
         int slaveId=ied.slaveId;
         int offset=ied.address;
         int quantity= ied.quantity;
         String IP=device.getHostAddress();
             List<Integer> result=null;
-            while(numOfRetries<=maxNumOfRetries) {
+            while(numOfRetries<maxNumOfRetries) {
                 try {
                     ModbusMaster client =
                             ModbusMasterFactory.createModbusMasterTCP(new TcpParameters(InetAddress.getByName(IP), PORT, KEEPALIVE));
@@ -43,7 +49,8 @@ public class ModbusAgent {
                         result = Arrays.stream(client.readHoldingRegisters(slaveId, offset, quantity)).boxed().collect(Collectors.toList());
 
                     } catch (ModbusIOException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
+                        System.out.println("**** device is unreacheble "+device.getName()+" atemp #"+numOfRetries);
                         Thread.sleep(timeOut);
                         numOfRetries++;
                         continue;
@@ -65,12 +72,14 @@ public class ModbusAgent {
             return result;
         }
 
-        public Map<String,Double> getMetering(Device device) throws NoRequestedIed {
+        public Map<String,Double> getMetering()  {
             Map<String,Double> map=new HashMap<>();
             Double activePower;
             Double reactivePower;
             Ied ied=device.getIed();
-            List<Integer> list= this.call(device);
+            List<Integer> list= this.call();
+            if(list==null)
+                throw new RuntimeException();
             list=list.stream().peek(x->{
                         x = (x < 0) ? (x + 32768) : x;
                     }).collect(Collectors.toList());
@@ -89,7 +98,7 @@ public class ModbusAgent {
                     map.put("reactive",reactivePower);
                     break;
                 default:
-                    throw new NoRequestedIed("No such IED");
+                    System.out.println("No ied with such name");
             }
             return map;
         }

@@ -1,35 +1,47 @@
 package astue.model;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="plant")
-public class Plant extends BaseEntity {
-	
-	
-	
-	public Plant(String tag, String description) {
+@Table(name="division")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "id")
+public class Division extends BaseEntity {
+
+	public Division(String name, String description,Plant plant) {
 		super();
-		this.tag = tag;
-		super.setName(description);
+		super.setName(name);
+		this.plant=plant;
 	}
-	private String tag;
-	@JsonManagedReference(value="device-plant")
-	@OneToMany(mappedBy ="plant",fetch = FetchType.LAZY)
+	public Division(String name, String description) {
+		super();
+		super.setName(name);
+		this.setDescription(description);
+	}
+	public Division(String name) {
+		super();
+		super.setName(name);
+	}
+	public String description;
+	@JsonBackReference(value="division->plant")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "plant_id")
+	private Plant plant;
+	@JsonManagedReference(value="division->device")
+	@OneToMany(mappedBy ="division",fetch = FetchType.LAZY)
 	private List<Device> devices=new ArrayList<Device>();
 
 	public void addDevice(Device device){

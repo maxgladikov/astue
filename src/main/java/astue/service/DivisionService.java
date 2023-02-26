@@ -1,7 +1,6 @@
 package astue.service;
 
-import astue.model.Plant;
-import astue.util.CustomResponse;
+import astue.model.Division;
 
-public interface PlantService extends BaseService<Plant>{
+public interface DivisionService extends BaseService<Division>{
 }

@@ -1,12 +1,13 @@
 package astue.repository;
 
-import java.util.Optional;
+import astue.model.Division;
 import org.springframework.data.jpa.repository.JpaRepository;
-import astue.model.Plant;
+
+import java.util.Optional;
 
 
-public interface PlantRepository extends JpaRepository<Plant,Long> {
-	Optional<Plant> findByName(String name);
+public interface DivisionRepository extends JpaRepository<Division,Long> {
+	Optional<Division> findByName(String name);
 }
 
 

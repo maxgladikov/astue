@@ -71,6 +71,55 @@ public class MyAspect {
             log.info("entity was received");
         }
         return result;
-    } 
+    }
 
+    // UPDATE
+    @Around("PointCuts.allUpdateMethods()")
+    public Object aroundUpdatingAdvice(ProceedingJoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        BaseEntity entity = null;
+        if (methodSignature.getName().toLowerCase().contains("update")) {
+            Object[] arguments = joinPoint.getArgs();
+            for (Object arg : arguments) {
+                if (arg instanceof BaseEntity) {
+                    entity = (BaseEntity) arg;
+                    log.info("*** Trying to update {} with name {} ***", entity.getClass().getSimpleName(), entity.getName());
+                }
+            }
+        }
+        Object result;
+        try {
+            result=joinPoint.proceed();
+        } catch (Throwable e) {
+            log.error("*** "+e.getMessage(),e);
+            result= new Object();
+        }
+        log.info("*** Entity with name {} was updated ***",entity.getName());
+        return result;
+    }
+
+    // DELETE
+    @Around("PointCuts.allDeleteMethods()")
+    public Object aroundDeletingAdvice(ProceedingJoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Long entityId = null;
+        if (methodSignature.getName().toLowerCase().contains("delete")) {
+            Object[] arguments = joinPoint.getArgs();
+            for (Object arg : arguments) {
+                if (arg instanceof Long) {
+                    entityId = (Long) arg;
+                    log.info("*** Trying to delete with with id {} ***",  entityId.toString());
+                }
+            }
+        }
+        Object result;
+        try {
+            result=joinPoint.proceed();
+        } catch (Throwable e) {
+            log.error("*** "+e.getMessage(),e);
+            result= new Object();
+        }
+        log.info("*** Entity with id {} was deleted ***",entityId.toString());
+        return result;
+    }
 }

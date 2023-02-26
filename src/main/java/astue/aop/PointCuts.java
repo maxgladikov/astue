@@ -8,4 +8,10 @@ public class PointCuts {
 
     @Pointcut("execution(* astue.service.*.add*(..))")
     public void allAddMethods(){}
+
+    @Pointcut("execution(* astue.service.*.put*(..))")
+    public void allUpdateMethods(){}
+
+    @Pointcut("execution(* astue.service.*.delete*(..))")
+    public void allDeleteMethods(){}
 }

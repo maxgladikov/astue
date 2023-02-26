@@ -4,10 +4,11 @@ package astue.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,20 +20,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name="plant")
 public class Plant extends BaseEntity {
-	
-	
-	
-	public Plant(String tag, String description) {
-		super();
-		this.tag = tag;
-		super.setName(description);
-	}
-	private String tag;
-	@JsonManagedReference
-	@OneToMany(mappedBy ="plant",fetch = FetchType.LAZY)
-	private List<Device> devices=new ArrayList<Device>();
 
-	public void addDevice(Device device){
-		devices.add(device);
+	public Plant(String name, String description) {
+		super.setName(name);
+		this.setDescription(description);
+	}
+	public Plant(String name) {
+		super.setName(name);
+	}
+	@JsonManagedReference(value="division->plant")
+	@OneToMany(mappedBy ="plant",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+	private List<Division> divisions=new ArrayList<>();
+
+	public void addDevice(Division division){
+		divisions.add(division);
 	}
 }
