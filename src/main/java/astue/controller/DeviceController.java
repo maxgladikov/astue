@@ -12,6 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.supercsv.*;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -64,7 +69,7 @@ public class DeviceController {
 //	public ResponseEntity<Resou>
 
 
-	@GetMapping("/")
+	@GetMapping
 	public Collection<Device> getAll(){
 		return service.getAll();
 	}

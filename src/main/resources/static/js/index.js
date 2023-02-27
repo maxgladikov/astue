@@ -285,20 +285,6 @@ $(document).ready(function () {
             $(this).attr('value', 'false');
         }
     });
-// *** TEST ***
-
-    $('body').on('click','.test',function (){
-        test();
-    })
-
-    // *** TEST *** \\
-
-    function test(){
-        let device=new Device("pidor");
-        device.post("http://localhost:8080/api/v1/devices/");
-        device.serialize();
-
-    }
 
 
     // *** CLASSES *** \\
@@ -320,6 +306,7 @@ $(document).ready(function () {
         ied;
         description;
         switchgear;
+        division;
         fromArray(arr){
             let map=new Map(arr.map((obj) => [obj.name, obj.value]));
             this.name=map.get("name");

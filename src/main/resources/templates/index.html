@@ -8,11 +8,16 @@
     <!--CSS -->
     <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
     <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
-    <link href="css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/webjars/jquery-ui/1.13-2/jquery-ui.min.css">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/modal.css" rel="stylesheet">
+    <link href="/css/menu.css" rel="stylesheet">
     <!-- JS -->
     <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
     <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
-
+    <script src="/webjars/jquery-ui/1.13-2/jquery-ui.min.js"></script>
+	<script src="/js/index.js"></script>
+	
     <title>
         Home
     </title>
@@ -26,37 +31,18 @@
             <div class="header">
                 <div class="menu">
                     <ul class="nav-area">
-                        <li><a href="#">About</a></li>
-                        <li><a href="/ieds">IED</a></li>
+                        <li><a href="#">Report</a></li>
                         <li class="dropdown"><a href="#">Substations</a>
                             <ul id="substations"></ul>
                         </li>
-                        <li class="dropdown"><a href="#">MENU</a>
-                            <ul>
-                                <li class="dropdown"><a>1</a>
-                                    <ul>>
-                                        <li><a>1.1</a></li>
-                                    </ul>
-                                </li>
-                             </ul>
-                        </li>
-                        <li class="dropdown"><a href="#">SS</a>
-                            <ul>
-                                <li class="dropdown"><a class="ss" href="#">SS-01</a><ul><li><a>01-SWGR-1001</a></li><li><a>01-SWGR-1002</a></li></ul></li>
-                                <li class="dropdown"><a class="ss" href="#">SS-02</a><ul><li><a>02-PMCC-3001</a></li><li><a>02-EPMCC-3002</a></li><li><a>02-PMCC-3003</a></li></ul></li>
-                                <li class="dropdown"><a class="ss" href="#">SS-03</a><ul><li><a>03-SWGR-1001</a></li><li><a>03-EPMCC-3001</a></li><li><a>03-PMCC-3002</a></li><li><a>03-EPMCC-3003</a></li><li><a>03-PMCC-3004</a></li></ul></li>
-                                <li class="dropdown"><a class="ss" href="#">SS-04</a><ul><li><a>04-PMCC-3001</a></li></ul></li>
-                                <li class="dropdown"><a class="ss" href="#">SS-05</a><ul><li><a>05-PMCC-3001</a></li></ul></li>
-                                <li class="dropdown"><a class="ss" href="#">SS-06</a><ul><li><a>06-EPMCC-3001</a></li><li><a>06-PMCC-3002</a></li></ul></li>
-                                <li class="dropdown"><a class="ss" href="#">SS-07</a><ul><li><a>07-SWGR-1001</a></li><li><a>07-ESWGR-1001</a></li><li><a>07-EPMCC-3001</a></li><li><a>85-SWGR-DG-8501-01</a></li></ul></li>
-                            </ul>
-
+                        <li class="dropdown"><a href="#">Plants</a>
+                            <ul id="plants"></ul>
                         </li>
                     </ul>
                 </div>
             </div>
         <!-- **** BODY **** -->
-            <div class="content-large">
+            <div class="content">
                 <span th:remove="tag"></span>
                     <!-- **** CHART **** -->
                     <div id="tableDiv">
@@ -70,20 +56,18 @@
                         </table>
                     </div>
             </div>
+     </div>
+	
+	<div class="modal" id="deviceModal">
+		<form>
+		<label>Modal device</label>
+		</form>
+	</div>
+	<div class="modal" id="reportModal">
+		<form>
+		</form>
+	</div>
 
-            <div class="content-small_1">
-                <button id="clear">CLEAR</button>
-            </div>
 
-            <div class="content-small_2"></div>
-
-            <div class="footer">
-                <p id="footer" class="label" align='right'></p>
-            </div>
-
-        </div>
-    </div>
-</div>
-<script src="js/index.js"></script>
 </body>
 </html>

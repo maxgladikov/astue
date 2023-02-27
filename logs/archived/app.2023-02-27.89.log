@@ -1,0 +1,44 @@
+2023-02-27 11:40:31,240 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-6] GET "/", parameters={}
+2023-02-27 11:40:31,241 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-6] Mapped to ParameterizableViewController [view="index"]
+2023-02-27 11:40:31,242 DEBUG org.springframework.web.servlet.view.ContentNegotiatingViewResolver [http-nio-8080-exec-6] Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, application/xml;q=0.9, */*;q=0.8]
+2023-02-27 11:40:31,244 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-6] Completed 200 OK
+2023-02-27 11:40:31,291 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] GET "/webjars/jquery-ui/1.13-2/jquery-ui.min.css", parameters={}
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-4] Mapped to ResourceHttpRequestHandler [ServletContext [/webjars/]]
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-7] GET "/css/main.css", parameters={}
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.resource.ResourceHttpRequestHandler [http-nio-8080-exec-4] Resource not found
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-7] Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] Completed 404 NOT_FOUND
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-3] GET "/css/modal.css", parameters={}
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] "ERROR" dispatch for GET "/error", parameters={}
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping [http-nio-8080-exec-4] Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2023-02-27 11:40:31,292 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-3] Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2023-02-27 11:40:31,293 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-10] GET "/css/menu.css", parameters={}
+2023-02-27 11:40:31,293 DEBUG org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor [http-nio-8080-exec-4] Using 'application/json;q=0.1', given [text/css, */*;q=0.1] and supported [application/json, application/*+json]
+2023-02-27 11:40:31,293 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-10] Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2023-02-27 11:40:31,293 DEBUG org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor [http-nio-8080-exec-4] Writing [{timestamp=Mon Feb 27 11:40:31 YEKT 2023, status=404, error=Not Found, message=No message available, (truncated)...]
+2023-02-27 11:40:31,293 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] Exiting from "ERROR" dispatch, status 404
+2023-02-27 11:40:31,293 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Completed 200 OK
+2023-02-27 11:40:31,293 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-3] Completed 200 OK
+2023-02-27 11:40:31,294 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] GET "/webjars/jquery-ui/1.13-2/jquery-ui.min.js", parameters={}
+2023-02-27 11:40:31,294 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-4] Mapped to ResourceHttpRequestHandler [ServletContext [/webjars/]]
+2023-02-27 11:40:31,294 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-10] Completed 200 OK
+2023-02-27 11:40:31,294 DEBUG org.springframework.web.servlet.resource.ResourceHttpRequestHandler [http-nio-8080-exec-4] Resource not found
+2023-02-27 11:40:31,295 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] Completed 404 NOT_FOUND
+2023-02-27 11:40:31,295 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] "ERROR" dispatch for GET "/error", parameters={}
+2023-02-27 11:40:31,295 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-5] GET "/js/index.js", parameters={}
+2023-02-27 11:40:31,295 DEBUG org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping [http-nio-8080-exec-4] Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2023-02-27 11:40:31,295 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-5] Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2023-02-27 11:40:31,295 DEBUG org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor [http-nio-8080-exec-4] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2023-02-27 11:40:31,295 DEBUG org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor [http-nio-8080-exec-4] Writing [{timestamp=Mon Feb 27 11:40:31 YEKT 2023, status=404, error=Not Found, message=No message available, (truncated)...]
+2023-02-27 11:40:31,296 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-4] Exiting from "ERROR" dispatch, status 404
+2023-02-27 11:40:31,296 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-5] Completed 200 OK
+2023-02-27 11:40:31,340 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-9] GET "/webjars/jquery-ui/1.13-2/jquery-ui.min.js", parameters={}
+2023-02-27 11:40:31,340 DEBUG org.springframework.web.servlet.handler.SimpleUrlHandlerMapping [http-nio-8080-exec-9] Mapped to ResourceHttpRequestHandler [ServletContext [/webjars/]]
+2023-02-27 11:40:31,340 DEBUG org.springframework.web.servlet.resource.ResourceHttpRequestHandler [http-nio-8080-exec-9] Resource not found
+2023-02-27 11:40:31,340 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-9] Completed 404 NOT_FOUND
+2023-02-27 11:40:31,341 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-9] "ERROR" dispatch for GET "/error", parameters={}
+2023-02-27 11:40:31,341 DEBUG org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping [http-nio-8080-exec-9] Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2023-02-27 11:40:31,341 DEBUG org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor [http-nio-8080-exec-9] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2023-02-27 11:40:31,341 DEBUG org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor [http-nio-8080-exec-9] Writing [{timestamp=Mon Feb 27 11:40:31 YEKT 2023, status=404, error=Not Found, message=No message available, (truncated)...]
+2023-02-27 11:40:31,342 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-9] Exiting from "ERROR" dispatch, status 404
+2023-02-27 11:40:31,358 DEBUG org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-2] GET "/api/v1/substations/", parameters={}

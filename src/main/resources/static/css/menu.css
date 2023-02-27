@@ -1,0 +1,91 @@
+/*=============GOOGLE FONTS================*/
+
+/*=============CSS VARIABLEs================*/
+:root{
+	--darkGrey: #808080;
+	--lightGrey: #cccccc;
+	--text: 	#404040;
+}
+
+.dropdown-menu{
+	background-color:var(--darkGrey);
+	position:relative;
+}
+.box{
+	border: solid 1px;
+	background-color:var(--darkGrey);
+	position: absolute;
+	height: fit-content;
+	width: 70px;
+	block-size: fit-content;
+	padding: 5px;
+	top: 40px;
+	left:0px;
+	opacity:0;
+}
+
+
+/*-------NAVIGATION---------*/	
+.menu{
+	background:var(--darkGrey);
+	text-align: left;
+	color: var(--text);
+	margin: 0px auto;
+	display: inline-block;
+}
+.nav-area,
+.nav-area ul{
+	list-style: none;
+	margin:0;
+	padding:0;
+}
+.nav-area li{
+	position: relative;
+}
+.nav-area a{
+	padding: 13px 11px;
+	display:block;
+	text-decoration: none;
+	font-size: 10px;
+	text-transform: uppercase;
+	color: var(--text);
+}
+.nav-area a:hover{
+	background:var(--lightGrey);
+}
+.nav-area>li{
+	display: inline-block;
+	vertical-align:top;
+	margin-left: 0px;
+	position: relative;
+}
+.nav-area>li:first-child{
+	margin-left: 0;
+}
+.nav-area>li>ul{
+	text-align:left;
+	display:none;
+	background:var(--darkGrey);
+	position: absolute;
+	top:40px;
+	left:0px;
+	z-index:99999;
+}
+.nav-area>li>ul>li>ul{
+	text-align: left;
+	display: none;
+	background:var(--darkGrey);
+	position: absolute;
+	left: 100%;
+	top: 0;
+	width: 100px;
+	z-index: 9999999;
+}
+.nav-area form{
+	text-align:left;
+	background: #000000;
+	text-decoration: none;
+	font-size: 10px;
+	color: #fff;
+}
+

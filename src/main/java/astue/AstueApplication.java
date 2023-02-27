@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Comparator;
 
 
-@SpringBootApplication
+@SpringBootApplication//(exclude={DataSourceAutoConfiguration.class})
 //@EnableTransactionManagement
 @EnableScheduling
 public class AstueApplication implements CommandLineRunner{

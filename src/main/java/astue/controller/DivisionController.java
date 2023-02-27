@@ -14,7 +14,7 @@ public class DivisionController {
 		this.service = service;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public Collection<Division> getAll(){
 		return service.getAll();
 	}

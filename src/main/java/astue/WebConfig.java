@@ -2,13 +2,11 @@ package astue;
 
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableRetry
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -21,6 +19,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/webjars/**")
                 .addResourceLocations("/webjars/");
-//                .addResourceLocations("/webjars/");
     }
 }
