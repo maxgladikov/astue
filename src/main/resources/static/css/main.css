@@ -18,7 +18,7 @@ html,body{
 	font-weight: bold;
 	font-size: 20px;
 	display: grid;
-	grid-template: 50px 1fr 1fr 100px/repeat(3, 1fr);
+	grid-template: 43px 1fr 1fr 100px/repeat(3, 1fr);
 	gap: 0px;
 }
 .header{
@@ -70,7 +70,7 @@ html,body{
 	/*flex-basis: 30%;*/
 }	
 
-.button{
+.btn{
 	background: #000000;
 	text-decoration: none;
 	font-size: 10px;

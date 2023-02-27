@@ -8,14 +8,17 @@
     <!--CSS -->
     <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
     <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="/webjars/jquery-ui/1.13-2/jquery-ui.min.css">
+    <link rel="stylesheet" href="/webjars/jquery-ui/1.13.2/jquery-ui.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.2.0/css/fontawesome.min.css">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/modal.css" rel="stylesheet">
     <link href="/css/menu.css" rel="stylesheet">
+    <link href="/css/table.css" rel="stylesheet">
     <!-- JS -->
     <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
     <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="/webjars/jquery-ui/1.13-2/jquery-ui.min.js"></script>
+    <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="/webjars/font-awesome/6.2.0/js/fontawesome.min.js"></script>
 	<script src="/js/index.js"></script>
 	
     <title>
@@ -31,7 +34,7 @@
             <div class="header">
                 <div class="menu">
                     <ul class="nav-area">
-                        <li><a href="#">Report</a></li>
+                        <li class="dropdown"><a href="#">Report</a></li>
                         <li class="dropdown"><a href="#">Substations</a>
                             <ul id="substations"></ul>
                         </li>
@@ -46,12 +49,12 @@
                 <span th:remove="tag"></span>
                     <!-- **** CHART **** -->
                     <div id="tableDiv">
-                       <table id="table1" class="display">
+                       <table id="table">
                             <!-- Header Table -->
-                            <thead>
-                            <tr id="rows">
-                               <!-- Dynamically appended <th></th>  -->
-                            </tr>
+                            <thead id="tableHeader">
+	                            <tr id="rows">
+	                               <!-- Dynamically appended <th></th>  -->
+	                            </tr>
                             </thead>
                         </table>
                     </div>

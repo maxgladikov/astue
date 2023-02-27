@@ -2,9 +2,14 @@ $(document).ready(function () {
 // *** BEGIN ***
 
     // *** GLOBAL VARS ***
-    let urlBase='http://localhost:8080/api/v1/devices';
+    let urlDevices='http://localhost:8080/api/v1/devices';
+    let urlDevicesId='http://localhost:8080/api/v1/devices/';
+    let urlSS='http://localhost:8080/api/v1/substations';
+    let urlSwgrName='http://localhost:8080/api/v1/switchgears/name/';
     let editing=false;
     let adding=false;
+    let divisionMode=false;
+    let substationMode=false;
     let curId;
     let swgr;
     // Drop down menu management
@@ -14,9 +19,9 @@ $(document).ready(function () {
         return false;
     });
     // drop down menu fill in  substations
-    $.ajax({url: 'http://localhost:8080/api/v1/substations/',
+    $.ajax({url: urlSS,
             method: 'GET',
-            //dataType: 'json',
+            dataType: 'json',
             success:function(data) {
                 $.each(data, function (key, value) {
                     let str='<li class="dropdown"><a class="ss" href="#">'+value.name+'</a>';
@@ -29,54 +34,33 @@ $(document).ready(function () {
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.status);
             }
-            //dataType: "jsonp"
         })
 
 
-    // *** DRAW THE CHART ***
-    function drawTable(tableData) {
-        const rowsId = "#rows";
-        $(rowsId).children().remove();
-        $(rowsId).append("<th>name</th>>");
-        $(rowsId).append("<th>line</th>>");
-        $(rowsId).append("<th>drawer</th>>");
-        $(rowsId).append("<th>letter</th>>");
-        $(rowsId).append("<th>ied</th>>");
-        $(rowsId).append("<th>P,kW</th>>");
-        $(rowsId).append("<th>V</th>>");
-        $(rowsId).append("<th>host</th>>");
-        $(rowsId).append("<th>incomer</th>>");
-        $(rowsId).append("<th>active</th>>");
-        $(rowsId).append("<th>description</th>>");
-        $(rowsId).append("<th>Edit</th>>");
-    }
+   
     // *** POPULATE THE CHART ***
-    let table;
     $("body").on("click", ".switchgear", function(){
+		 let table=$("#table");
         swgr=$(this).text();
         updateTable();
     });
     // *** UPDATE THE TABLE ***
         function updateTable(){
             $("#tableName").remove();
-            if( $.fn.dataTable.isDataTable( table )){
-                table.destroy() ;
-            }
-            let dynUrl='http://localhost:8080/api/v1/switchgears/name/'+swgr;
+          if( $.fn.dataTable.isDataTable( table )){
+                table.destroy() ;}
+            let dynUrl=urlSwgrName+swgr;
             $.ajax(
                 {
                     url:dynUrl,
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        $('<div id="tableName" ><h5>'+data.name+'</h5><a class="add popup-toggle fa-thin fa-plus" href="#"></a></div>').insertBefore( '#table1');
+                        $('<div id="tableName" ><h5>'+data.name+'</h5><a class="add popup-toggle fa-thin fa-plus" href="#"></a></div>').insertBefore( $("#table"));
                         drawTable(data.devices);
-                        table=$('#table1').DataTable({
-                            // retrieve: true,
+                       table=$("#table").DataTable({
                             data:data.devices,
-                            searching: false,
-                            // "paging":false,
-                            // "sort":false,
+                            "paging":false,
                             "searching":false,
                             "iDisplayLength": 10,
                             "bPaginate": false,
@@ -86,61 +70,31 @@ $(document).ready(function () {
                                     // "searchable":true,
                                     // "sortable":true,
                                 },
-                                { "data": "line",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
-                                { "data": "drawerNum",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
-                                { "data": "drawerLetter",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
-                                { "data": "ied",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
-                                { "data": "power",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
-                                { "data": "voltage",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
-                                {   "data": "hostAddress",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
+                                { "data": "line"},
+                                { "data": "drawerColumn"},
+                                { "data": "drawerRow"},
+                                { "data": "ied"},
+                                { "data": "power"},
+                                { "data": "voltage"},
+                                {   "data": "hostAddress"},
                                 {   "data": "incomer",
-                                    // searchable: false,
-                                    // sortable: false,
                                     // //visible: (aDurchgang==1 ? true : false),
                                     // className: "text-center",
                                     render: function ( data, type, row ) {
-                                        return (data === true) ? '<span class="far fa-check-circle"> </span>'
-                                            : '<span class="far fa-circle"></span>';}
+                                        return (data === true) ? '<span class="fa-thin fa-check-circle"> </span>'
+                                            : '<span class="fa-thin fa-circle"></span>';}
                                 },
                                 {   "data": "active",
                                     render: function ( data, type, row ) {
-                                        return (data === true) ? '<span class="far fa-check-circle"> </span>'
-                                            : '<span class="far fa-circle"></span>';}
-                                    // "searchable":true,
-                                    // "sortable":true,
+                                        return (data === true) ? '<span class="fa-thin fa-circle"> </span>'
+                                            : '<span class="fa-thin fa-circle"></span>';}
                                 },
-                                {   "data": "description",
-                                    // "searchable":true,
-                                    // "sortable":true,
-                                },
+                                {   "data": "description"},
                                 {
                                     "data": null,
                                     "render": function (data, type, full, meta) {
                                         return '<button id=e' + data.id + ' class="edit fas fa-edit popup-toggle"></button>' +
-                                            '<span></span>'+
-                                            '<button id=d' + data.id + ' class="delete transparent far fa-trash-alt"></button>'
-                                            ;
+                                            '<button id=d' + data.id + ' class="delete transparent far fa-trash-alt"></button>';
                                     }
                                 }
 
@@ -150,7 +104,6 @@ $(document).ready(function () {
                 }
             )
         };
-
 
         // *** POP UP ***
     $("body").on("click", ".popup-toggle", function(e){
@@ -176,7 +129,7 @@ $(document).ready(function () {
         e.preventDefault();
         if(adding){
             // *** POST ***
-            let url='http://localhost:8080/api/v1/devices/';
+            let url=urlDevices;
             let device=new Device();
             device.createFromForm("#form");
             device.switchgear=swgr;
@@ -195,7 +148,7 @@ $(document).ready(function () {
             // });
         } else if(editing){
             // *** PUT ***
-            let url="http://localhost:8080/api/v1/devices/"+curId;
+            let url=urlDevicesId+curId;
             let data=$('#form').serialize();
             $.ajax({method: "PUT",url: url,data: data,
                 success: function(data) {
@@ -213,7 +166,7 @@ $(document).ready(function () {
         if (confirm('sure?')) {
             let id=$(this).attr('id');
             id=id.substring(1,id.length);
-            let url='http://localhost:8080/api/v1/devices/'+id;
+            let url=urlDevicesId+id;
             $.ajax({
                 url: url,
                 type: 'DELETE',
@@ -231,7 +184,7 @@ $(document).ready(function () {
     function prepareEdit(obj){
         let id=$(obj).attr('id');
         id=id.substring(1,id.length);
-        let url="http://localhost:8080/api/v1/devices/"+id;
+        let url=urlDevicesId+id;
         $.ajax(
             {
                 url:url,
@@ -285,7 +238,23 @@ $(document).ready(function () {
             $(this).attr('value', 'false');
         }
     });
-
+	// *** AUX *** \\
+    function drawTable(tableData) {
+        const rowsId = "#rows";
+        $(rowsId).children().remove();
+        $(rowsId).append("<th>name</th>>");
+        $(rowsId).append("<th>line</th>>");
+        $(rowsId).append("<th>drawer</th>>");
+        $(rowsId).append("<th>letter</th>>");
+        $(rowsId).append("<th>ied</th>>");
+        $(rowsId).append("<th>P,kW</th>>");
+        $(rowsId).append("<th>V</th>>");
+        $(rowsId).append("<th>host</th>>");
+        $(rowsId).append("<th>incomer</th>>");
+        $(rowsId).append("<th>active</th>>");
+        $(rowsId).append("<th>description</th>>");
+        $(rowsId).append("<th>Edit</th>>");
+    }
 
     // *** CLASSES *** \\
     class Device{

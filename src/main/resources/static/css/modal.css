@@ -1,8 +1,10 @@
-/**
- * Box model adjustments
- * `border-box`... ALL THE THINGS - http://cbrac.co/RQrDL5
- */
-
+/*=============CSS VARIABLEs================*/
+:root{
+	--darkGrey: #808080;
+	--lightGrey: #cccccc;
+	--text: 	#404040;
+}
+/*
 *,
 *:before,
 *:after {
@@ -10,7 +12,7 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-
+*/
 /**
  * 1. Force a vertical scrollbar - http://cbrac.co/163MspB
  * NOTE: Use `text-rendering` with caution - http://cbrac.co/SJt8p1
@@ -19,23 +21,6 @@
  *       viewport <meta> tag is used - http://cbrac.co/1cFrAvl
  */
 
-html {
-    font-size: 100%;
-    overflow-y: scroll; /* 1 */
-    min-height: 100%;
-}
-
-/**
- * 1. Inherits percentage declared on above <html> as base `font-size`
- * 2. Unitless `line-height`, which acts as multiple of base `font-size`
- */
-
-body {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 1em;   /* 1 */
-    line-height: 1.5; /* 2 */
-    color: #444;
-}
 
 /* Page wrapper */
 .wrapper {
