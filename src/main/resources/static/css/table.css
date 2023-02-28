@@ -2,13 +2,13 @@
 
 /*=============CSS VARIABLEs================*/
 #tableName{
-	display: flex;
-	 white-space: nowrap;
-   flex-direction: row;
-   flex-wrap: nowrap;
-   justify-content: center;
-   align-content: center;
-   align-self: center;
+		display: flex;
+		white-space: nowrap;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: center;
+		align-content: center;
+		align-self: center;
 }
 #tableName > *{
 	font-size: 1em;

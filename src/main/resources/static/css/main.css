@@ -72,9 +72,17 @@ html,body{
 }	
 */
 .btn{
+	background:var(--darkGrey);
 	text-decoration: none;
+	border:1px solid;
 	border-radius: 0px;
 	margin:2px;
+	font-size: 15px;
+	padding:2px;
+}
+.btn:hover{
+	cursor:pointer;
+	background:var(--lightGrey);
 }
 .transparent{
 	background:transparent;

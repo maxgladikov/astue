@@ -2,19 +2,26 @@ $(document).ready(function () {
 // *** BEGIN ***
 
     // *** GLOBAL VARS ***
-    let ip="http://192.168.56.1";
+    let pre="http://";
+    let ip="localhost";
+    //let ip=ip+"192.168.56.1";
+    ip=pre+ip;
     let port="8080";
     let address=ip+":"+port+"/api/v1";
     let urlDevices=address+'/devices';
     let urlDevicesId=address+'/devices/';
     let urlSS=address+'/substations';
+    let urlPlants=address+'/plants';
     let urlSwgrName=address+'/switchgears/name/';
+    let urlDivisionName=address+'/divisions/name/';
     let editing=false;
     let adding=false;
     let divisionMode=false;
     let substationMode=false;
     let curId;
     let swgr;
+    let ssActive;
+    let plantActive;
     // Drop down menu management
     $("body").on("click", ".dropdown > a", function(){
         $(this).parent().siblings().find('ul').fadeOut(500);
@@ -49,13 +56,39 @@ $(document).ready(function () {
                 console.log(jqXHR.status);
             }
         })
+    // drop down menu fill in  plants
+    $.ajax({url: urlPlants,
+            method: 'GET',
+            dataType: 'json',
+            success:function(data) {
+                $.each(data, function (key, value) {
+                    let str='<li class="dropdown"><a class="plant" href="#">'+value.name+'</a>';
+                    str=str+"<ul>";
+                    value.divisions.forEach(element => str=str+"<li><a class='division' href='#'>"+element.name+"</a></li>");
+                    str=str+"</ul></li>";
+                    $('#plants').append(str);
+                })
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.status);
+            }
+        })
 
 
    
     // *** POPULATE THE CHART ***
     $("body").on("click", ".switchgear", function(){
+		ssActive=true;
+		plantActive=false;
 		 let table=$("#table");
         swgr=$(this).text();
+        updateTable();
+    });
+    $("body").on("click", ".division", function(){
+		ssActive=false;
+		plantActive=true;
+		 let table=$("#table");
+        division=$(this).text();
         updateTable();
     });
     // *** UPDATE THE TABLE ***
@@ -63,14 +96,19 @@ $(document).ready(function () {
             $("#tableName").remove();
           if( $.fn.dataTable.isDataTable( table )){
                 table.destroy() ;}
-            let dynUrl=urlSwgrName+swgr;
+                let dynUrl;
+                if(ssActive){
+            		dynUrl=urlSwgrName+swgr;
+            }else if(plantActive){
+					dynUrl=urlDivisionName+division;;
+			}
             $.ajax(
                 {
                     url:dynUrl,
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        $('<div id="tableName" ><h5>'+data.name+'</h5><a class="add popup-toggle fa-thin fa-plus" href="#"></a></div>').insertBefore( $("#table"));
+                        $('<div id="tableName" ><h5>'+data.name+'</h5><a class="add modal-toggle fa-thin fa-plus" href="#"></a></div>').insertBefore( $("#table"));
                         drawTable(data.devices);
                        table=$("#table").DataTable({
                             data:data.devices,
@@ -89,12 +127,19 @@ $(document).ready(function () {
                                 { "data": "line",
                                 	"width": "5%"
                                 },
-                                { "data": "drawerColumn"},
-                                { "data": "drawerRow"},
-                                { "data": "ied"},
+                                { "data": "drawerColumn",
+                                   "width": "5%"
+                                },
+                                { "data": "drawerRow",
+                                  "width": "5%"
+                                },
+                                { "data": "ied",
+                                  "width": "5%"
+                                },
                                 { "data": "power"},
                                 { "data": "voltage"},
                                 {   "data": "hostAddress"},
+                                {   "data": plantActive?"switchgear":"division"},
                                 {   "data": "incomer",
                                 	"className": "text-center",
                                     // //visible: (aDurchgang==1 ? true : false),
@@ -113,7 +158,7 @@ $(document).ready(function () {
                                 {
                                     "data": null,
                                     "render": function (data, type, full, meta) {
-                                        return '<div> <button id=e' + data.id + ' class="edit transparent far fa-pen-to-square popup-toggle" href="#"></button>' +
+                                        return '<div> <button id=e' + data.id + ' class="edit transparent far fa-pen-to-square modal-toggle" href="#"></button>' +
                                             '<button id=d' + data.id + ' class="delete  transparent far fa-trash-can" href="#"></button> </div>';
                                     }
                                 }
@@ -125,10 +170,10 @@ $(document).ready(function () {
             )
         };
 
-        // *** POP UP ***
-    $("body").on("click", ".popup-toggle", function(e){
+        // *** MODAL ***
+    $("body").on("click", ".modal-toggle", function(e){
         e.preventDefault();
-        if($('.popup').css('display')=="none"){
+        if($('.modal').css('display')=="none"){
             if($(this).hasClass('edit')){
                 editing=true;
                 prepareEdit(this);
@@ -140,8 +185,8 @@ $(document).ready(function () {
                 adding=false;
             }
         }
-        $('.popup').fadeToggle( "slow", "linear" );
-        $('.popup').draggable();
+        $('.modal').fadeToggle( "slow", "linear" );
+        $('.modal').draggable();
     });
 
     // *** SAVE ***
@@ -156,16 +201,6 @@ $(document).ready(function () {
             device.post(url);
             console.log(device);
             updateTable();
-            // console.log(device);
-            // $.ajax({url: url,type: 'POST',data:data,
-            //     success: function() {
-            //         console.log("Successfully added");
-            //         updateTable();
-            //     },
-            //     error: function (){
-            //         console.log("not added")
-            //     }
-            // });
         } else if(editing){
             // *** PUT ***
             let url=urlDevicesId+curId;
@@ -270,6 +305,7 @@ $(document).ready(function () {
         $(rowsId).append("<th>P,kW</th>");
         $(rowsId).append("<th>V</th>");
         $(rowsId).append("<th>host</th>");
+        $(rowsId).append(plantActive?"<th>switchgear</th>":"<th>division</th>");
         $(rowsId).append("<th>incomer</th>");
         $(rowsId).append("<th>active</th>");
         $(rowsId).append("<th>description</th>");

@@ -1,12 +1,25 @@
 /*=============CSS VARIABLEs================*/
-:root{
-	--darkGrey: #808080;
-	--lightGrey: #cccccc;
-	--text: 	#404040;
-}
 
 .modal{
-	 visibility: hidden;
+	 visibility: visible;
+	 z-index:1000;
+	 position:absolute;
+	 top: 45%;
+	 left:45%;
+	 /*height: fit-content;*/
+	 height: 200px;
+	 width: 240px;
+	 border: solid 1px;
+	 display:none;
+}
+.modal-footer{
+		display: flex;
+		white-space: nowrap;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: left;
+		align-content: left;
+		align-self: left;
 }
 
 /*

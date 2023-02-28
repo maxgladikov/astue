@@ -33,7 +33,7 @@
             <div class="header">
                 <div class="menu">
                     <ul class="nav-area">
-                        <li class="dropdown"><a href="#">Report</a></li>
+                        <li class="dropdown"><a href="#" id="report" class="modal-toggle">Report</a></li>
                         <li class="dropdown"><a href="#">Substations</a>
                             <ul id="substations"></ul>
                         </li>
@@ -59,17 +59,16 @@
                         </table>
                     </div>
             </div>
-            	<div class="modal" id="deviceModal">
-		<form>
-		<label>Modal device</label>
-		</form>
-	</div>
-	<div class="modal" id="reportModal">
-		<form>
-		</form>
-	</div>
+   			 		<!-- MODAL -->
+		    <div class="modal">
+				<form>
+					<div class="modal-header">
+						<a class="submit action btn">Submit</a>  
+						<a class="close action btn modal-toggle">Close</a>    		
+			    	</div>
+				</form>
+			</div>
      </div>
-	
 
 
 

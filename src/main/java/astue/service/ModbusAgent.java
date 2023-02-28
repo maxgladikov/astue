@@ -85,20 +85,17 @@ public class ModbusAgent {
                     }).collect(Collectors.toList());
             System.out.println(list);
             switch (device.getIed()){
-                case TESYS:
+                case TESYS->{
                     activePower=Double.valueOf((list.get(0))<<16)+list.get(1);
                     reactivePower=Double.valueOf((list.get(2))<<16)+list.get(3);
                     map.put("active",activePower);
-                    map.put("reactive",reactivePower);
-                    break;
-                case F650:
+                    map.put("reactive",reactivePower);}
+                case F650->{
                     activePower=(Double.valueOf((list.get(0))<<16)+list.get(1))/1000;
                     reactivePower=(Double.valueOf((list.get(4))<<16)+list.get(5))/1000;
                     map.put("active",activePower);
-                    map.put("reactive",reactivePower);
-                    break;
-                default:
-                    System.out.println("No ied with such name");
+                    map.put("reactive",reactivePower);}
+                default-> System.out.println("No ied with such name");
             }
             return map;
         }
