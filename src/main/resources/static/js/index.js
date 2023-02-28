@@ -2,7 +2,7 @@ $(document).ready(function () {
 // *** BEGIN ***
 
     // *** GLOBAL VARS ***
-    let ip="http://192.168.166.118";
+    let ip="http://192.168.56.1";
     let port="8080";
     let address=ip+":"+port+"/api/v1";
     let urlDevices=address+'/devices';
@@ -21,6 +21,17 @@ $(document).ready(function () {
         $(this).next().stop(true,false,true).fadeToggle(500);
         return false;
     });
+    
+    //Drop down hide once pressed outside
+    $(document).mouseup(function(e){
+	var container = $(".dropdown > a");
+	if (!container.is(e.target) && container.has(e.target).length === 0)
+	{
+	container.parent().siblings().find('ul').fadeOut(300);
+	}
+
+})
+    
     // drop down menu fill in  substations
     $.ajax({url: urlSS,
             method: 'GET',
@@ -63,6 +74,7 @@ $(document).ready(function () {
                         drawTable(data.devices);
                        table=$("#table").DataTable({
                             data:data.devices,
+                            
                             "paging":false,
                             "searching":false,
                             "iDisplayLength": 10,
@@ -70,10 +82,13 @@ $(document).ready(function () {
                             "bInfo" : false,
                             columns:[
                                 {   "data": "name",
+                                	"width": "10%"
                                     // "searchable":true,
                                     // "sortable":true,
                                 },
-                                { "data": "line"},
+                                { "data": "line",
+                                	"width": "5%"
+                                },
                                 { "data": "drawerColumn"},
                                 { "data": "drawerRow"},
                                 { "data": "ied"},
@@ -98,8 +113,8 @@ $(document).ready(function () {
                                 {
                                     "data": null,
                                     "render": function (data, type, full, meta) {
-                                        return '<button id=e' + data.id + ' class="edit btn fa-regular fa-pen-to-square popup-toggle"></button>' +
-                                            '<button id=d' + data.id + ' class="delete btn transparent fa-regular fa-trash-can"></button>';
+                                        return '<div> <button id=e' + data.id + ' class="edit transparent far fa-pen-to-square popup-toggle" href="#"></button>' +
+                                            '<button id=d' + data.id + ' class="delete  transparent far fa-trash-can" href="#"></button> </div>';
                                     }
                                 }
 
@@ -247,18 +262,18 @@ $(document).ready(function () {
     function drawTable(tableData) {
         const rowsId = "#rows";
         $(rowsId).children().remove();
-        $(rowsId).append("<th>name</th>>");
-        $(rowsId).append("<th>line</th>>");
-        $(rowsId).append("<th>column</th>>");
-        $(rowsId).append("<th>row</th>>");
-        $(rowsId).append("<th>ied</th>>");
-        $(rowsId).append("<th>P,kW</th>>");
-        $(rowsId).append("<th>V</th>>");
-        $(rowsId).append("<th>host</th>>");
-        $(rowsId).append("<th>incomer</th>>");
-        $(rowsId).append("<th>active</th>>");
-        $(rowsId).append("<th>description</th>>");
-        $(rowsId).append("<th>Edit</th>>");
+        $(rowsId).append('<th>name</th>');
+        $(rowsId).append("<th>line</th>");
+        $(rowsId).append("<th>column</th>");
+        $(rowsId).append("<th>row</th>");
+        $(rowsId).append("<th>ied</th>");
+        $(rowsId).append("<th>P,kW</th>");
+        $(rowsId).append("<th>V</th>");
+        $(rowsId).append("<th>host</th>");
+        $(rowsId).append("<th>incomer</th>");
+        $(rowsId).append("<th>active</th>");
+        $(rowsId).append("<th>description</th>");
+        $(rowsId).append("<th>Edit</th>");
     }
 
     // *** CLASSES *** \\
@@ -325,3 +340,4 @@ $(document).ready(function () {
 
     // *** END ***
 });
+
