@@ -1,12 +1,6 @@
 /*=============GOOGLE FONTS================*/
 
 /*=============CSS VARIABLEs================*/
-:root{
-	--darkGrey: #808080;
-	--lightGrey: #cccccc;
-	--textTable: 	#595959;
-}
-
 #tableName{
 	display: flex;
 	 white-space: nowrap;
@@ -32,4 +26,7 @@ table.dataTable td {
 
 #tableDiv > *{
 	color:var(--textTable);
+}
+.text-center{
+		text-align: center;
 }

@@ -1,11 +1,6 @@
 /*=============GOOGLE FONTS================*/
 
 /*=============CSS VARIABLEs================*/
-:root{
-	--darkGrey: #808080;
-	--lightGrey: #cccccc;
-	--text: 	#404040;
-}
 
 .dropdown-menu{
 	background-color:var(--darkGrey);

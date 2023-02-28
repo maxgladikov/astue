@@ -8,15 +8,12 @@
     <!--CSS -->
     <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
     <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="webjars/font-awesome/6.2.0/css/all.min.css" />
-    <link href="css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.2.0/css/all.min.css" />
     <!-- JS -->
     <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
     <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="/webjars/font-awesome/6.2.0/js/fontawesome.min.js"></script>
     <script  src="webjars/jquery-ui/1.13.2/jquery-ui.min.js" ></script>
-    <script  src="webjars/jquery-validation/1.19.5/jquery.validate.min.js"></script>
-    <script src="js/index.js"></script>
     <title>
         Home
     </title>
@@ -28,93 +25,12 @@
     <div  class="container">
             <!-- ****** MENU ***** -->
             <div class="header">
-                <div class="menu">
-                    <ul class="nav-area">
-                        <li><a href="#">About</a></li>
-                        <li class="dropdown"><a href="#">Substations</a>
-                            <ul id="substations"></ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        <!-- **** BODY **** -->
-            <div class="content-large">
-              <!--  <button class="test">TEST</button> -->
-                <span th:remove="tag"></span>
-                    <!-- **** CHART **** -->
-                    <div id="tableDiv" class="table">
-                       <table id="table1" class="display">
-                            <!-- Header Table -->
-                            <thead>
-                            <tr id="rows">
-                               <!-- Dynamically appended <th></th>  -->
-                            </tr>
-                            </thead>
-                        </table>
-                    </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-    <!--  *** MODAL ***   -->
-    <div class="popup">
-        <div id="popup-header">
-            <button  class="close popup-toggle fas fa-times"></i></button>
-        </div>
-        <form id="form" action="#" method="put">
-            <div class="form-body">
-                <input type="hidden" class="input" id="id"  value=""/>
-                <input type="hidden" class="input" id="switchgear"  value=""/>
-                <div class="input-cell"><label class="label">Name</label>
-                    <input type="text" class="input" id="name" name="name" placeholder="Name" value=""/>
-                </div>
-                <div class="input-cell"><label class="label">Line</label>
-                <input type="text" class="input"  id="line" name="line" placeholder="Line" value=""/>
-                </div>
-                <div class="input-cell"><label class="label">Drawer</label>
-                <input type="text" class="input"  id="drawerNum" name="drawerNum" placeholder="Drawer" value=""/>
-                </div>
-                <div class="input-cell"><label class="label">DrawerLetter</label>
-                <input type="text" class="input" id="drawerLetter"  name="drawerLetter" placeholder="Letter" value=""/>
-                </div>
-                <div class="input-cell"><label class="label">Power</label>
-                <input type="number" class="input" id="power"  name="power" placeholder="Power" value=""/>
-                </div>
-                <div class="input-cell"><label class="label">ip</label>
-                     <input type="text" class="input" id="hostAddress" minlength="7" maxlength="15" size="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="hostAddress" placeholder="IP" value=""/>
-                </div>
-                <div class="input-cell"><label class="label">Description</label>
-                    <input type="text" class="input" id="description" name="description" placeholder="Description" value=""/>
-                </div>
-                <div class="input-cell">
-                    <label class="label">isIncomer</label>
-                    <input type="checkbox" class="input checkbox" id="incomer" name="incomer"/>
-                </div>
-                <div class="input-cell">
-                    <label class="label">isActive</label>
-                    <input type="checkbox" class="input checkbox" id="active" name="active"/>
-                </div>
-                <div class="input-cell">
-                    <label class="label">Voltage</label>
-                    <select id="voltage"  name="voltage" class="input"  >
-                        <option value="M" selected>MV</option>
-                        <option value="L" selected>LV</option>
-                    </select>
-                </div>
-                <div class="input-cell">
-                    <label class="label">IED type</label>
-                    <select id="ied"  name="ied" class="input" >
-                        <option value="F650" selected>F650</option>
-                        <option value="Tesys" selected>Tesys</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button id="sub" class="btn submit popup-toggle">Save</button>
-                </div>
-            </div>
-        </form>
-    </div>
+    		</div>
+            <div class="content">
+            		 <i class="fa-thin fa-pencil"></i>
+           			<span class="far fa-circle"></span>
+    		</div>
+	</div>
 
 </body>
 </html>

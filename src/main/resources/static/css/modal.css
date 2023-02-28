@@ -4,6 +4,11 @@
 	--lightGrey: #cccccc;
 	--text: 	#404040;
 }
+
+.modal{
+	 visibility: hidden;
+}
+
 /*
 *,
 *:before,
@@ -23,6 +28,7 @@
 
 
 /* Page wrapper */
+/*
 .wrapper {
     width: 90%;
     max-width: 800px;
@@ -30,7 +36,6 @@
     text-align: left;
 }
 
-/* Icons */
 .icon {
     display: inline-block;
     width: 16px;
@@ -39,7 +44,6 @@
     fill: currentcolor;
 }
 
-/* Headings */
 h1,
 h2,
 h3,
@@ -53,14 +57,9 @@ h6 {
     text-rendering: optimizeLegibility;
 }
 
-/**
- * Modals ($modals)
- */
 
-/* 1. Ensure this sits above everything when visible */
 .modal {
     position: absolute;
-    z-index: 10000; /* 1 */
     top: 0;
     left: 0;
     visibility: visible;
@@ -153,3 +152,5 @@ h6 {
 .modal-content > *:last-child {
     margin-bottom: 0;
 }
+
+*/

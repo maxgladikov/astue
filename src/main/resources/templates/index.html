@@ -6,19 +6,19 @@
     <title>АСТУЭ</title>
 
     <!--CSS -->
-    <link rel='stylesheet' href='webjars/bootstrap/3.3.7-1/css/bootstrap.min.css'>
-    <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">  -->
+    <link rel="stylesheet" href="/webjars/datatables/1.13.1/css/jquery.dataTables.min.css"> 
     <link rel="stylesheet" href="/webjars/jquery-ui/1.13.2/jquery-ui.min.css">
-    <link rel="stylesheet" href="/webjars/font-awesome/6.2.0/css/fontawesome.min.css">
-    <link href="/css/main.css" rel="stylesheet">
-    <link href="/css/modal.css" rel="stylesheet">
-    <link href="/css/menu.css" rel="stylesheet">
-    <link href="/css/table.css" rel="stylesheet">
+     <link rel="stylesheet" href="webjars/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/menu.css">
+    <link rel="stylesheet" href="/css/table.css">
     <!-- JS -->
     <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
     <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="/webjars/datatables/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="/webjars/font-awesome/6.2.0/js/fontawesome.min.js"></script>
+    <script src="/webjars/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="/webjars/font-awesome/6.2.0/js/all.min.js"></script>
 	<script src="/js/index.js"></script>
 	
     <title>
@@ -45,8 +45,9 @@
                 </div>
             </div>
         <!-- **** BODY **** -->
+        
             <div class="content">
-                <span th:remove="tag"></span>
+          
                     <!-- **** CHART **** -->
                     <div id="tableDiv">
                        <table id="table">
@@ -59,9 +60,7 @@
                         </table>
                     </div>
             </div>
-     </div>
-	
-	<div class="modal" id="deviceModal">
+            	<div class="modal" id="deviceModal">
 		<form>
 		<label>Modal device</label>
 		</form>
@@ -70,6 +69,9 @@
 		<form>
 		</form>
 	</div>
+     </div>
+	
+
 
 
 </body>

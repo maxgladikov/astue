@@ -2,10 +2,13 @@ $(document).ready(function () {
 // *** BEGIN ***
 
     // *** GLOBAL VARS ***
-    let urlDevices='http://localhost:8080/api/v1/devices';
-    let urlDevicesId='http://localhost:8080/api/v1/devices/';
-    let urlSS='http://localhost:8080/api/v1/substations';
-    let urlSwgrName='http://localhost:8080/api/v1/switchgears/name/';
+    let ip="http://192.168.166.118";
+    let port="8080";
+    let address=ip+":"+port+"/api/v1";
+    let urlDevices=address+'/devices';
+    let urlDevicesId=address+'/devices/';
+    let urlSS=address+'/substations';
+    let urlSwgrName=address+'/switchgears/name/';
     let editing=false;
     let adding=false;
     let divisionMode=false;
@@ -78,23 +81,25 @@ $(document).ready(function () {
                                 { "data": "voltage"},
                                 {   "data": "hostAddress"},
                                 {   "data": "incomer",
+                                	"className": "text-center",
                                     // //visible: (aDurchgang==1 ? true : false),
                                     // className: "text-center",
                                     render: function ( data, type, row ) {
-                                        return (data === true) ? '<span class="fa-thin fa-check-circle"> </span>'
-                                            : '<span class="fa-thin fa-circle"></span>';}
+                                        return (data === true) ? '<span class="fa-regular fa-circle-check"></span>'
+                                            : '<i class="fa-regular fa-circle"></i>';}
                                 },
                                 {   "data": "active",
+                                	"className": "text-center",
                                     render: function ( data, type, row ) {
-                                        return (data === true) ? '<span class="fa-thin fa-circle"> </span>'
-                                            : '<span class="fa-thin fa-circle"></span>';}
+                                        return (data === true) ? '<span class="fa-regular fa-circle-check"></span>'
+                                            : '<i class="fa-regular fa-circle"></i>';}
                                 },
-                                {   "data": "description"},
+                                {   "data": "description",},
                                 {
                                     "data": null,
                                     "render": function (data, type, full, meta) {
-                                        return '<button id=e' + data.id + ' class="edit fas fa-edit popup-toggle"></button>' +
-                                            '<button id=d' + data.id + ' class="delete transparent far fa-trash-alt"></button>';
+                                        return '<button id=e' + data.id + ' class="edit btn fa-regular fa-pen-to-square popup-toggle"></button>' +
+                                            '<button id=d' + data.id + ' class="delete btn transparent fa-regular fa-trash-can"></button>';
                                     }
                                 }
 
@@ -244,8 +249,8 @@ $(document).ready(function () {
         $(rowsId).children().remove();
         $(rowsId).append("<th>name</th>>");
         $(rowsId).append("<th>line</th>>");
-        $(rowsId).append("<th>drawer</th>>");
-        $(rowsId).append("<th>letter</th>>");
+        $(rowsId).append("<th>column</th>>");
+        $(rowsId).append("<th>row</th>>");
         $(rowsId).append("<th>ied</th>>");
         $(rowsId).append("<th>P,kW</th>>");
         $(rowsId).append("<th>V</th>>");

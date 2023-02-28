@@ -18,7 +18,6 @@ public class SubstationController {
 	public SubstationController(SubstationService service) {
 		this.service = service;
 	}
-
 	@GetMapping
 	public Collection<Substation> getAll(){
 		return  service.getAll();
