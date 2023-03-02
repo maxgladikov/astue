@@ -53,6 +53,6 @@ public enum Ied {
     public static Ied valueOfDataType(String dataType) {
         return  BY_DATA_TYPE.get(dataType);
     }
-
+    
 }
 

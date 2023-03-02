@@ -41,15 +41,12 @@ html,body{
 	grid-row-end:span 3;
 	/*border: solid 1px;*/
 }
-/*
 .label{
-	font-size: medium;
+	font-size: small;
 	color: var(--text);
 	background-color: transparent;
-	font : italic 1.2em ,"Courier New"  , sans-serif;
 	text-decoration: none; 
 }
-*/
 
 .containerRow{
 	display: flex;
@@ -57,7 +54,6 @@ html,body{
 	justify-content: left;
 	align-items: center;
 	flex-wrap: wrap;
-	
 }
 
 /*

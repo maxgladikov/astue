@@ -1,25 +1,46 @@
 /*=============CSS VARIABLEs================*/
 
 .modal{
-	 visibility: visible;
+	 /*visibility:hidden; *//*visible;*/
 	 z-index:1000;
 	 position:absolute;
 	 top: 45%;
 	 left:45%;
-	 /*height: fit-content;*/
-	 height: 200px;
-	 width: 240px;
+	 height: fit-content;
+	 width: 400px;
 	 border: solid 1px;
 	 display:none;
 }
-.modal-footer{
+.modal-input{
+		background:var(--lightGrey);
+		position:relative;
+		left:0px;
+		top:0px;
 		display: flex;
-		white-space: nowrap;
+		flex-direction: column;
+}
+.modal-footer{
+		background:var(--darkGrey);
+		position:relative;
+		right:0px;
+		display: flex;
 		flex-direction: row;
-		flex-wrap: nowrap;
-		justify-content: left;
-		align-content: left;
-		align-self: left;
+		flex-flow: nowrap;
+		justify-content: right;
+		align-content: center;
+		align-items: end;
+		align-self: center;
+}
+.row{
+	display: flex;
+	flex-direction: row;
+	flex-flow: nowrap;
+}
+.row > *{
+	margin: 2px;
+}
+.input{
+	background:var(--lightGrey);
 }
 
 /*

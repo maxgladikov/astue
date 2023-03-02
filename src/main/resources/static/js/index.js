@@ -14,21 +14,22 @@ $(document).ready(function () {
     let urlPlants=address+'/plants';
     let urlSwgrName=address+'/switchgears/name/';
     let urlDivisionName=address+'/divisions/name/';
-    let editing=false;
-    let adding=false;
+    let urlIed=urlDevices+'/ied';
+    let modalMode;
     let divisionMode=false;
     let substationMode=false;
     let curId;
     let swgr;
     let ssActive;
     let plantActive;
+    
+    // *** DROPDOWN ***\\
     // Drop down menu management
     $("body").on("click", ".dropdown > a", function(){
         $(this).parent().siblings().find('ul').fadeOut(500);
         $(this).next().stop(true,false,true).fadeToggle(500);
         return false;
     });
-    
     //Drop down hide once pressed outside
     $(document).mouseup(function(e){
 	var container = $(".dropdown > a");
@@ -38,7 +39,6 @@ $(document).ready(function () {
 	}
 
 })
-    
     // drop down menu fill in  substations
     $.ajax({url: urlSS,
             method: 'GET',
@@ -73,10 +73,9 @@ $(document).ready(function () {
                 console.log(jqXHR.status);
             }
         })
-
-
-   
-    // *** POPULATE THE CHART ***
+	// *** MAIN ***\\
+	
+    // *** populate the table ***
     $("body").on("click", ".switchgear", function(){
 		ssActive=true;
 		plantActive=false;
@@ -91,8 +90,103 @@ $(document).ready(function () {
         division=$(this).text();
         updateTable();
     });
-    // *** UPDATE THE TABLE ***
-        function updateTable(){
+       
+        	
+
+    // *** save ***
+    $("body").on("click", ".submit", function(e){
+        e.preventDefault();
+        if(adding){
+            // *** post ***
+            let url=urlDevices;
+            let device=new Device();
+            device.createFromForm("#form");
+            device.switchgear=swgr;
+            device.post(url);
+            console.log(device);
+            updateTable();
+        } else if(editing){
+            // *** put ***
+            let url=urlDevicesId+curId;
+            let data=$('#form').serialize();
+            $.ajax({method: "PUT",url: url,data: data,
+                success: function(data) {
+                    console.log('everything was OK');
+                    updateTable();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("jqXHR.status:"+jqXHR.status);
+                }
+            })
+        }
+    })
+    // *** delete ***
+    $("body").on("click", ".delete", function(e){
+        if (confirm('sure?')) {
+            let id=$(this).attr('id');
+            id=id.substring(1,id.length);
+            let url=urlDevicesId+id;
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function(result) {
+                    console.log("Successfully deleted");
+                    updateTable();
+                },
+                error: function (){
+                    console.log("not deleted")
+                }
+            });
+        };
+    });
+  
+    // Checkbox management
+    $(".checkbox").on('change', function() {
+        if ($(this).is(':checked')) {
+            $(this).attr('value', 'true');
+        } else {
+            $(this).attr('value', 'false');
+        }
+    });
+    	// *** modal *** \\
+    $("body").on("click", ".modal-toggle", function(e){
+        e.preventDefault();
+        if($('.modal').css('display')=="none"){
+            if($(this).hasClass('edit')){
+				let id=$(this).attr('id');
+        		id=id.substring(1,id.length);
+                modalMode=1;
+               drawForm(modalMode);
+               Promise.all([$.get(urlIed),$.get(urlSS),$.get(urlPlants),$.get(urlDevices+"/"+id)])
+               															.then((data)=>{ return new Promise((resolve,reject)=>{
+																					   											appendOptions(data);
+																					   											resolve(data[3]);})})
+						   																															.then((data)=>{prePopulateEditForm(data)});
+            }else if ($(this).hasClass('add')){
+                modalMode=2;
+                drawForm(modalMode);
+                Promise.all([$.get(urlIed),$.get(urlSS),$.get(urlPlants)])
+               															.then((data)=>{appendOptions(data);});
+            }else if ($(this).hasClass('report')){
+                modalMode=4;
+                prepareReport();
+            }
+            $('.modal').fadeIn( 200, "swing" );
+            $('.modal').draggable();
+            return;
+        }
+        if($(this).hasClass('close')){
+                modalMode=0;
+                drawForm(modalMode);
+                
+            }
+        $('.modal').fadeOut( 200, "swing" );
+    });
+    
+	
+	// *** AUX *** \\
+	
+	 function updateTable(){
             $("#tableName").remove();
           if( $.fn.dataTable.isDataTable( table )){
                 table.destroy() ;}
@@ -148,7 +242,7 @@ $(document).ready(function () {
                                         return (data === true) ? '<span class="fa-regular fa-circle-check"></span>'
                                             : '<i class="fa-regular fa-circle"></i>';}
                                 },
-                                {   "data": "active",
+                                {   "data": "consumer",
                                 	"className": "text-center",
                                     render: function ( data, type, row ) {
                                         return (data === true) ? '<span class="fa-regular fa-circle-check"></span>'
@@ -170,130 +264,7 @@ $(document).ready(function () {
             )
         };
 
-        // *** MODAL ***
-    $("body").on("click", ".modal-toggle", function(e){
-        e.preventDefault();
-        if($('.modal').css('display')=="none"){
-            if($(this).hasClass('edit')){
-                editing=true;
-                prepareEdit(this);
-            }else if ($(this).hasClass('add')){
-                adding=true;
-                prepareAdd();
-            }else {
-                editing=false;
-                adding=false;
-            }
-        }
-        $('.modal').fadeToggle( "slow", "linear" );
-        $('.modal').draggable();
-    });
-
-    // *** SAVE ***
-    $("body").on("click", ".submit", function(e){
-        e.preventDefault();
-        if(adding){
-            // *** POST ***
-            let url=urlDevices;
-            let device=new Device();
-            device.createFromForm("#form");
-            device.switchgear=swgr;
-            device.post(url);
-            console.log(device);
-            updateTable();
-        } else if(editing){
-            // *** PUT ***
-            let url=urlDevicesId+curId;
-            let data=$('#form').serialize();
-            $.ajax({method: "PUT",url: url,data: data,
-                success: function(data) {
-                    console.log('everything was OK');
-                    updateTable();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log("jqXHR.status:"+jqXHR.status);
-                }
-            })
-        }
-    })
-    // *** DELETE ***
-    $("body").on("click", ".delete", function(e){
-        if (confirm('sure?')) {
-            let id=$(this).attr('id');
-            id=id.substring(1,id.length);
-            let url=urlDevicesId+id;
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                success: function(result) {
-                    console.log("Successfully deleted");
-                    updateTable();
-                },
-                error: function (){
-                    console.log("not deleted")
-                }
-            });
-        };
-    });
-    // Fill in modal when edit
-    function prepareEdit(obj){
-        let id=$(obj).attr('id');
-        id=id.substring(1,id.length);
-        let url=urlDevicesId+id;
-        $.ajax(
-            {
-                url:url,
-                method: 'GET',
-                // dataType: 'json',
-                success: function (data) {
-                    let form=$('.popup');
-                    curId=data.id;
-                    form.find("#id").val(curId);
-                    form.find("#name").val(data.name);
-                    form.find("#line").val(data.line);
-                    form.find("#drawerNum").val(data.drawerNum);
-                    form.find("#drawerLetter").val(data.drawerLetter);
-                    form.find("#power").val(data.power);
-                    form.find("#hostAddress").val(data.hostAddress);
-                    form.find("#description").val(data.description);
-                    form.find("#ied").val(data.ied);
-                    form.find("#voltage").val(data.voltage);
-                    form.find("#incomer").prop('checked', data.incomer);
-                    form.find("#active").prop('checked', data.active);
-                    form.find("#incomer").val(data.incomer==true?'true':'false');
-                    form.find("#active").val(data.active==true?'true':'false');
-                }}
-        );
-    };
-    // Fill in modal when add
-    function prepareAdd(){
-        let form=$('.popup');
-        form.find("#id").val("");
-        form.find("#switchgear").val(swgr);
-        form.find("#name").val("");
-        form.find("#line").val("");
-        form.find("#drawerNum").val("");
-        form.find("#drawerLetter").val("");
-        form.find("#power").val("");
-        form.find("#hostAddress").val("");
-        form.find("#description").val("");
-        form.find("#ied").val("");
-        form.find("#voltage").val("");
-        form.find("#incomer").prop('checked', false);
-        form.find("#active").prop('checked', false);
-        form.find("#incomer").val(false);
-        form.find("#active").val(false);
-    }
-
-    // Checkbox management
-    $(".checkbox").on('change', function() {
-        if ($(this).is(':checked')) {
-            $(this).attr('value', 'true');
-        } else {
-            $(this).attr('value', 'false');
-        }
-    });
-	// *** AUX *** \\
+	
     function drawTable(tableData) {
         const rowsId = "#rows";
         $(rowsId).children().remove();
@@ -311,6 +282,88 @@ $(document).ready(function () {
         $(rowsId).append("<th>description</th>");
         $(rowsId).append("<th>Edit</th>");
     }
+      function drawForm(mode){
+		  return new Promise( (resolve,fail)=>{
+		  		  switch(mode){
+						case 0: 
+								$('.modal-input').children().remove();
+								break;
+						case 1:
+						case 2:
+								$('.modal-input').append('<input id="id" type="hidden" name="id"></input>');
+								$('.modal-input').append('<div class="row"><input id="name" type="text" name="name" placeholder="name"></input><label class="label">name</label></div>');
+								$('.modal-input').append('<div class="row"><input id="line" type="text" name="line" placeholder="line"></input><label class="label">line</label></div>');
+								$('.modal-input').append('<div class="row"><input id="drawerColumn" type="text" name="drawerColumn" placeholder="drawerColumn"></input><label class="label">column</label></div>');
+								$('.modal-input').append('<div class="row"><input id="drawerRow" type="text" name="drawerRow" placeholder="drawerColumn"></input><label class="label">row</label></div>');
+								$('.modal-input').append('<div class="row"><input id="power" type="text" name="power" placeholder="power"></input><label class="label">power</label></div>');
+								$('.modal-input').append('<div class="row"><input id="hostAddress" type="text" name="hostAddress" placeholder="ip"></input><label class="label">ip</label></div>');
+								$('.modal-input').append('<div class="row"><input id="incomer" type="checkbox" name="incomer" placeholder="incomer"></input><label class="label">incomer</label></div>');
+								$('.modal-input').append('<div class="row"><input id="consumer" type="checkbox" name="consumer" placeholder="consumer"></input><label class="label">consumer</label></div>');
+								$('.modal-input').append('<div class="row"><select id="ied" name="ied" ></select><label class="label">ied</label></div>');
+								$('.modal-input').append('<div class="row"><select id="voltage" name="voltage" ></select><label class="label">voltage</label></div>');
+								$('#voltage').append('<option>M</option>');
+								$('#voltage').append('<option>L</option>');
+								$('.modal-input').append('<div class="row"><select id="switchgearSelect"  name="switchgear"></select><label class="label">switchgear</label></div>');
+								$('.modal-input').append('<div class="row"><select id="divisionSelect" name="division"></select><label class="label">division</label></div>');
+								$('.modal-input').append('<div class="row"><input id="description" type="text" name="description" placeholder="description"></input><label class="label">description</label></div>');
+						break;
+						case 3:break;
+						default:
+					}
+					resolve();
+					})
+	  }
+	  
+	  function appendOptions(data){
+											    $(data[0]).each(function(key, value){
+													$('#ied').append('<option>'+value+'</option>');
+												});
+												 $(data[1]).each(function(key, value){
+													let name=value.name;
+													name="oGroup"+name;
+													$('#switchgearSelect').append('<optgroup id="' +name+'" label="'+value.name+'">');
+													$(value.switchgears).each(function(key,value){
+														$('#'+name).append( '<option value="'+value.name+'">'+value.name+'</option>');
+													})
+												});
+												  $(data[2]).each(function(key, value){
+													let name=value.name;
+													name="oGroup"+name;
+													$('#divisionSelect').append('<optgroup id="' +name+'" label="'+value.name+'">');
+													$(value.divisions).each(function(key,value){
+														$('#'+name).append( '<option value="'+value.name+'">'+value.name+'</option>');
+													})
+												});
+	  };
+	   
+      function prePopulateEditForm(data){
+					let form=$('.modal-input');
+                    form.find("#id").val(data.id);
+                    form.find("#name").val(data.name);
+                    form.find("#line").val(data.line);
+                    form.find("#drawerColumn").val(data.drawerColumn);
+                    form.find("#drawerRow").val(data.drawerRow);
+                    form.find("#power").val(data.power);
+                    form.find("#hostAddress").val(data.hostAddress);
+                    form.find("#description").val(data.description);
+                    form.find("#ied").val(data.ied);
+                    form.find("#switchgearSelect").val(data.switchgear);
+                    form.find("#divisionSelect").val(data.division);
+                    form.find("#voltage").val(data.voltage);
+                    form.find("#incomer").prop('checked', data.incomer);
+                    form.find("#consumer").prop('checked', data.consumer);
+                    form.find("#incomer").val(data.incomer==true?'true':'false');
+                    form.find("#consumer").val(data.consumer==true?'true':'false');
+       
+    };
+	function print(arg){
+		console.log(arg);
+	}
+	function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
+
 
     // *** CLASSES *** \\
     class Device{
@@ -323,8 +376,8 @@ $(document).ready(function () {
         name;
         hostAddress;
         line;
-        drawerNum;
-        drawerLetter;
+        drawerColumn;
+        drawerRow;
         incomer;
         active;
         power;

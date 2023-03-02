@@ -2,8 +2,10 @@ package astue.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ import astue.model.Device;
 import astue.model.Switchgear;
 import astue.service.DeviceServiceImpl;
 import astue.service.SwitchgearService;
+import astue.util.Ied;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -77,8 +80,14 @@ public class DeviceController {
 	}
 //	@GetMapping("/api/v1/reportSS/{startDate}/{endDate}")
 //	public ResponseEntity<Resou>
+	
 
-
+	@GetMapping("/ied")
+	public List<Ied> getIedl(){
+		Ied ied=Ied.TESYS;
+		
+		return Arrays.asList(ied.getDeclaringClass().getEnumConstants());
+	}
 	@GetMapping
 	public Collection<Device> getAll(){
 		return service.getAll();

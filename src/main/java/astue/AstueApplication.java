@@ -5,6 +5,8 @@ import astue.model.Substation;
 import astue.service.DeviceService;
 import astue.service.SpringAux;
 import astue.service.SubstationService;
+import astue.util.Ied;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +16,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 
@@ -34,6 +37,8 @@ public class AstueApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println("**** START RUNNER ***");
+		
 //		aux.populate();
 //		ObjectMapper objectMapper=new ObjectMapper();
 //		System.out.println(objectMapper.writeValueAsString(new Device()));
