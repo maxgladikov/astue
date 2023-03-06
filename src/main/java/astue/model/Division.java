@@ -25,6 +25,7 @@ public class Division extends BaseEntity {
 		super();
 		super.setName(name);
 		this.plant=plant;
+		this.description=description;
 	}
 	public Division(String name, String description) {
 		super();
@@ -47,4 +48,9 @@ public class Division extends BaseEntity {
 	public void addDevice(Device device){
 		devices.add(device);
 	}
+	@Override
+	public String toString() {
+		return "Division [name="+this.getName()+", plant=" + plant + ", description=" + description + "]";
+	}
+	
 }

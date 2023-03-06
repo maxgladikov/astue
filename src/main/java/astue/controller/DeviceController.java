@@ -30,7 +30,9 @@ import org.supercsv.prefs.CsvPreference;
 
 import astue.model.Device;
 import astue.model.Switchgear;
+import astue.service.DeviceService;
 import astue.service.DeviceServiceImpl;
+import astue.service.DivisionService;
 import astue.service.SwitchgearService;
 import astue.util.Ied;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,6 +45,8 @@ public class DeviceController {
 	private  DeviceServiceImpl service;
 	@Autowired
 	private  SwitchgearService switchgearService;
+	@Autowired
+	private  DivisionService divisionService;
 
 
 //	@RequestMapping(value ="/report" )
@@ -112,6 +116,10 @@ public class DeviceController {
 		device.setIncomer(newDevice.isIncomer());
 		device.setConsumer(newDevice.isConsumer());
 		device.setDescription(newDevice.getDescription());
+		device.setSwitchgear(switchgearService.getByName(newDevice.getSwitchgear().getName()).orElseThrow());
+		device.setDivision(divisionService.getByName(newDevice.getDivision().getName()).orElseThrow());
+//		System.out.println("***************");
+//		System.out.println("***************");
 		return  service.add(device);
 	}
 

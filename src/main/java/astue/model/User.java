@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-//@Entity
-@Data
+@Entity
+@Getter
+@Setter
 @Table(name="user", schema="PUBLIC")
 public class User {
 
@@ -36,9 +38,9 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	@Column(unique=true)
-	@NotBlank(message="Street is required")
+	@NotBlank(message="Name is required")
 	private  String name;
-	@NotBlank(message="Street is required")
+	@NotBlank(message="Password is required")
 	private  String password;
 	private  String roles;
 	private  Boolean active;

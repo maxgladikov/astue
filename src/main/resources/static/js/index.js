@@ -93,11 +93,11 @@ $(document).ready(function () {
        
         	
 
-    // *** save ***
+    // *** submit ***
     $("body").on("click", ".submit", function(e){
         e.preventDefault();
-        if(adding){
-            // *** post ***
+        // *** post *** \\
+        if(modalMode==2){
             let url=urlDevices;
             let device=new Device();
             device.createFromForm("#form");
@@ -105,19 +105,12 @@ $(document).ready(function () {
             device.post(url);
             console.log(device);
             updateTable();
-        } else if(editing){
-            // *** put ***
+             // *** put *** \\
+        } else if(modalMode==1){
             let url=urlDevicesId+curId;
-            let data=$('#form').serialize();
-            $.ajax({method: "PUT",url: url,data: data,
-                success: function(data) {
-                    console.log('everything was OK');
-                    updateTable();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log("jqXHR.status:"+jqXHR.status);
-                }
-            })
+             let device=new Device();
+            device.createFromForm("#form");
+            device.put(url).then(()=>updateTable());
         }
     })
     // *** delete ***
@@ -155,6 +148,7 @@ $(document).ready(function () {
             if($(this).hasClass('edit')){
 				let id=$(this).attr('id');
         		id=id.substring(1,id.length);
+        		curId=id;
                 modalMode=1;
                drawForm(modalMode);
                Promise.all([$.get(urlIed),$.get(urlSS),$.get(urlPlants),$.get(urlDevices+"/"+id)])
@@ -379,7 +373,7 @@ $(document).ready(function () {
         drawerColumn;
         drawerRow;
         incomer;
-        active;
+        consumer;
         power;
         ied;
         description;
@@ -387,20 +381,24 @@ $(document).ready(function () {
         division;
         fromArray(arr){
             let map=new Map(arr.map((obj) => [obj.name, obj.value]));
+            this.id=Number.parseInt(map.get("id"));
             this.name=map.get("name");
             this.hostAddress=map.get("hostAddress");
             this.line=map.get("line");
-            this.drawerNum=map.get("drawerNum");
-            this.drawerLetter=map.get("drawerLetter");
-            this.power=map.get("power");
+            this.drawerColumn=Number.parseInt(map.get("drawerColumn"));
+            this.drawerRow=map.get("drawerRow");
+            this.power=Number.parseFloat( map.get("power"));
             this.description=map.get("description");
             this.ied=map.get("ied");
             this.incomer=map.get("incomer");
-            this.active=map.get("active");
+            this.voltage=map.get("voltage");
+            this.consumer=map.get("consumer");
+            this.division=map.get("division");
+            this.switchgear=map.get("switchgear");
             return map;
         }
         post(url){
-            $.ajax(
+            let jqxhr=$.ajax(
                 {
                     type:"POST",
                     url:url,
@@ -414,6 +412,24 @@ $(document).ready(function () {
                         console.log("not added")
                     }
                 });
+                 return jqxhr;
+        };
+        put(url){
+            let jqxhr= $.ajax(
+                {
+                    type:"PUT",
+                    url:url,
+                    contentType: "application/json; charset=utf-8",
+                    traditional: true,
+                    data:this.serialize(),
+                    success: function() {
+                        console.log("Successfully added");
+                    },
+                    error: function (){
+                        console.log("not added")
+                    }
+                });
+                  return jqxhr;
         }
         serialize(){
           return  JSON.stringify(this);
@@ -424,6 +440,7 @@ $(document).ready(function () {
                 arr.push({ name: this.name, value: this.checked });})
             this.fromArray(arr);
         }
+      
     }
 
 

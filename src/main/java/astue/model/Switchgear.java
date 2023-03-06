@@ -3,6 +3,7 @@ package astue.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
@@ -35,7 +36,7 @@ public class Switchgear extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "PMCC [tag=" + super.getName() + "]";
+		return "PMCC [name=" + this.getName()+"]";
 	}
 	
 

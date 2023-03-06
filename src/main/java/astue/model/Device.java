@@ -28,6 +28,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @JsonSerialize(using = DeviceSerializer.class)
 @JsonDeserialize(using = DeviceDeserializer.class)
 public class Device extends BaseEntity {
+	private static final long serialVersionUID = -1405799293989434211L;
 	@NotNull
 	@Column(unique=true)
 	@Pattern(regexp = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$",message="ip isn't correct")
