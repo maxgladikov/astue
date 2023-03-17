@@ -6,6 +6,8 @@ import astue.service.SubstationService;
 import astue.service.SubstationServiceImpl;
 import astue.util.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -20,18 +22,20 @@ public class SubstationController {
 	}
 	@GetMapping
 	public Collection<Substation> getAll(){
-		return  service.getAll();
+		return service.getAll();
+//		return  ResponseEntity.ok(service.getAll());
+//		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
 	public Substation getById(@PathVariable Long id){
-		Substation substation=service.getById(Long.valueOf(id)).orElseThrow();
+		Substation substation=service.getById(Long.valueOf(id));
 		System.out.println("++++++++++++"+ substation.toString());
 		return  substation;
 	}
 	@GetMapping("/name/{name}")
 	public Substation getById(@PathVariable String name){
-		Substation substation=service.getByName(name).orElseThrow();
+		Substation substation=service.getByName(name);
 		return  substation;
 	}
 

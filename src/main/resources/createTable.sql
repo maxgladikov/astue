@@ -1,0 +1,7 @@
+--CREATE TABLE IF NOT EXISTS users (
+--id bigint  PRIMARY KEY,
+--username varchar(40) NOT NULL,
+--password varchar(100) NOT NULL,
+--active boolean,
+--role smallint NOT NULL
+--);

@@ -1,5 +1,6 @@
 package astue.service;
 
+import astue.exception.ResourceNotFoundException;
 import astue.model.Division;
 import astue.model.Plant;
 import astue.repository.DivisionRepository;
@@ -22,14 +23,14 @@ public class DivisionServiceImpl implements DivisionService{
 	}
 
 	@Override
-	public Optional<Division> getById(Long id)
+	public Division getById(Long id)
 	{
-		return repository.findById(id);
+		return repository.findById(id).orElseThrow(()->new ResourceNotFoundException("Entity with id="+id+"not found"));
 	}
 
 
-	public Optional<Division> getByName(String name) {
-		return repository.findByName(name);
+	public Division getByName(String name) {
+		return repository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Entity with name="+name+"not found"));
 	}
 
 	public Division add(Division division) {

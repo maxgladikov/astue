@@ -1,5 +1,7 @@
 package astue.service;
 import astue.model.*;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -11,19 +13,14 @@ import java.util.Arrays;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class SpringAux {
-    @Autowired
-    private ApplicationContext ctx;
-    @Autowired
-    private PlantService plantService;
-    @Autowired
-    private SubstationService substationService;
-    @Autowired
+	private final PlantService plantService;
+    private final  ApplicationContext ctx;
+    private final  SubstationService substationService;
     private Pool pool;
-    @Autowired
-    private DeviceFactory deviceFactory;
-    @Autowired
-    private DeviceServiceImpl deviceService;
+    private final DeviceFactory deviceFactory;
+    private final DeviceServiceImpl deviceService;
 
     public void getContext(){
 //        *********  CTX  ********

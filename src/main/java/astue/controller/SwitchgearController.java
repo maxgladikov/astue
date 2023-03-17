@@ -7,7 +7,10 @@ import astue.service.SwitchgearService;
 import astue.service.SwitchgearServiceImpl;
 import astue.util.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,18 +24,18 @@ public class SwitchgearController {
 		this.service = service;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public Collection<Switchgear> getAll(){
 		return service.getAll();
 	}
 
-	@RequestMapping(path = "/{id}",method = RequestMethod.GET)
+	@GetMapping("/{id}")
 	public Switchgear getById(@PathVariable Long id){
-		return service.getById(id).orElseThrow();
+		return service.getById(id);
 	}
-	@RequestMapping(path = "/name/{name}",method = RequestMethod.GET)
+	@GetMapping("/name/{name}")
 	public Switchgear getByName(@PathVariable String name){
-		return service.getByName(name).orElseThrow();
+		return service.getByName(name);
 	}
 
 }

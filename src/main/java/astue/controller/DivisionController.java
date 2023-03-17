@@ -21,7 +21,7 @@ public class DivisionController {
 
 	@GetMapping("/name/{name}")
 	public Division getByName(@PathVariable("name") String name){
-		return  service.getByName(name).orElseThrow();
+		return  service.getByName(name);
 	}
 
 	@PostMapping("/")

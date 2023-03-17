@@ -1,15 +1,10 @@
 package astue.service;
 
+import astue.exception.ResourceNotFoundException;
 import astue.model.Plant;
 import astue.repository.PlantRepository;
-import astue.util.CustomResponse;
-import astue.util.CustomStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class PlantServiceImpl implements PlantService{
@@ -24,14 +19,14 @@ public class PlantServiceImpl implements PlantService{
 	}
 
 	@Override
-	public Optional<Plant> getById(Long id)
+	public Plant getById(Long id)
 	{
-		return plantRepository.findById(id);
+		return plantRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Entity with id="+id+"not found"));
 	}
 
 
-	public Optional<Plant> getByName(String name) {
-		return plantRepository.findByName(name);
+	public Plant getByName(String name) {
+		return plantRepository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Entity with name="+name+"not found"));
 	}
 
 	public Plant add(Plant plant) {

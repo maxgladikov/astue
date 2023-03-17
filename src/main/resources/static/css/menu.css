@@ -24,6 +24,7 @@
 }
 
 /*-------NAVIGATION---------*/	
+
 .menu{
 	background:var(--darkGrey);
 	text-align: left;
@@ -31,6 +32,9 @@
 	margin: 0px auto;
 	display: inline-block;
 	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 .nav-area,
 .nav-area ul{
@@ -51,7 +55,7 @@
 }
 .nav-area a:hover{
 	background:var(--lightGrey);
-	height: 100%;
+	height: 38%;
 }
 .nav-area>li{
 	display: inline-block;

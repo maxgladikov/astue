@@ -3,15 +3,15 @@ package astue.aop;
 import org.aspectj.lang.annotation.Pointcut;
 
 public class PointCuts {
-    @Pointcut("execution(* astue.service.*.get*(..))")
+    @Pointcut("execution(* astue.service.*.getx*(..))")
     public void allGetMethods(){}
 
-    @Pointcut("execution(* astue.service.*.add*(..))")
+    @Pointcut("execution(* astue.service.*.addx*(..))")
     public void allAddMethods(){}
 
-    @Pointcut("execution(* astue.service.*.put*(..))")
+    @Pointcut("execution(* astue.service.*.putx*(..))")
     public void allUpdateMethods(){}
 
-    @Pointcut("execution(* astue.service.*.delete*(..))")
+    @Pointcut("execution(* astue.service.*.deletex*(..))")
     public void allDeleteMethods(){}
 }

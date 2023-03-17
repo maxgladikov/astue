@@ -2,9 +2,11 @@ package astue.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +31,7 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import astue.model.Device;
+import astue.model.Division;
 import astue.model.Switchgear;
 import astue.service.DeviceService;
 import astue.service.DeviceServiceImpl;
@@ -99,12 +102,12 @@ public class DeviceController {
 
 	@GetMapping("/{id}")
 	public Device getById(@PathVariable Long id){
-		return  service.getById(id).orElseThrow();
+		return  service.getById(id);
 	}
 
 	@PutMapping ("/{id}")
-	public Device put(@RequestBody Device newDevice,@PathVariable Long id){
-		Device device=service.getById(id).orElseThrow();
+	public ResponseEntity<Object> put(@RequestBody Device newDevice,@PathVariable Long id){
+		Device device=service.getById(id);
 		device.setName(newDevice.getName());
 		device.setLine(newDevice.getLine());
 		device.setDrawerColumn(newDevice.getDrawerColumn());
@@ -116,39 +119,38 @@ public class DeviceController {
 		device.setIncomer(newDevice.isIncomer());
 		device.setConsumer(newDevice.isConsumer());
 		device.setDescription(newDevice.getDescription());
-		device.setSwitchgear(switchgearService.getByName(newDevice.getSwitchgear().getName()).orElseThrow());
-		device.setDivision(divisionService.getByName(newDevice.getDivision().getName()).orElseThrow());
+		device.setSwitchgear(switchgearService.getByName(newDevice.getSwitchgear().getName()));
+		device.setDivision(divisionService.getByName(newDevice.getDivision().getName()));
 //		System.out.println("***************");
 //		System.out.println("***************");
-		return  service.add(device);
+		service.add(device);
+		Map<String, Object> body = new LinkedHashMap<>();
+	    body.put("message", "Device has been updated");
+		return new ResponseEntity<>(body, HttpStatus.OK);
 	}
 
 	@DeleteMapping ("/{id}")
-	public void delete(@PathVariable Long id){
+	public ResponseEntity<Object> delete(@PathVariable Long id){
 		service.delete(id);
+		Map<String, Object> body = new LinkedHashMap<>();
+	    body.put("message", "Device has been deleted");
+		return new ResponseEntity<>(body, HttpStatus.OK);
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<String> add(@Valid @RequestBody Device newDevice){
+	public ResponseEntity<Object> add(@Valid @RequestBody Device newDevice){
 		System.out.println(newDevice);
-		Switchgear switchgear=switchgearService.getByName(newDevice.getSwitchgear().getName()).orElseThrow();
+		Switchgear switchgear=switchgearService.getByName(newDevice.getSwitchgear().getName());
+		Division division=divisionService.getByName(newDevice.getDivision().getName());
 		newDevice.setSwitchgear(switchgear);
+		newDevice.setDivision(division);
 		System.out.println(newDevice);
 		service.add(newDevice);
-		return ResponseEntity.ok("Device is valid");
+		Map<String, Object> body = new LinkedHashMap<>();
+	    body.put("message", "Device has been added");
+		return new ResponseEntity<>(body, HttpStatus.OK);
 	}
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String, String> handleValidationExceptions(
-			MethodArgumentNotValidException ex) {
-		Map<String, String> errors = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String errorMessage = error.getDefaultMessage();
-			errors.put(fieldName, errorMessage);
-		});
-		return errors;
-	}
+	
 
 }

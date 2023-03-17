@@ -38,7 +38,7 @@ public class DeviceFactory {
                         .build())
                 .collect(Collectors.toSet());
 //        result.stream().forEach(x->pool.getDivisions().get(x.getDivision()).addDevice(x));
-        result.stream().forEach(System.out::println);
+//        result.stream().forEach(System.out::println);
         return result;
     }
 }

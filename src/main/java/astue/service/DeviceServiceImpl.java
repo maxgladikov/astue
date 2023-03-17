@@ -1,5 +1,6 @@
 package astue.service;
 
+import astue.exception.ResourceNotFoundException;
 import astue.model.Device;
 import astue.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +28,15 @@ public class DeviceServiceImpl implements DeviceService{
     }
 
     @Override
-    public Optional<Device> getById(Long id) {
-        return repository.findById(id);
+    public Device getById(Long id) {
+        return repository.findById(id).orElseThrow(()->new ResourceNotFoundException("Entity with id="+id+"not found"));
     }
 
     @Override
 //    @Transactional
 //    @Retryable
-    public Optional<Device> getByName(String name) {
-         return repository.findByName(name);
+    public Device getByName(String name) {
+         return repository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Entity with name="+name+"not found"));
     }
 
     @Override

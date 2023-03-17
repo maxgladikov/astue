@@ -1,14 +1,12 @@
 package astue.service;
 
+import astue.exception.ResourceNotFoundException;
 import astue.model.Switchgear;
 import astue.repository.SwitchgearRepository;
 import astue.util.CustomResponse;
 import astue.util.CustomStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,13 +23,13 @@ public class SwitchgearServiceImpl implements SwitchgearService{
 	}
 
 	@Override
-	public Optional<Switchgear> getById(Long id) {
-		return switchgearRepository.findById(id);
+	public Switchgear getById(Long id) {
+		return switchgearRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Entity with id="+id+"not found"));
 	}
 
 	@Override
-	public Optional<Switchgear> getByName(String name) {
-		return switchgearRepository.findByName(name);
+	public Switchgear getByName(String name) {
+		return switchgearRepository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Entity with name="+name+"not found"));
 	}
 
 	public CustomResponse<Switchgear> findByName(String name) {

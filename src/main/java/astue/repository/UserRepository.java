@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import astue.model.User;
 
 
-//public interface UserRepository extends JpaRepository<User,String> {
-//	Optional<User> findByName(String name);
-//}
+public interface UserRepository extends JpaRepository<User,Long> {
+	Optional<User> findByUsername(String name);
+	Optional<User> findByPassword(String password);
+}
 
 
 

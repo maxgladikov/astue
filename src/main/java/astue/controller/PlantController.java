@@ -19,7 +19,7 @@ public class PlantController {
 		this.service = service;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public Collection<Plant> getAll(){
 		return service.getAll();
 	}

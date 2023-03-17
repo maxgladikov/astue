@@ -22,7 +22,15 @@ $(document).ready(function () {
     let swgr;
     let ssActive;
     let plantActive;
+    let jwt;
+    token=localStorage.getItem("token");
     
+    // *** AJAX SET UP ***\\
+    $.ajaxSetup({
+					  dataType: 'json',
+					  contentType: "application/json",
+					  headers: {"Authorization":'Bearer '+token}
+					});
     // *** DROPDOWN ***\\
     // Drop down menu management
     $("body").on("click", ".dropdown > a", function(){
@@ -37,29 +45,20 @@ $(document).ready(function () {
 	{
 	container.parent().siblings().find('ul').fadeOut(300);
 	}
-
-})
+	});
     // drop down menu fill in  substations
-    $.ajax({url: urlSS,
-            method: 'GET',
-            dataType: 'json',
-            success:function(data) {
-                $.each(data, function (key, value) {
-                    let str='<li class="dropdown"><a class="ss" href="#">'+value.name+'</a>';
-                    str=str+"<ul>";
-                    value.switchgears.forEach(element => str=str+"<li><a class='switchgear' href='#'>"+element.name+"</a></li>");
-                    str=str+"</ul></li>";
-                    $('#substations').append(str);
-                })
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.status);
-            }
-        })
+    $.ajax({url: urlSS, method: 'GET'})
+    	.done( (data)=> {
+			                $.each(data, function (key, value) {
+			                    let str='<li class="dropdown"><a class="ss" href="#">'+value.name+'</a>';
+			                    str=str+"<ul>";
+			                    value.switchgears.forEach(element => str=str+"<li><a class='switchgear' href='#'>"+element.name+"</a></li>");
+			                    str=str+"</ul></li>";
+			                    $('#substations').append(str);
+           						})
+			}).fail((jqXHR, textStatus, errorThrown) =>{print("fail")});
     // drop down menu fill in  plants
-    $.ajax({url: urlPlants,
-            method: 'GET',
-            dataType: 'json',
+    $.ajax({url: urlPlants,method: 'GET',
             success:function(data) {
                 $.each(data, function (key, value) {
                     let str='<li class="dropdown"><a class="plant" href="#">'+value.name+'</a>';
@@ -70,70 +69,34 @@ $(document).ready(function () {
                 })
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.status);
+               print(jqXHR.status);
             }
         })
+	// *** AUTH ***\\
+	  $.ajax({url: address+"/auth/username", method: 'GET',headers: {}
+	  }).done( (data)=> {	$("#user").text(data.name);					
+			}).fail((jqXHR, textStatus, errorThrown) =>{print("fail")});
+	
 	// *** MAIN ***\\
 	
-    // *** populate the table ***
+    	// *** populate the table ***
     $("body").on("click", ".switchgear", function(){
 		ssActive=true;
 		plantActive=false;
-		 let table=$("#table");
+		let table=$("#table");
         swgr=$(this).text();
         updateTable();
     });
     $("body").on("click", ".division", function(){
 		ssActive=false;
 		plantActive=true;
-		 let table=$("#table");
+		let table=$("#table");
         division=$(this).text();
         updateTable();
     });
        
-        	
-
-    // *** submit ***
-    $("body").on("click", ".submit", function(e){
-        e.preventDefault();
-        // *** post *** \\
-        if(modalMode==2){
-            let url=urlDevices;
-            let device=new Device();
-            device.createFromForm("#form");
-            device.switchgear=swgr;
-            device.post(url);
-            console.log(device);
-            updateTable();
-             // *** put *** \\
-        } else if(modalMode==1){
-            let url=urlDevicesId+curId;
-             let device=new Device();
-            device.createFromForm("#form");
-            device.put(url).then(()=>updateTable());
-        }
-    })
-    // *** delete ***
-    $("body").on("click", ".delete", function(e){
-        if (confirm('sure?')) {
-            let id=$(this).attr('id');
-            id=id.substring(1,id.length);
-            let url=urlDevicesId+id;
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                success: function(result) {
-                    console.log("Successfully deleted");
-                    updateTable();
-                },
-                error: function (){
-                    console.log("not deleted")
-                }
-            });
-        };
-    });
   
-    // Checkbox management
+    	// Checkbox management
     $(".checkbox").on('change', function() {
         if ($(this).is(':checked')) {
             $(this).attr('value', 'true');
@@ -141,6 +104,18 @@ $(document).ready(function () {
             $(this).attr('value', 'false');
         }
     });
+    
+    	// *** delete ***
+    $("body").on("click", ".delete", function(e){
+        if (confirm('sure?')) {
+            let id=$(this).attr('id');
+            id=id.substring(1,id.length);
+            let url=urlDevicesId+id;
+            $.ajax({url: url, type: 'DELETE'}).then((data, textStatus, jqXHR)=>{print(jqXHR.responseText);updateTable()})
+            											.catch((jqXHR, textStatus, errorThrown)=>{print(jqXHR.responseText)});
+        };
+    });
+    
     	// *** modal *** \\
     $("body").on("click", ".modal-toggle", function(e){
         e.preventDefault();
@@ -161,19 +136,63 @@ $(document).ready(function () {
                 drawForm(modalMode);
                 Promise.all([$.get(urlIed),$.get(urlSS),$.get(urlPlants)])
                															.then((data)=>{appendOptions(data);});
-            }else if ($(this).hasClass('report')){
+            }else if ($(this).hasClass('login')){
                 modalMode=4;
+                drawForm(modalMode);
+            }else if ($(this).hasClass('report')){
+                modalMode=5;
                 prepareReport();
             }
             $('.modal').fadeIn( 200, "swing" );
             $('.modal').draggable();
             return;
         }
-        if($(this).hasClass('close')){
-                modalMode=0;
-                drawForm(modalMode);
+        if($(this).hasClass('close') || $(this).hasClass('submit')){
                 
-            }
+                
+	        if($(this).hasClass('submit')){
+					   e.preventDefault();
+		        // *** post *** \\
+		        if(modalMode==2){
+		            let url=urlDevices+"/";
+		            let device=new Device();
+		            device.createFromForm("#form");
+		            device.switchgear=swgr;
+		            device.post(url).then((data, textStatus, jqXHR)=>{print(jqXHR.responseText);updateTable()}).catch((jqXHR, textStatus, errorThrown)=>{print(jqXHR.responseText)});
+		             // *** put *** \\
+		        } else if(modalMode==1){
+		            let url=urlDevicesId+curId;
+		             let device=new Device();
+		            device.createFromForm("#form");
+		            let request=device.put(url);
+		            request.done((data, textStatus, jqXHR)=>{print(jqXHR.responseText);updateTable()}).fail((jqXHR, textStatus, errorThrown)=>{print(jqXHR.responseText)});
+		        }else if(modalMode==4){
+					let xhr=new XMLHttpRequest();
+					xhr.open("POST", address+"/auth/authenticate", true);
+					xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+					print(xhr.getAllResponseHeaders());
+					xhr.send(AuthReq.createFromForm($("#form")).serialize());
+				    xhr.onreadystatechange = function() {
+						  if (xhr.readyState != 4 && xhr.status === 200) {
+						    return
+						  }
+						 jwt=JSON.parse(xhr.responseText);localStorage.setItem("token", jwt.token);
+						}
+					//xhrobj.onreadystatechange=()=>{
+						//if (this.readyState == 4 && this.status == 200) {
+						//print(xhrobj.responseText)}
+						//};
+				//	$.ajax({  url: address+"/auth/authenticate",
+			   		//		  type: 'POST',
+						//      data: AuthReq.createFromForm($("#form")).serialize(),
+						  //    beforeSend: function(request) { request.setRequestHeader('Accept', 'application/json');}
+			  				//														}).then((data, textStatus, jqXHR)=>{jwt=JSON.parse(jqXHR.responseText);localStorage.setItem("token", jwt.token);});
+				}
+	        }
+         modalMode=0;
+         drawForm(modalMode);
+			
+		}
         $('.modal').fadeOut( 200, "swing" );
     });
     
@@ -190,11 +209,7 @@ $(document).ready(function () {
             }else if(plantActive){
 					dynUrl=urlDivisionName+division;;
 			}
-            $.ajax(
-                {
-                    url:dynUrl,
-                    method: 'GET',
-                    dataType: 'json',
+            $.ajax({url:dynUrl, method: 'GET',
                     success: function (data) {
                         $('<div id="tableName" ><h5>'+data.name+'</h5><a class="add modal-toggle fa-thin fa-plus" href="#"></a></div>').insertBefore( $("#table"));
                         drawTable(data.devices);
@@ -288,7 +303,7 @@ $(document).ready(function () {
 								$('.modal-input').append('<div class="row"><input id="name" type="text" name="name" placeholder="name"></input><label class="label">name</label></div>');
 								$('.modal-input').append('<div class="row"><input id="line" type="text" name="line" placeholder="line"></input><label class="label">line</label></div>');
 								$('.modal-input').append('<div class="row"><input id="drawerColumn" type="text" name="drawerColumn" placeholder="drawerColumn"></input><label class="label">column</label></div>');
-								$('.modal-input').append('<div class="row"><input id="drawerRow" type="text" name="drawerRow" placeholder="drawerColumn"></input><label class="label">row</label></div>');
+								$('.modal-input').append('<div class="row"><input id="drawerRow" type="text" name="drawerRow" placeholder="drawerRow"></input><label class="label">row</label></div>');
 								$('.modal-input').append('<div class="row"><input id="power" type="text" name="power" placeholder="power"></input><label class="label">power</label></div>');
 								$('.modal-input').append('<div class="row"><input id="hostAddress" type="text" name="hostAddress" placeholder="ip"></input><label class="label">ip</label></div>');
 								$('.modal-input').append('<div class="row"><input id="incomer" type="checkbox" name="incomer" placeholder="incomer"></input><label class="label">incomer</label></div>');
@@ -302,6 +317,12 @@ $(document).ready(function () {
 								$('.modal-input').append('<div class="row"><input id="description" type="text" name="description" placeholder="description"></input><label class="label">description</label></div>');
 						break;
 						case 3:break;
+						case 4:
+								$('.modal-input').append('<div class="row"><input id="name" type="text" name="name" placeholder="name"></input><label class="label">name</label></div>');
+								$('.modal-input').append('<div class="row"><input id="password" type="password" name="password" placeholder="password"></input><label class="label">password</label></div>');
+								
+							break;
+						case 5:break;
 						default:
 					}
 					resolve();
@@ -350,12 +371,10 @@ $(document).ready(function () {
                     form.find("#consumer").val(data.consumer==true?'true':'false');
        
     };
-	function print(arg){
-		console.log(arg);
-	}
-	function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
+    
+	function print(arg){console.log(arg);}
+	
+	function delay(time) { return new Promise(resolve => setTimeout(resolve, time));}
 
 
 
@@ -398,39 +417,18 @@ $(document).ready(function () {
             return map;
         }
         post(url){
-            let jqxhr=$.ajax(
-                {
-                    type:"POST",
-                    url:url,
-                    contentType: "application/json; charset=utf-8",
-                    traditional: true,
-                    data:this.serialize(),
-                    success: function() {
-                        console.log("Successfully added");
-                    },
-                    error: function (){
-                        console.log("not added")
-                    }
-                });
-                 return jqxhr;
-        };
+           return 	$.ajax({  url: url,
+			   				  type: 'POST',
+						      data: this.serialize(),
+			  })
+			};
         put(url){
-            let jqxhr= $.ajax(
-                {
-                    type:"PUT",
-                    url:url,
-                    contentType: "application/json; charset=utf-8",
-                    traditional: true,
-                    data:this.serialize(),
-                    success: function() {
-                        console.log("Successfully added");
-                    },
-                    error: function (){
-                        console.log("not added")
-                    }
-                });
-                  return jqxhr;
-        }
+			return 	$.ajax({ type: 'PUT',
+						      url: url,
+						      data: this.serialize()
+			    										});
+			};
+        
         serialize(){
           return  JSON.stringify(this);
         }
@@ -442,8 +440,27 @@ $(document).ready(function () {
         }
       
     }
+    
+    class AuthReq{
+		name;
+		password;
+		constructor(name,password){
+			this.name=name;
+			this.password=password
+		} 
+		static createFromForm(form){
+            let arr=$(form).serializeArray();
+             let map=new Map(arr.map((obj) => [obj.name, obj.value]));
+             let auth=new AuthReq();
+            auth.password=map.get("password");
+            auth.name=map.get("name");
+            return auth;
+        }
+         serialize(){
+          return  JSON.stringify(this);
+        }
+	}
 
 
     // *** END ***
-});
-
+})

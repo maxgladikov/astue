@@ -1,17 +1,11 @@
 package astue.service;
 
+import astue.exception.ResourceNotFoundException;
 import astue.model.Substation;
 import astue.repository.SubstationRepository;
-import astue.util.CustomResponse;
-import astue.util.CustomStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class SubstationServiceImpl implements SubstationService{
@@ -29,13 +23,13 @@ public class SubstationServiceImpl implements SubstationService{
 	}
 
 	@Override
-	public Optional<Substation> getById(Long id) {
-		return substationRepository.findById(id);
+	public Substation getById(Long id) {
+		return substationRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Entity with id="+id+"not found"));
 	}
 
 	@Override
-	public Optional<Substation> getByName(String name) {
-		return substationRepository.findByName(name);
+	public Substation getByName(String name) {
+		return substationRepository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Entity with name="+name+"not found"));
 	}
 
 
