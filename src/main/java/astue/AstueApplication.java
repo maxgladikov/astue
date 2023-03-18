@@ -29,7 +29,7 @@ import java.util.Comparator;
 @EnableScheduling
 @RequiredArgsConstructor
 public class AstueApplication implements CommandLineRunner{
-	private final SpringAux aux;
+//	private final SpringAux aux;
 	private final UserService userService;
 	private final PasswordEncoder encoder;
 //	private final DeviceService deviceService;

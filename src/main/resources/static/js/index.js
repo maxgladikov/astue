@@ -15,6 +15,7 @@ $(document).ready(function () {
     let urlSwgrName=address+'/switchgears/name/';
     let urlDivisionName=address+'/divisions/name/';
     let urlIed=urlDevices+'/ied';
+    let urlUser=address+"/auth/username";
     let modalMode;
     let divisionMode=false;
     let substationMode=false;
@@ -73,9 +74,27 @@ $(document).ready(function () {
             }
         })
 	// *** AUTH ***\\
-	  $.ajax({url: address+"/auth/username", method: 'GET',headers: {}
-	  }).done( (data)=> {	$("#user").text(data.name);					
-			}).fail((jqXHR, textStatus, errorThrown) =>{print("fail")});
+	  $.get(urlUser)
+	  			.then( (data)=> {	if(data.name!='anon'){
+											  				$("#user").text(data.name); 
+														  	$('#login').fadeOut(0);
+														  	$('#logout').fadeIn(0);
+														  	print('done');
+														  	
+									  	}else{
+														  	$("#user").text(''); 
+														  	$('#login').fadeIn(0);
+														  	$('#logout').fadeOut(0);
+														  	print('else');
+															  }
+															  
+														  	
+				}).catch((jqXHR, textStatus, errorThrown) =>{
+									$("#user").text('anon'); 
+								  	$('#login').fadeIn();
+								  	$('#logout').fadeOut();
+								});
+		 $("body").on("click", "#logout", ()=>{localStorage.setItem("token",'');});							
 	
 	// *** MAIN ***\\
 	
@@ -178,15 +197,6 @@ $(document).ready(function () {
 						  }
 						 jwt=JSON.parse(xhr.responseText);localStorage.setItem("token", jwt.token);
 						}
-					//xhrobj.onreadystatechange=()=>{
-						//if (this.readyState == 4 && this.status == 200) {
-						//print(xhrobj.responseText)}
-						//};
-				//	$.ajax({  url: address+"/auth/authenticate",
-			   		//		  type: 'POST',
-						//      data: AuthReq.createFromForm($("#form")).serialize(),
-						  //    beforeSend: function(request) { request.setRequestHeader('Accept', 'application/json');}
-			  				//														}).then((data, textStatus, jqXHR)=>{jwt=JSON.parse(jqXHR.responseText);localStorage.setItem("token", jwt.token);});
 				}
 	        }
          modalMode=0;
@@ -369,7 +379,6 @@ $(document).ready(function () {
                     form.find("#consumer").prop('checked', data.consumer);
                     form.find("#incomer").val(data.incomer==true?'true':'false');
                     form.find("#consumer").val(data.consumer==true?'true':'false');
-       
     };
     
 	function print(arg){console.log(arg);}
@@ -419,8 +428,7 @@ $(document).ready(function () {
         post(url){
            return 	$.ajax({  url: url,
 			   				  type: 'POST',
-						      data: this.serialize(),
-			  })
+						      data: this.serialize() })
 			};
         put(url){
 			return 	$.ajax({ type: 'PUT',

@@ -70,6 +70,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
 				<!-- TOOLS-->
 		<dependency>
 		        <groupId>com.intelligt.modbus</groupId>
@@ -140,11 +146,40 @@
 
 
 	<build>
+		<testResources>
+		  <testResource>
+		    <directory>src/test/resources</directory>
+		  </testResource>
+		</testResources>
+		
+		<resources>
+	        <resource>
+	            <filtering>true</filtering>
+	            <directory>src/test/resources</directory>
+	            <includes>
+	                <include>**/*.properties</include>
+	            </includes>
+	            <excludes>
+	                <exclude>**/*local.properties</exclude>
+	            </excludes>
+	        </resource>
+	        <resource>
+	            <directory>src/main/resources</directory>
+	            <includes>
+	                <include>**/*.properties</include>
+	                <include>**/*.xml</include>
+	            </includes>
+	        </resource>
+   		 </resources>
+   		 
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<profiles>
+		                <profile>dev</profile>
+		            </profiles>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
