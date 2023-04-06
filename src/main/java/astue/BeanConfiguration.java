@@ -2,10 +2,12 @@ package astue;
 
 import astue.model.Device;
 import astue.repository.UserRepository;
-import astue.service.ModbusAgent;
-import astue.service.ModbusAgentFactory;
+import astue.service.FieldDataModbusPlc4jService;
+import astue.service.FieldDataService;
 import astue.service.UserService;
 import lombok.RequiredArgsConstructor;
+
+import java.util.function.Function;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
@@ -26,11 +28,6 @@ public class BeanConfiguration {
 	
 	private final UserRepository userRepository;
     
-	@Bean
-    @Scope(BeanDefinition.SCOPE_SINGLETON)
-    public ModbusAgentFactory getModbusFactory(){
-        return new ModbusAgentFactory();
-    }
 	
 	
 	
@@ -53,9 +50,21 @@ public class BeanConfiguration {
 		return new UserService(userRepository);
 	}
 	
-	@Bean
+	@Bean(name="password")
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+	public Function<Device,FieldDataService> fieldDataServiceFactory() {
+		return device-> fieldDataService(device);
+	}
+	
+	@Bean
+	@Scope(value="prototype")
+	public FieldDataService fieldDataService(Device device) {
+		return new FieldDataModbusPlc4jService(device);
+	}
+	
 
 }

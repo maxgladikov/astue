@@ -25,7 +25,6 @@ import java.util.Comparator;
 
 
 @SpringBootApplication//(exclude={DataSourceAutoConfiguration.class})
-//@EnableTransactionManagement
 @EnableScheduling
 @RequiredArgsConstructor
 public class AstueApplication implements CommandLineRunner{

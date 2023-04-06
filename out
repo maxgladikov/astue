@@ -1,0 +1,30 @@
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava UP-TO-DATE
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses UP-TO-DATE
+
+> Task :test FAILED
+
+FieldDataModbusPlc4jServiceTest > test() FAILED
+    java.lang.IllegalStateException at DefaultCacheAwareContextLoaderDelegate.java:142
+        Caused by: org.springframework.beans.factory.BeanCreationException at AbstractAutowireCapableBeanFactory.java:1762
+            Caused by: jakarta.persistence.PersistenceException at AbstractEntityManagerFactoryBean.java:421
+                Caused by: java.lang.IllegalStateException at MappingModelCreationProcess.java:146
+5 actionable tasks: 1 executed, 4 up-to-date
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :compileTestJava
+> Task :processTestResources UP-TO-DATE
+> Task :testClasses
+
+> Task :test FAILED
+
+FieldDataModbusPlc4jServiceTest > test() FAILED
+    java.lang.IllegalStateException at DefaultCacheAwareContextLoaderDelegate.java:142
+        Caused by: org.springframework.beans.factory.BeanCreationException at AbstractAutowireCapableBeanFactory.java:1762
+            Caused by: jakarta.persistence.PersistenceException at AbstractEntityManagerFactoryBean.java:421
+                Caused by: java.lang.IllegalStateException at MappingModelCreationProcess.java:146
+5 actionable tasks: 2 executed, 3 up-to-date

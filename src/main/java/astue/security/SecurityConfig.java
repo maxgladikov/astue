@@ -26,8 +26,8 @@ public class SecurityConfig{
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		System.out.println("hello");
 		http.csrf().disable().authorizeHttpRequests()
-							.requestMatchers("/api/v1/auth/**","/api/v1/auth/username","/","/webjars/**","/css/**","/js/**","/images/**")
-//							.requestMatchers("/**")
+//							.requestMatchers("/api/v1/auth/**","/api/v1/auth/username","/","/webjars/**","/css/**","/js/**","/images/**")
+							.requestMatchers("/**")
 							.permitAll()
 							.anyRequest()
 							.authenticated()

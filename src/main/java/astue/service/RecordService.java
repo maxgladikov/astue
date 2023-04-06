@@ -1,10 +1,9 @@
 package astue.service;
 
-import astue.model.Device;
+import astue.model.Record;
 
-import java.util.concurrent.Callable;
 
 public interface RecordService  {
 
-        public void makeRecord(Device device);
+        public void addOne(Record record);
 }

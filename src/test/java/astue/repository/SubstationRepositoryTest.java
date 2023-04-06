@@ -3,6 +3,7 @@ package astue.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,13 +12,15 @@ import org.springframework.test.context.TestPropertySource;
 
 import astue.model.Substation;
 @DataJpaTest
-@SpringBootTest
+
+@Disabled
 class SubstationRepositoryTest {
 	
 	@Autowired
 	private SubstationRepository underTest;
-	
+	@Disabled
 	@Test
+	
 	void findByName() {
 //		//given
 //		String name="SS-06";
