@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Ied {
-    TESYS(1,143,4,"UINT"),
-    F650(1,0xF44,8,"INT"),
+    TESYS(1,144,4,"UINT"),
+    F650(1,0xF45,8,"UINT"),
     ACS6109(1,0xF44,8,"INT"),
     ACS1000(1,0xF44,8,"INT"),
     UPS_V(1,0xF44,8,"INT"),

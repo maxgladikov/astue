@@ -75,8 +75,8 @@ public class Device extends BaseEntity {
 				", description='" + super.getDescription() + '\'' +
 				", ied='" + ied + '\'' +
 				", created=" + created +
-				", switchgear=" + switchgear +
-				", division=" + division +
+				", switchgear=" + switchgear.getName() +
+				", division=" + division.getName() +
 				'}';
 	}
 

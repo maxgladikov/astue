@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
@@ -23,6 +24,7 @@ import org.springframework.test.context.TestPropertySource;
 		  webEnvironment = SpringBootTest.WebEnvironment.MOCK,
 		  classes = {AstueApplication.class}
 		  )
+//@ActiveProfiles(profiles = "integration")
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application.yml")
 //@Disabled

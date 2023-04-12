@@ -3,10 +3,10 @@ $(document).ready(function () {
 
     // *** GLOBAL VARS ***
     let pre="http://";
-    let ip="localhost";
-    //let ip=ip+"192.168.56.1";
+    //let ip="localhost";
+    let ip="10.11.3.35";
     ip=pre+ip;
-    let port="8080";
+    let port="80";
     let address=ip+":"+port+"/api/v1";
     let urlDevices=address+'/devices';
     let urlDevicesId=address+'/devices/';

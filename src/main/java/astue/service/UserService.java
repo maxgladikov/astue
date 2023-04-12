@@ -1,5 +1,7 @@
 package astue.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -44,6 +46,10 @@ private final	UserRepository repository;
 	@Override
 	public boolean userExists(String username) {
 		return repository.findByUsername(username).isPresent();
+	}
+	
+	public List<User> getAll() {
+		return repository.findAll();
 	}
 
 }

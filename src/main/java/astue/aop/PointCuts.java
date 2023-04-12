@@ -15,6 +15,6 @@ public class PointCuts {
     @Pointcut("execution(* astue.service.*.deletex*(..))")
     public void allDeleteMethods(){}
    
-    @Pointcut("execution(* astue.service.*.readFromField(..))")
-    public void allReadFromFieldMethods(){}
+//    @Pointcut("execution(* astue.service.*.readFromField*(..))")
+//    public void allReadFromFieldMethods(){}
 }

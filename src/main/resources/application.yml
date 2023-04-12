@@ -1,3 +1,90 @@
+#spring:
+#    main:
+#        web-application-type: "none"
+        #banner-mode: "off"
+
+server:
+  port: 8080 
+
+custom:
+       populate: true
+
+---
+spring:
+    config:
+        activate:
+            on-profile: default
+    datasource:
+        username: aumadmin
+        password: metafrax
+        url: jdbc:postgresql://localhost:5432/astue
+    jpa:
+        show_sql: true
+        generate-ddl: true
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                      dialect: org.hibernate.dialect.PostgreSQLDialect
+                      ddl-auto: none
+
+
+
+
+---
+spring:
+    config:
+        activate:
+            on-profile: docker
+    datasource:
+        username: aumadmin
+        password: metafrax
+        url: jdbc:postgresql://astue_db:5432/astue
+    jpa:
+        show_sql: true
+        generate-ddl: true
+        hibernate:
+            ddl-auto: none
+        properties:
+            hibernate:
+                      dialect: org.hibernate.dialect.PostgreSQLDialect
+                      ddl-auto: none
+
+logging:
+  pattern:
+      console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint}"
+      file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  level:
+        astue: INFO
+
+
+
+---
+spring:
+    config:
+        activate:
+            on-profile: prod
+    datasource:
+        username: aumadmin
+        password: metafrax
+        url: jdbc:postgresql://localhost:5001/astue
+    jpa:
+        show_sql: false
+        generate-ddl: true
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                      dialect: org.hibernate.dialect.PostgreSQLDialect
+                      ddl-auto: none
+
+logging:
+  pattern:
+      file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  level:
+        astue: ERROR
 
 ---
 spring:
@@ -5,14 +92,14 @@ spring:
         activate:
             on-profile: dev
     datasource:
-        username: admin
-        password: hyundai
-        url: jdbc:postgresql://localhost:5432/astue
+        username: aumadmin
+        password: metafrax
+        url: jdbc:postgresql://localhost:5002/astue
     jpa:
         show_sql: true
         generate-ddl: true
         hibernate:
-            ddl-auto: none
+            ddl-auto: create
         properties:
             hibernate:
                       dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -27,23 +114,57 @@ logging:
         astue: TRACE
               
                       
-    
-server:
-  port: 8080 
-    
-        
-                   
 ---
 
 spring:
     config:
         activate:
             on-profile: test
+            
+    datasource:
+        url: jdbc:h2:mem:mydb
+        username: sa
+        password: password
+        driverClassName: org.h2.Driver
+    jpa:
+      spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+        
+#    datasource:
+#        username: aumadmin
+#        password: metafrax
+#        url: jdbc:postgresql://localhost:5002/astue
+#    jpa:
+#        show_sql: true
+#        generate-ddl: true
+#        hibernate:
+#            ddl-auto: create-drop
+#        properties:
+#            hibernate:
+#                      dialect: org.hibernate.dialect.PostgreSQLDialect
+#                      ddl-auto: none
+
+    
+
+logging:
+  pattern:
+      console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint}"
+      file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  level:
+        astue: TRACE
+
+              
+---
+
+spring:
+    config:
+        activate:
+            on-profile: integration
 
     datasource:
-        username: admin
-        password: hyundai
-        url: jdbc:postgresql://localhost:5432/astue
+        username: aumadmin
+        password: metafrax
+        url: jdbc:postgresql://localhost:5002/astue
     jpa:
         show_sql: true
         generate-ddl: true
@@ -61,16 +182,5 @@ logging:
                         
   level:
         astue: TRACE
-              
+                            
                       
-    
-server:
-  port: 8080 
-                
-            
-            
----
-spring:
-    config:
-        activate:
-            on-profile: prod

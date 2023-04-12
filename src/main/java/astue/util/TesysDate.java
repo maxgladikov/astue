@@ -1,28 +1,30 @@
 package astue.util;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TesysDate {
 
-    private Date date;
+    private LocalDateTime date;
     private  int[] arr=new int[4];
-    private Map<String,Integer> secs;
-    private Map<String,Integer> mins;
-    private Map<String,Integer> hours;
-    private Map<String,Integer> day;
-    private Map<String,Integer> month;
-    private Map<String,Integer> year;
-
+    private String fullPattern="dd MM yyyy HH:mm:ss";
+    
     public static TesysDate getProcessor() {
         return new TesysDate();
     }
+    public static TesysDate getProcessor(LocalDateTime date) {
+    	
+    	return new TesysDate(date);
+    }
 
     private TesysDate() {
-        date=new Date();
+        date=LocalDateTime.now();
+    }
+    private TesysDate(LocalDateTime date) {
+    	this.date=date;
     }
 
     public int[] getDateRegs(){
@@ -45,8 +47,8 @@ public class TesysDate {
 
     private  Map<String,Integer> getTwo(String pat) {
         String pattern = pat;
-        SimpleDateFormat simpleDateFormat =new SimpleDateFormat(pat);
-        String dateString = simpleDateFormat.format(date);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern(pattern); 
+        String dateString = format.format(date);
         Integer num=Integer.valueOf(dateString);
         Integer mostSign= (int) Math.floor(Integer.valueOf(num/10));
         Integer leastSign= num-mostSign*10;
@@ -56,9 +58,9 @@ public class TesysDate {
         return tempMap;
     }
     private  Map<String,Integer> getFour(String pat) {
-        String pattern = pat;
-        SimpleDateFormat simpleDateFormat =new SimpleDateFormat(pat);
-        String dateString = simpleDateFormat.format(date);
+		 String pattern = pat;
+	     DateTimeFormatter format = DateTimeFormatter.ofPattern(pattern); 
+	     String dateString = format.format(date);
         Integer num=Integer.valueOf(dateString);
 
         Integer mostSign= (int) Math.floor(Integer.valueOf(num/1000));

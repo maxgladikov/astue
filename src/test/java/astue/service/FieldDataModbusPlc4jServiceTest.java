@@ -2,6 +2,9 @@ package astue.service;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.apache.plc4x.java.PlcDriverManager;
+import org.apache.plc4x.java.mock.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +36,7 @@ class FieldDataModbusPlc4jServiceTest {
 //@Disabled("Disabled because method is private")
 	@Test
 	@DisplayName("Check if connection string is correct")
+	@Disabled
 	void buildConnectionStringTest() {
 		
 		
@@ -46,11 +50,22 @@ class FieldDataModbusPlc4jServiceTest {
 	
 	@Test
 	@DisplayName("Check if address string is correct")
+	@Disabled
 	void buildAddressStringTest(){
 		String strTesys=serviceTesys.buildAddressString();
 		String strF650=serviceF650.buildAddressString();
 		assertThat(strTesys).isEqualTo("40143:UINT[4]");
 		assertThat(strF650).isEqualTo("43908:INT[8]");
+		
+	}
+	
+	
+	@Test
+	@DisplayName("Check if address string is correct")
+	void mockTesys(){
+		PlcDriverManager driverManager = new PlcDriverManager();
+//		PlcMockConnection connection = (PlcMockConnection) driverManager.getConnection("mock:my-mock-connection");
+		
 		
 	}
 	

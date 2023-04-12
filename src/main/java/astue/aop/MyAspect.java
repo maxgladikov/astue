@@ -1,11 +1,12 @@
 package astue.aop;
 
+import astue.exception.fieldbus.DeviceNotAvailable;
+import astue.exception.fieldbus.ResponseTimeOutException;
 import astue.model.BaseEntity;
 import astue.model.Device;
 import astue.util.CustomResponse;
 import astue.util.CustomStatus;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -124,33 +125,35 @@ public class MyAspect {
         log.info("*** Entity with id {} was deleted ***",entityId.toString());
         return result;
     }
-    // READ FROM FIELD
-    @Around("PointCuts.allReadFromFieldMethods()")
-    public Object aroundReadFromFieldAdvice(ProceedingJoinPoint joinPoint) {
-    	
-    	Device device = null;
-    		Object[] arguments = joinPoint.getArgs();
-    		for (Object arg : arguments) {
-    			if (arg instanceof Device) {
-    				device = (Device) arg;
-    				log.info("*** Trying to read from {} of type {} ***",  device.getName(),device.getId().toString());
-    			}
-    		}
-    		
-    	Object result;
-    	try {
-    		result=joinPoint.proceed();
-    	} catch (Throwable e) {
-    		log.error("*** "+e.getMessage(),e);
-    		result= new Object();
-    	}
-    	log.info("*** Reading from device {} successfully completed ***",device.getName());
-    	return result;
-    }
-    
-//    // READ FROM FIELD EXCEPTIONHANDLING
-//    @AfterThrowing("PointCuts.allReadFromFieldMethods()", throwing = "ex")
-//    public void logError(Exception ex) {
-//        ex.printStackTrace();
+  
+//    @Around("PointCuts.allReadFromFieldMethods()")
+//    public Object aroundReadFromFieldAdvice(ProceedingJoinPoint joinPoint)  {
+//    	System.out.println("AOP*************");
+//    	Device device = null;
+//    		Object[] arguments = joinPoint.getArgs();
+//    		for (Object arg : arguments) {
+//    			if (arg instanceof Device) {
+//    				device = (Device) arg;
+//    				log.info("*** Trying to read from {} of type {} ***",  device.getName(),device.getId().toString());
+//    			}
+//    		}
+//    		
+//    	Object result = null;
+//    	try {
+//    		result=joinPoint.proceed();
+//    	} catch (DeviceNotAvailable e) {
+//    		log.error("Device {} with ip {} is unreachable",device.getName(),device.getHostAddress());
+//    		result= new Object();
+//    	} catch (ResponseTimeOutException e) {
+//    		log.error("Device {} with ip {} is exeeded respone timeout",device.getName(),device.getHostAddress());
+//    		result= new Object();
+//		} catch (Throwable e) {
+//			log.error("*** "+e.getMessage(),e);
+//            result= new Object();
+//		}
+//    	log.info("*** Reading from device {} successfully completed ***",device.getName());
+//    	return result;
 //    }
 }
+    
+  

@@ -1,16 +1,24 @@
 package astue.service;
-import astue.model.*;
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-import java.util.Arrays;
-import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import astue.model.Device;
+import astue.model.Division;
+import astue.model.Plant;
+import astue.model.Role;
+import astue.model.Substation;
+import astue.model.Switchgear;
+import astue.model.User;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +26,13 @@ public class SpringAux {
 	private final PlantService plantService;
     private final  ApplicationContext ctx;
     private final  SubstationService substationService;
-    private Pool pool;
     private final DeviceFactory deviceFactory;
     private final DeviceServiceImpl deviceService;
-
+    private final UserService userService;
+   	private final PasswordEncoder encoder;
+   	private final Environment environment;
+   	@Value("${custom.populate}")
+	private boolean  fillDbRequest;
     public void getContext(){
 //        *********  CTX  ********
         System.out.println("#####################");
@@ -31,7 +42,25 @@ public class SpringAux {
         System.out.println("#####################");
 //		ctx.getBean;
     }
+    
+    
+    public void printProp() {
+    	System.out.println(this.environment.getActiveProfiles()[0]);
+    }
+   
+	
+	public void createDefaultUser() {
+		var anyUserPresent=!Optional.ofNullable(userService.getAll()).orElseThrow().isEmpty();
+		System.out.println("*********** any user:"+anyUserPresent);
+		if (!anyUserPresent) 
+				userService.createUser(User.builder().active(true).username("aumadmin").password(encoder.encode("metafrax")).role(Role.ADMIN).build());
+	}
+    
     public void populate(){
+    	if (!fillDbRequest) {
+    						System.out.println("No population");
+    						return;
+    						}
         // *** PLANTS *** \\
         Plant melamine = new Plant("L-40", "MELAMINE");
         Plant ammonia = new Plant("A-20", "AMMONIA");
@@ -87,7 +116,7 @@ public class SpringAux {
         ss06.setSwitchgears(Arrays.asList(ss06EPMCC3001,ss06PMCC3002));
         ss07.setSwitchgears(Arrays.asList(ss07SWGR1001,ss07ESWGR1001,ss07EPMCC001,ss85SWGR));
         ss09.setSwitchgears(Arrays.asList(ss09EPMCC001));
-        System.out.println(" **************** START ****************** ");
+        System.out.println(" **************** START POPULATE****************** ");
         plantService.add(melamine);
         plantService.add(urea);
         plantService.add(ammonia);
@@ -101,12 +130,64 @@ public class SpringAux {
         substationService.add(ss06);
         substationService.add(ss07);
         substationService.add(ss09);
-
-        System.out.println("******** DEVICES *********");
-        Set<Device> devices=deviceFactory.createDevices("/home/max/Downloads/PlantData - ASTUE.csv");
-        devices.stream().
-//                peek(System.out::println).
-                forEach(deviceService::add);
         System.out.println("******** COMPLETED *********");
+      
     }
+    public void populateDevices() {
+    	  System.out.println("******** DEVICES *********");
+          String activeProfile="default";
+          String path="/home/max/Downloads/PlantData - ASTUE.csv";
+          if (this.environment.getActiveProfiles().length!=0) {
+          	 activeProfile=this.environment.getActiveProfiles()[0];
+          	 
+        	 
+          if (activeProfile.equals("docker")) {
+          	path="/app/PlantData.csv";
+          }
+          System.out.println(path);
+          Set<Device> devices=deviceFactory.createDevices(path);
+          devices.stream().
+//                  peek(System.out::println).
+                  forEach(deviceService::add);
+          System.out.println("******** COMPLETED *********");
+          }
+    }
+    public void populateTest() {
+    	System.out.println("******** DEVICES TEST*********");
+    	
+//    	Device tesysTime=Device.newBuilder()
+//				.setName("10MP1003A")
+//				.setConsumer(true)
+//				.setIed("TESYS")
+//				.setIp("192.168.56.109")
+//				.build();
+    	Device tesys=Device.newBuilder()
+				.setName("10MP1003A")
+				.setConsumer(true)
+				.setIed("TESYS")
+				.setIp("172.16.120.129")
+				.build();
+		Device f650=Device.newBuilder()
+				.setName("03-LVE2-52I1")
+				.setConsumer(true)
+				.setIed("F650")
+				.setIp("172.16.98.126")
+				.build();
+		Device f651=Device.newBuilder()
+				.setName("03-LVE2-52I2")
+				.setConsumer(true)
+				.setIed("F650")
+				.setIp("172.16.98.127")
+				.build();
+    	
+    	
+    		Set<Device> devices=new HashSet<>();
+//    		devices.add(tesysTime);
+    		devices.add(tesys);
+    		devices.add(f650);
+    		devices.add(f651);
+    		devices.stream().
+    		forEach(deviceService::add);
+    		System.out.println("******** COMPLETED TEST*********");
+    	}
 }

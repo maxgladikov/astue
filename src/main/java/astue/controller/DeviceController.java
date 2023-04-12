@@ -40,51 +40,18 @@ import astue.service.SwitchgearService;
 import astue.util.Ied;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(path="/api/v1/devices",produces="application/json")
 public class DeviceController {
-	@Autowired
-	private  DeviceServiceImpl service;
-	@Autowired
-	private  SwitchgearService switchgearService;
-	@Autowired
-	private  DivisionService divisionService;
+	private final  DeviceServiceImpl service;
+	private final  SwitchgearService switchgearService;
+	private final DivisionService divisionService;
 
 
-//	@RequestMapping(value ="/report" )
-//	public void downloadCSV(HttpServletResponse response) throws IOException {
-	@RequestMapping(value ="/report/{startDate}/{endDate}" )
-	public void downloadCSV(
-			@PathVariable("startDate") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate startDate,
-			@PathVariable("endDate") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate endDate,
-			HttpServletResponse response) throws IOException {
-		System.out.println("*********** startDate= "+startDate);
-		System.out.println("*********** endDate= "+endDate);
-		String csvFileName = "devices.csv";
-		response.setContentType("text/csv");
-		// creates mock data
-		String headerKey = "Content-Disposition";
-		String headerValue = String.format("attachment; filename=\"%s\"",
-				csvFileName);
-		response.setHeader(headerKey, headerValue);
-//		List<Device> data=service.getAll();
 
-		// uses the Super CSV API to generate CSV data from the model data
-		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
-				CsvPreference.STANDARD_PREFERENCE);
-		String[] header = { "name",  "hostAddress", "line",
-				"incomer",  "consumer","ied","power","voltage" ,"description"};
-		csvWriter.writeHeader(header);
-		service.getAll().stream().forEach(x-> {
-			try {
-				csvWriter.write(x,header);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		});
-		csvWriter.close();
-	}
 //	@GetMapping("/api/v1/reportSS/{startDate}/{endDate}")
 //	public ResponseEntity<Resou>
 	

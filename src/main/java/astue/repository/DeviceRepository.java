@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DeviceRepository extends JpaRepository< Device,Long> {
-    @EntityGraph(attributePaths = {"division"})
+    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH,attributePaths = {"division","switchgear"})
     public List<Device> findAll();
 
     Optional<Device> findByName(String name);

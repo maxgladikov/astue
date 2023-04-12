@@ -41,8 +41,5 @@ public class Record {
 	@CreationTimestamp
 	@Column(updatable=false,nullable = false)
 	private LocalDateTime created;
-//	@UpdateTimestamp
-//	@Column(nullable = false)
-//	private LocalDateTime updated;
 
 }
