@@ -3,6 +3,7 @@ package astue.service;
 import astue.exception.ResourceNotFoundException;
 import astue.model.Switchgear;
 import astue.repository.SwitchgearRepository;
+import astue.service.interfaces.SwitchgearService;
 import astue.util.CustomResponse;
 import astue.util.CustomStatus;
 import org.springframework.stereotype.Service;

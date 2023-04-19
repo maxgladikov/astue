@@ -4,8 +4,11 @@ $(document).ready(function () {
     // *** GLOBAL VARS ***
     let pre="http://";
     //let ip="localhost";
+    //let ip="192.168.180.59";
+    //let ip="192.168.56.1";
     let ip="10.11.3.35";
     ip=pre+ip;
+    //let port="8080";
     let port="80";
     let address=ip+":"+port+"/api/v1";
     let urlDevices=address+'/devices';
@@ -16,6 +19,7 @@ $(document).ready(function () {
     let urlDivisionName=address+'/divisions/name/';
     let urlIed=urlDevices+'/ied';
     let urlUser=address+"/auth/username";
+    let urlRecordsReport="/report/records/";
     let modalMode;
     let divisionMode=false;
     let substationMode=false;
@@ -47,6 +51,9 @@ $(document).ready(function () {
 	container.parent().siblings().find('ul').fadeOut(300);
 	}
 	});
+	
+	
+	
     // drop down menu fill in  substations
     $.ajax({url: urlSS, method: 'GET'})
     	.done( (data)=> {
@@ -136,6 +143,9 @@ $(document).ready(function () {
     });
     
     	// *** modal *** \\
+    	
+    	
+			
     $("body").on("click", ".modal-toggle", function(e){
         e.preventDefault();
         if($('.modal').css('display')=="none"){
@@ -185,6 +195,12 @@ $(document).ready(function () {
 		            device.createFromForm("#form");
 		            let request=device.put(url);
 		            request.done((data, textStatus, jqXHR)=>{print(jqXHR.responseText);updateTable()}).fail((jqXHR, textStatus, errorThrown)=>{print(jqXHR.responseText)});
+		        } else if(modalMode==5){
+		            let fromDate=$('.modal-input').find('#inputDateFrom').val();
+		            let toDate=$('.modal-input').find('#inputDateTo').val();
+		            let url=address+urlRecordsReport+fromDate+'/'+toDate;
+		             window.location.href = url;
+		               
 		        }else if(modalMode==4){
 					let xhr=new XMLHttpRequest();
 					xhr.open("POST", address+"/auth/authenticate", true);
@@ -384,7 +400,20 @@ $(document).ready(function () {
 	function print(arg){console.log(arg);}
 	
 	function delay(time) { return new Promise(resolve => setTimeout(resolve, time));}
-
+	
+	function prepareReport(){
+		$('.modal-input').append("<label class='label'>from</label>");
+		$('.modal-input').append('<input id="inputDateFrom" type="text" >').promise().done(function() {
+						    $(this).find('#inputDateFrom').datetimepicker( {format:'d.m.Y_H:m'});
+						});
+		$('.modal-input').append("<label class='label'>to</label>");
+		$('.modal-input').append('<input id="inputDateTo" type="text" >').promise().done(function() {
+						    $(this).find('#inputDateTo').datetimepicker({format:'d.m.Y_H:m'});
+						});
+		
+		
+	};
+	
 
 
     // *** CLASSES *** \\
@@ -468,6 +497,7 @@ $(document).ready(function () {
           return  JSON.stringify(this);
         }
 	}
+	
 
 
     // *** END ***

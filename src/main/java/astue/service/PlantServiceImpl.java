@@ -3,6 +3,8 @@ package astue.service;
 import astue.exception.ResourceNotFoundException;
 import astue.model.Plant;
 import astue.repository.PlantRepository;
+import astue.service.interfaces.PlantService;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 

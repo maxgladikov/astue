@@ -36,7 +36,7 @@ public class Switchgear extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "PMCC [name=" + this.getName()+"]";
+		return "Switchgear [substation=" + substation.getName() + ", devices=" + devices + "]";
 	}
 	
 

@@ -3,17 +3,22 @@ package astue.service;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.apache.plc4x.java.api.exceptions.PlcConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import astue.model.Device;
+import astue.model.PowerRecord;
+import astue.service.interfaces.DeviceService;
+import astue.service.interfaces.FieldDataService;
+import astue.service.interfaces.RecordService;
 
 @Service
+@EnableScheduling
 @RequiredArgsConstructor
 public class Task {
 	private final RecordService recordService;
@@ -21,41 +26,47 @@ public class Task {
 	private final Function<Device,FieldDataService> fieldDataServiceFactory;
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Scheduled(cron="0 0,12 * * * ?")
-//    @Scheduled(cron="0,30 * * * * ?")
-//    @Scheduled(cron="30,0 * * * * ?")
-//    @Scheduled(cron="0,5 * * * * ?")
+    @Scheduled(cron="${interval-poll}")
 	public void doMeter() {
-    	System.out.println("****************  Task read comsumtion started  *******************");
-		List<Device> devices=deviceService.getAll().stream().filter(c -> c.isConsumer() == true)
-//				.peek(System.out::println)
-				.collect(Collectors.toList());
-	    devices.stream().forEach(x -> {
-				try {
-					recordService.addOne(fieldDataServiceFactory.apply(x).get());
-				} catch (PlcConnectionException e) {
-					log.error(e.getMessage());
-				}
+    	log.info("****************  Task read comsumption started  *******************");
+    	
+		List<Device> devices=deviceService.getAll().stream().filter(Device::isConsumer).toList();
+	    
+		devices.stream().forEach(x -> {
+				try{
+			recordService.addOne(fieldDataServiceFactory.apply(x).proceedConsumptionReading());
+					} catch (PlcConnectionException e) {
+						log.error(e.getMessage());
+					} 
 		});
-		System.out.println("************** Task read comsumtion **************");
+	    log.info("************** Task read comsumption completed **************");
 	}
-    @Scheduled(cron="0 0,24 * * * ?")
-//	@Scheduled(cron="30,0 * * * * ?")
-//	@Scheduled(cron="0,10 * * * * ?")
-	public void synchronizeTesysClock() {
-		System.out.println("****************  Task synchronizing started  *******************");
+    
+    @Scheduled(cron="${interval-sync}")
+	public void doSynchronizeTesysClock() {
+    	log.info("****************  Task synchronizing started  *******************");
 		List<Device> devices=deviceService.getAll().stream()
 															.filter(c -> c.isConsumer() == true)
 															.filter(c -> c.getIed().name().equals("TESYS"))
-//				.peek(System.out::println)
-				.collect(Collectors.toList());
+															.toList();
 		devices.stream().forEach(x -> {
 			try {
-				fieldDataServiceFactory.apply(x).execute();
+				fieldDataServiceFactory.apply(x).proceedTimeSynch();
 			} catch (PlcConnectionException e) {
 				log.error(e.getMessage());
 			}
 		});
-		System.out.println("************** Task synchronizing **************");
+		log.info("************** Task synchronizing completed **************");
 	}
 }
+
+//
+//┌───────────── second (0-59)
+//│ ┌───────────── minute (0 - 59)
+//│ │ ┌───────────── hour (0 - 23)
+//│ │ │ ┌───────────── day of the month (1 - 31)
+//│ │ │ │ ┌───────────── month (1 - 12) (or JAN-DEC)
+//│ │ │ │ │ ┌───────────── day of the week (0 - 7)
+//│ │ │ │ │ │          (or MON-SUN -- 0 or 7 is Sunday)
+//│ │ │ │ │ │
+//* * * * * *

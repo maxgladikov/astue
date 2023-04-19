@@ -1,6 +1,6 @@
 package astue.repository;
 
-import astue.model.Record;
+import astue.model.PowerRecord;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface RecordRepository extends JpaRepository<Record,Long> {
+public interface RecordRepository extends JpaRepository<PowerRecord,Long> {
 	 @EntityGraph(type = EntityGraph.EntityGraphType.FETCH,attributePaths = {"device"})
-		Optional<List<Record>> findAllByCreatedBetween(LocalDateTime from,LocalDateTime to);
+		Optional<List<PowerRecord>> findAllByCreatedBetween(LocalDateTime from,LocalDateTime to);
 }

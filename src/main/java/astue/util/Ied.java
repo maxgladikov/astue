@@ -6,6 +6,7 @@ import java.util.Map;
 public enum Ied {
     TESYS(1,144,4,"UINT"),
     F650(1,0xF45,8,"UINT"),
+    ATV630(1,410628,2,"UINT"),
     ACS6109(1,0xF44,8,"INT"),
     ACS1000(1,0xF44,8,"INT"),
     UPS_V(1,0xF44,8,"INT"),
@@ -14,7 +15,6 @@ public enum Ied {
     ACS880(1,0xF44,8,"INT"),
     ACS800(1,0xF44,8,"INT"),
     G180(1,0xF44,8,"INT"),
-    ATV630(1,0xF44,8,"INT"),
     REG615(1,0xF44,8,"INT");
     private static final Map<Integer, Ied> BY_SLAVE_ID = new HashMap<>();
     private static final Map<Integer, Ied> BY_START_ADDRESS = new HashMap<>();

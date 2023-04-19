@@ -1,4 +1,4 @@
-package astue.service;
+package astue.service.interfaces;
 
 import astue.model.Division;
 

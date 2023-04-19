@@ -32,7 +32,7 @@ public class Plant extends BaseEntity {
 	@OneToMany(mappedBy ="plant",fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
 	private List<Division> divisions=new ArrayList<>();
 
-	public void addDevice(Division division){
+	public void addDevsions(Division division){
 		divisions.add(division);
 	}
 }

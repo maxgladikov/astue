@@ -4,13 +4,15 @@ package astue.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.apache.plc4x.java.PlcDriverManager;
-import org.apache.plc4x.java.mock.*;
+import org.apache.plc4x.java.api.exceptions.PlcConnectionException;
+import org.apache.plc4x.java.mock.connection.MockConnection;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 import astue.model.Device;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -59,15 +61,17 @@ class FieldDataModbusPlc4jServiceTest {
 		
 	}
 	
-	
-	@Test
-	@DisplayName("Check if address string is correct")
-	void mockTesys(){
-		PlcDriverManager driverManager = new PlcDriverManager();
-//		PlcMockConnection connection = (PlcMockConnection) driverManager.getConnection("mock:my-mock-connection");
-		
-		
-	}
+//	
+//	@Test
+//	@DisplayName("Check if address string is correct")
+//	void mockTesys() throws PlcConnectionException{
+//		PlcDriverManager driverManager = new PlcDriverManager();
+//		MockConnection connection = (MockConnection) driverManager.getConnection("mock:my-mock-connection");
+//		connection.setDevice(mockDevice);
+////		PlcMockConnection connection = (PlcMockConnection) driverManager.getConnection("mock:my-mock-connection");
+//		
+//		
+//	}
 	
 	
 //	assertThatThrownBy(() -> {
@@ -75,6 +79,19 @@ class FieldDataModbusPlc4jServiceTest {
 //	    list.get(2);
 //	}).isInstanceOf(IndexOutOfBoundsException.class)
 //	  .hasMessageContaining("Index: 2, Size: 2");
+	
+//	MockDevice mockDevice = new MockDevice() {
+//
+//	    Pair<PlcResponseCode, PlcValue> read(String fieldQuery) {
+//	        System.out.println("I got a read to " + fieldQuery);
+//	        return Pair.of(PlcResponseCode.OK, new PlcString("hello"));
+//	    }
+//
+//	    PlcResponseCode write(String fieldQuery, Object value) {
+//	        System.out.println("I got a write to " + fieldQuery + " with the value " + value);
+//	        return PlcResponseCode.OK;
+//	    }
+//	};
 	
 
 }

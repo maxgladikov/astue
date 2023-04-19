@@ -5,6 +5,8 @@ import astue.model.Division;
 import astue.model.Plant;
 import astue.repository.DivisionRepository;
 import astue.repository.PlantRepository;
+import astue.service.interfaces.DivisionService;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

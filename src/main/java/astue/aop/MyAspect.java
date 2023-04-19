@@ -40,7 +40,8 @@ public class MyAspect {
             log.error("*** "+e.getMessage(),e);
             result= new Object();
         }
-        log.info("*** Entity with name {} was added ***",entity.getName());
+//        log.info("*** Entity with name {} was added ***",entity.getName());
+        log.info("*** Entity with was added ***");
         return result;
     }
     // GETTERS

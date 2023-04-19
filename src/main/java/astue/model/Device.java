@@ -5,20 +5,29 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import astue.util.DeviceDeserializer;
 import astue.util.DeviceSerializer;
 import astue.util.Ied;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 @NoArgsConstructor
 @Entity
@@ -29,7 +38,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @JsonDeserialize(using = DeviceDeserializer.class)
 public class Device extends BaseEntity {
 	private static final long serialVersionUID = -1405799293989434211L;
-	@NotNull
+	@NotBlank
 	@Column(unique=true)
 	@Pattern(regexp = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$",message="ip isn't correct")
 	private String hostAddress;
@@ -58,7 +67,7 @@ public class Device extends BaseEntity {
 
 	@OneToMany(mappedBy = "device",fetch = FetchType.LAZY)
 //	@JsonIgnore
-	private List<Record> records=new ArrayList<>();
+	private List<PowerRecord> records=new ArrayList<>();
 
 	@Override
 	public String toString() {
@@ -76,7 +85,7 @@ public class Device extends BaseEntity {
 				", ied='" + ied + '\'' +
 				", created=" + created +
 				", switchgear=" + switchgear.getName() +
-				", division=" + division.getName() +
+//				", division=" + division.getName() +
 				'}';
 	}
 

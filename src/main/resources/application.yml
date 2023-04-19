@@ -2,7 +2,10 @@
 #    main:
 #        web-application-type: "none"
         #banner-mode: "off"
-
+        
+interval-sync: 0 */1 * * * *
+interval-poll: 0 */1 * * * *
+ 
 server:
   port: 8080 
 
@@ -17,17 +20,23 @@ spring:
     datasource:
         username: aumadmin
         password: metafrax
-        url: jdbc:postgresql://localhost:5432/astue
+        url: jdbc:postgresql://localhost:5001/astue
     jpa:
         show_sql: true
         generate-ddl: true
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: none
         properties:
             hibernate:
                       dialect: org.hibernate.dialect.PostgreSQLDialect
                       ddl-auto: none
+logging:
+  pattern:
+      console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint}"
+      file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
+  level:
+        astue: TRACE
 
 
 
@@ -99,7 +108,7 @@ spring:
         show_sql: true
         generate-ddl: true
         hibernate:
-            ddl-auto: create
+            ddl-auto: none
         properties:
             hibernate:
                       dialect: org.hibernate.dialect.PostgreSQLDialect

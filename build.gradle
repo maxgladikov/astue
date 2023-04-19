@@ -9,13 +9,13 @@ group = 'com.gladikov'
 version = ''
 sourceCompatibility = '17'
 
-//eclipse {
+eclipse {
 	
-//    classpath {
- //      downloadSources=true
-    //   downloadJavadoc=true
-  //  }
-//}
+    classpath {
+      downloadSources=true
+      downloadJavadoc=true
+    }
+}
 //shadowJar{}
 
 
@@ -65,6 +65,8 @@ dependencies {
 	implementation 'org.webjars:datatables:1.13.1'
 	implementation 'org.webjars:jquery-ui:1.13.2'
 	implementation 'org.webjars:font-awesome:6.2.0'
+	implementation 'org.webjars.npm:jquery-datetimepicker:2.5.21'
+	
 }
 
 tasks.named('test') {

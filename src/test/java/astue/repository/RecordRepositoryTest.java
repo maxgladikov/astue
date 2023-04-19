@@ -1,37 +1,65 @@
 package astue.repository;
 
-import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
+
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.auditing.AuditingHandler;
+import org.springframework.data.auditing.DateTimeProvider;
 
 import astue.model.Device;
-import astue.model.Record;
+import astue.model.PowerRecord;
 
 @DataJpaTest
-//@Disabled
 class RecordRepositoryTest {
 	@Autowired
-	RecordRepository repository;
-
+	RecordRepository recordRepository;
+	@Autowired
+	DeviceRepository deviceRepository;
+	
 	@BeforeEach
 	void setUp() throws Exception {
+		
 	}
 
 	@Test
-	void test() {
+	void test_commit_one() {
+
 		//given
-		Device device_1=Device.newBuilder().setName("device_1").setIp("192.168.0.1").setIed("TESYS").build();
-		Device device_2=Device.newBuilder().setName("device_2").setIp("192.168.0.2").setIed("F650").build();
-		Record record_1=new Record(device_1,100.0,200.0);
-		repository.save(record_1);
+		String name="name";
+		var iedType="TESYS";
+		var ip="192.168.0.1";
+		var power=0.1;
+		Device testDevice=Device.newBuilder().setName(name).setIp(ip).setIed(iedType).setPower(power).build();
+		PowerRecord record_1=new PowerRecord(testDevice,100.0,200.0);
+		deviceRepository.save(testDevice);
+		recordRepository.save(record_1);
 		//when
-		List<Record> records=repository.findAll();
+		List<PowerRecord> records=recordRepository.findAll();
+		
 		//then
 		assertThat(records.size()).isEqualTo(1);
+//		 assertThatThrownBy(() -> repository.save(record_1))
+//	      .isInstanceOf(PropertyValueException.class)
+//	      .hasMessageContaining("not-null property references a null or transient value");
 	}
+
 
 }

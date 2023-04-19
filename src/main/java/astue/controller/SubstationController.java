@@ -2,6 +2,8 @@ package astue.controller;
 
 import java.util.Collection;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,38 +12,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import astue.model.Substation;
-import astue.service.SubstationService;
+import astue.service.interfaces.SubstationService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/substations")
 public class SubstationController {
+	
 	private final SubstationService service;
-	public SubstationController(SubstationService service) {
-		this.service = service;
-	}
+	
 	@GetMapping
-	public Collection<Substation> getAll(){
-		return service.getAll();
-//		return  ResponseEntity.ok(service.getAll());
-//		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+	public ResponseEntity<Collection<Substation>> getAll(){
+		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public Substation getById(@PathVariable Long id){
-		Substation substation=service.getById(Long.valueOf(id));
-		System.out.println("++++++++++++"+ substation.toString());
-		return  substation;
+	public ResponseEntity<Substation> getById(@PathVariable Long id){
+		return new ResponseEntity<>(service.getById(Long.valueOf(id)), HttpStatus.OK);
 	}
 	@GetMapping("/name/{name}")
-	public Substation getById(@PathVariable String name){
-		Substation substation=service.getByName(name);
-		return  substation;
+	public ResponseEntity<Substation> getById(@PathVariable String name){
+		return new ResponseEntity<>(service.getByName(name), HttpStatus.OK);
 	}
 
 
 	@PostMapping("/")
-	public  void add(@RequestBody Substation substation){
+	public  ResponseEntity<?> add(@RequestBody Substation substation){
 		service.add(substation);
+		return new ResponseEntity<>( HttpStatus.OK);
 	}
 
 }

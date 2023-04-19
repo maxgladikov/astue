@@ -50,7 +50,7 @@ public class Division extends BaseEntity {
 	}
 	@Override
 	public String toString() {
-		return "Division [name="+this.getName()+", plant=" + plant + ", description=" + description + "]";
+		return "Division [name="+this.getName()+", plant=" + plant.getName() + ", description=" + description + "]";
 	}
 	
 }

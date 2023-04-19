@@ -1,4 +1,4 @@
-package astue.service;
+package astue.service.interfaces;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,5 +10,6 @@ public interface BaseService <T>{
     public T getById(Long id);
     public T getByName(String name);
     public T add(T t);
+    
 
 }

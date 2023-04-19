@@ -1,7 +1,8 @@
 package astue.service;
 
-import astue.model.Record;
+import astue.model.PowerRecord;
 import astue.repository.RecordRepository;
+import astue.service.interfaces.RecordService;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -17,12 +18,12 @@ public class RecordServiceImpl implements RecordService{
 	private final RecordRepository repository;
 
     @Override
-    public void addOne(Record record) {
+    public void addOne(PowerRecord record) {
         repository.save(record);
     }
 
 	@Override
-	public List<Record> getAllBetween(LocalDateTime from, LocalDateTime to) {
+	public List<PowerRecord> getAllBetween(LocalDateTime from, LocalDateTime to) {
 		return repository.findAllByCreatedBetween(from, to).orElseThrow();
 	}
 }

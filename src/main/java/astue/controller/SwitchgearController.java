@@ -1,41 +1,37 @@
 package astue.controller;
 
-import astue.model.Substation;
-import astue.model.Switchgear;
-import astue.service.SubstationServiceImpl;
-import astue.service.SwitchgearService;
-import astue.service.SwitchgearServiceImpl;
-import astue.util.CustomResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Collection;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import astue.model.Switchgear;
+import astue.service.interfaces.SwitchgearService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/switchgears")
 public class SwitchgearController {
+	
 	private final SwitchgearService service;
-	public SwitchgearController(SwitchgearService service) {
-		this.service = service;
-	}
 
 	@GetMapping
-	public Collection<Switchgear> getAll(){
-		return service.getAll();
+	public ResponseEntity<Collection<Switchgear>> getAll(){
+		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public Switchgear getById(@PathVariable Long id){
-		return service.getById(id);
+	public ResponseEntity<Switchgear> getById(@PathVariable Long id){
+		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
 	}
 	@GetMapping("/name/{name}")
-	public Switchgear getByName(@PathVariable String name){
-		return service.getByName(name);
+	public ResponseEntity<Switchgear> getByName(@PathVariable String name){
+		return new ResponseEntity<>(service.getByName(name), HttpStatus.OK);
 	}
 
 }

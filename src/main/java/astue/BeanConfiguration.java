@@ -3,8 +3,8 @@ package astue;
 import astue.model.Device;
 import astue.repository.UserRepository;
 import astue.service.FieldDataModbusPlc4jService;
-import astue.service.FieldDataService;
 import astue.service.UserService;
+import astue.service.interfaces.FieldDataService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.function.Function;
@@ -46,7 +46,6 @@ public class BeanConfiguration {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-//		return userName->userRepository.findByUsername(userName).orElseThrow(()->new UsernameNotFoundException("user with name "+userName+" not found"));
 		return new UserService(userRepository);
 	}
 	

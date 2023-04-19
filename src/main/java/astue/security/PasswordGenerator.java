@@ -4,13 +4,13 @@ package astue.security;
 
 public class PasswordGenerator {
 
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 //		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 //		String rawPassword="hyundai";
 //		String encodedPassword=encoder.encode(rawPassword);
 ////		System.out.println(encodedPassword);
 //		
 
-	}
+//	}
 
 }

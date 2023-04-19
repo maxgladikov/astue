@@ -1,32 +1,40 @@
 package astue.controller;
 
-import astue.model.Division;
-import astue.service.DivisionService;
-import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import astue.model.Division;
+import astue.service.interfaces.DivisionService;
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/divisions")
 public class DivisionController {
 
 	private final DivisionService service;
-	public DivisionController(DivisionService service) {
-		this.service = service;
-	}
 
 	@GetMapping
-	public Collection<Division> getAll(){
-		return service.getAll();
+	public ResponseEntity<Collection<Division>> getAll(){
+		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("/name/{name}")
-	public Division getByName(@PathVariable("name") String name){
-		return  service.getByName(name);
+	public ResponseEntity<Division> getByName(@PathVariable("name") String name){
+		return new ResponseEntity<>(service.getByName(name), HttpStatus.OK);
 	}
 
 	@PostMapping("/")
-	public  void add(@RequestBody Division division){
-		 service.add(division);
+	public  ResponseEntity<?> add(@RequestBody Division division){
+		 return new ResponseEntity<>( service.add(division), HttpStatus.OK);
 	}
 
 }

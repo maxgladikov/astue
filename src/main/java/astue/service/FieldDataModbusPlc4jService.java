@@ -23,7 +23,8 @@ import astue.exception.fieldbus.DeviceTypeNotSupported;
 import astue.exception.fieldbus.ResponseTimeOutException;
 import astue.exception.fieldbus.UnknownException;
 import astue.model.Device;
-import astue.model.Record;
+import astue.model.PowerRecord;
+import astue.service.interfaces.FieldDataService;
 import astue.util.Ied;
 import astue.util.TesysDate;
 
@@ -84,7 +85,7 @@ public class FieldDataModbusPlc4jService implements FieldDataService{
 					response = readRequest.execute().get(timeOut, TimeUnit.MILLISECONDS);
 				
 				List<PlcValue> intermediate=(List<PlcValue>) response.getObject(fieldName);
-				result=intermediate.stream().map(x->x.getInteger()).collect(Collectors.toList());
+				result=intermediate.stream().map(x->x.getInteger()).toList();
 	    	}catch(PlcConnectionException e) {
 	    		log.error("Device {} with ip {} is unreachable with message {}:",device.getName(),device.getHostAddress(),e.getMessage());
 	    	} 
@@ -97,7 +98,7 @@ public class FieldDataModbusPlc4jService implements FieldDataService{
 	    	return Optional.ofNullable(result).orElseThrow(()->new PlcConnectionException("Error ocurred during connection with "+device.getName()+"("+device.getHostAddress()+")"));
     }
 	@Override
-	public void execute() {
+	public void proceedTimeSynch() {
 		log.info("Connection is started for Device {} with ip {} ",device.getName(),device.getHostAddress());
     	try ( PlcConnection plcConnection = new PlcDriverManager().getConnection(connectionString) ) {
     		
@@ -109,7 +110,7 @@ public class FieldDataModbusPlc4jService implements FieldDataService{
 			PlcWriteRequest writeRequest = builder.build();
 
 			// Execute request
-			//Synchronous
+			// Synchronous
 			PlcWriteResponse response = writeRequest.execute().get();
 			
     		
@@ -124,73 +125,37 @@ public class FieldDataModbusPlc4jService implements FieldDataService{
 	}
 	
 	
-//    public void readFromFieldTest(Device device)   {
-//    	List<Integer>  result=null;
-//    	try (
-//    			PlcConnection plcConnection = new PlcDriverManager().getConnection(connectionString)
-//    																								) {
-//    		System.out.println(connectionString);
-////				if (!plcConnection.getMetadata().canRead()) {
-////					throw new Exception("This connection doesn't support reading.");
-////					}
-//    		
-//    		// Build request
-//    		PlcReadRequest.Builder builder = plcConnection.readRequestBuilder();
-//    		builder.addItem(fieldName, buildAddressString());
-//    		System.out.println(buildAddressString());
-//    		PlcReadRequest readRequest = builder.build();
-//    		
-//    		// Execute request
-////    		Synchronous
-//				PlcReadResponse response = readRequest.execute().get(timeOut, TimeUnit.MILLISECONDS);
-//				result=(List<Integer>) response.getObject(fieldName);
-//				
-//    	}
-//    	
-    		//Synchronous
-//    		CompletableFuture<? extends PlcReadResponse> asyncResponse = readRequest.execute();
-//    		asyncResponse.whenComplete((response, throwable) -> {
-//    			
-//			    			System.out.println(response.getResponseCode(fieldName));
-//			    			var rsp=(List<Integer>) response.getObject(fieldName);
-//			    			System.out.println(rsp);
-				
-//    			
-//    		});
-//    	}catch(PlcConnectionException e) {
-//    		System.out.println("Couldn't connect to "+device.getHostAddress());
-//    	} catch (Exception ex) {
-//    		ex.printStackTrace();
-//    	}
-    	
-//    }
 
     
     
     @Override
-    public Record get() throws PlcConnectionException{
+    public PowerRecord proceedConsumptionReading() throws PlcConnectionException{
             Double activePower;
             Double reactivePower;
-            Ied ied=device.getIed();
-            Record record=null;
-            if (ied.equals(Ied.TESYS))
-            		;
+            PowerRecord record=null;
+//            if (ied.equals(Ied.TESYS))
             List<Integer> list= fieldRequest(device);
-            list=list.stream().peek(x->{
-                        x = (x < 0) ? (x + 32768) : x;
-                    }).collect(Collectors.toList());
-		            switch (device.getIed()){
+//            list=list.stream().map(x -> {
+//                        x = (x < 0) ? (x + 32768) : x;
+//                    					})
+//            				.toList();
+		            
+            switch (device.getIed()){
 		                case TESYS->{
 		                    activePower=Double.valueOf((list.get(0))<<16)+list.get(1);
 		                    reactivePower=Double.valueOf((list.get(2))<<16)+list.get(3);}
 		                case F650->{
-		                    activePower=(Double.valueOf((list.get(0))<<16)+list.get(1))/1000;
-		                    reactivePower=(Double.valueOf((list.get(4))<<16)+list.get(5))/1000;}
-		               
+		                    activePower=(Double.valueOf((list.get(0))<<16)+list.get(1));
+		                    reactivePower=(Double.valueOf((list.get(4))<<16)+list.get(5));
+			                	if (device.getVoltage()=='L') {
+			                		activePower= activePower/1000;
+			                		reactivePower=reactivePower/1000;
+			                		}
+		                	}
 		                default-> throw new DeviceTypeNotSupported("Device type not supported"); 
 		               
 		            	}
-		            record=new Record(device,activePower,reactivePower);
+		            record=new PowerRecord(device,activePower,reactivePower);
             return record;
         }
 

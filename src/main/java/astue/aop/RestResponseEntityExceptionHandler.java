@@ -32,7 +32,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 						String errorMessage = error.getDefaultMessage();
 						body.put(fieldName, errorMessage);
 					});
-//			return handleExceptionInternal(ex, body, headers, HttpStatus.BAD_REQUEST, request);
 			return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 		}
 		
@@ -42,12 +41,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			Map<String, Object> body = new LinkedHashMap<>();
 		    body.put("timestamp", LocalDateTime.now());
 		    body.put("message", ex.getConstraintViolations().stream().limit(1).peek(x->x.getPropertyPath()).collect(Collectors.toList()));
-		    System.out.println("+++-----*******"+ex.getConstraintViolations().stream()
-		    		.peek(x->x.getPropertyPath().toString().split("(?<=messageTemplate=')(.*)(?=')"))
-		    		.collect(Collectors.toList()));
-		    System.out.println("+++-----*******"+ex.getConstraintViolations().size());
-		    System.out.println("+++-----*******"+ex.getConstraintViolations().stream().peek(x->x.getPropertyPath()).collect(Collectors.toList()));
-
 		    return new ResponseEntity<>(body.toString(), HttpStatus.BAD_REQUEST);
 		}
 //		(?<=messageTemplate=')(.*)(?=')

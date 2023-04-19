@@ -3,6 +3,8 @@ package astue.service;
 import astue.exception.ResourceNotFoundException;
 import astue.model.Substation;
 import astue.repository.SubstationRepository;
+import astue.service.interfaces.SubstationService;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;

@@ -1,37 +1,36 @@
 package astue.controller;
 
-import astue.model.Plant;
-import astue.service.PlantService;
-import astue.service.PlantServiceImpl;
-import astue.util.CustomResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
-import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import astue.model.Plant;
+import astue.service.interfaces.PlantService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/plants")
 public class PlantController {
 
 	private final PlantService service;
-	public PlantController(PlantService service) {
-		this.service = service;
-	}
 
 	@GetMapping
-	public Collection<Plant> getAll(){
-		return service.getAll();
+	public ResponseEntity<Collection<Plant>> getAll(){
+		return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
 	}
 
-//	@GetMapping("/{name}")
-//	public CustomResponse<Plant> getByName(@PathVariable("name") String name){
-//		return  service.getByName(name);
-//	}
 
 	@PostMapping("/")
-	public  void add(@RequestBody Plant plant){
+	public  ResponseEntity<?> add(@RequestBody Plant plant){
 		 service.add(plant);
+		 return new ResponseEntity<>( HttpStatus.OK);
 	}
 
 }
