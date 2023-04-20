@@ -3,8 +3,8 @@
 #        web-application-type: "none"
         #banner-mode: "off"
         
-interval-sync: 0 */1 * * * *
-interval-poll: 0 */1 * * * *
+interval-sync: 0 0 10 * * *
+interval-poll: 0 0 10 * * *
  
 server:
   port: 8080 

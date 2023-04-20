@@ -16,7 +16,7 @@ public class RecordDto {
 	private final LocalDateTime created;
 	public RecordDto(PowerRecord record) {
 		name=record.getDevice().getName();
-		active=record.getActivePowerConsumption();
+		active=Math.round(record.getActivePowerConsumption());
 		reactive=record.getReactivePowerConsumption();
 		ied=record.getDevice().getIed();
 		power=record.getDevice().getPower();

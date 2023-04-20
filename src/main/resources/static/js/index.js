@@ -3,10 +3,10 @@ $(document).ready(function () {
 
     // *** GLOBAL VARS ***
     let pre="http://";
-    //let ip="localhost";
+    let ip="localhost";
     //let ip="192.168.180.59";
     //let ip="192.168.56.1";
-    let ip="10.11.3.35";
+    //let ip="10.11.3.35";
     ip=pre+ip;
     //let port="8080";
     let port="80";
@@ -198,7 +198,8 @@ $(document).ready(function () {
 		        } else if(modalMode==5){
 		            let fromDate=$('.modal-input').find('#inputDateFrom').val();
 		            let toDate=$('.modal-input').find('#inputDateTo').val();
-		            let url=address+urlRecordsReport+fromDate+'/'+toDate;
+		            let reportType=$('.modal-input').find('#reportType').val();
+		            let url=address+urlRecordsReport+fromDate+'/'+toDate+'/'+reportType;
 		             window.location.href = url;
 		               
 		        }else if(modalMode==4){
@@ -402,13 +403,16 @@ $(document).ready(function () {
 	function delay(time) { return new Promise(resolve => setTimeout(resolve, time));}
 	
 	function prepareReport(){
+		$('.modal-input').append('<div class="row"><select id="reportType"  ></select><label class="label">Report type</label></div>');
+		$('#reportType').append('<option>Records.pdf</option>');
+		$('#reportType').append('<option>Records.csv</option>');
 		$('.modal-input').append("<label class='label'>from</label>");
 		$('.modal-input').append('<input id="inputDateFrom" type="text" >').promise().done(function() {
-						    $(this).find('#inputDateFrom').datetimepicker( {format:'d.m.Y_H:m'});
+						    $(this).find('#inputDateFrom').datetimepicker( {format:'d.m.Y_H:i',inline:false,theme:'default',roundTime:'floor',validateOnBlur:false});
 						});
 		$('.modal-input').append("<label class='label'>to</label>");
 		$('.modal-input').append('<input id="inputDateTo" type="text" >').promise().done(function() {
-						    $(this).find('#inputDateTo').datetimepicker({format:'d.m.Y_H:m'});
+						    $(this).find('#inputDateTo').datetimepicker({format:'d.m.Y_H:i',inline:false,theme:'default',roundTime:'floor',validateOnBlur:false});
 						});
 		
 		

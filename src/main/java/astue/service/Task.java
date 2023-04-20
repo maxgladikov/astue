@@ -30,7 +30,7 @@ public class Task {
 	public void doMeter() {
     	log.info("****************  Task read comsumption started  *******************");
     	
-		List<Device> devices=deviceService.getAll().stream().filter(Device::isConsumer).toList();
+		List<Device> devices=deviceService.getAll().stream().filter(Device::isConsumer).sorted((a,b)->a.getName().compareTo(b.getName())).toList();
 	    
 		devices.stream().forEach(x -> {
 				try{

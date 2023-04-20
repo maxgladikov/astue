@@ -32,20 +32,6 @@ public class SecurityConfig{
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        						http.cors().disable()
-//        						.csrf().disable()
-//        						.authorizeHttpRequests()
-//                .requestMatchers("/api/v1/auth/**", "/", "/webjars/**", "/css/**", "/js/**", "/images/**", "/api/v1/report/**")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .sessionManagement(management -> management
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//																					;
-//		return http.build();
 		
 		return http.authorizeHttpRequests(auth -> {
 						auth.requestMatchers("/","/api/v1/auth/**",  "/webjars/**", "/css/**", "/js/**", "/images/**", "/api/v1/report/**").permitAll();

@@ -53,7 +53,8 @@ dependencies {
 	implementation 'org.apache.plc4x:plc4j-transport-test:0.10.0'
 	testImplementation 'org.apache.plc4x:plc4j-driver-mock:0.10.0'
 	
-	
+	implementation 'org.jfree:jfreechart:1.5.4'
+	implementation 'com.itextpdf:itextpdf:5.5.13.3'
 	implementation 'net.sf.supercsv:super-csv:2.4.0'
 	implementation 'net.sourceforge.nekohtml:nekohtml:1.9.22'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'

@@ -53,7 +53,7 @@ public class FieldDataModbusPlc4jService implements FieldDataService{
     
     public String buildAddressString() {
     	Ied ied=device.getIed();
-    	int fullAddress=40_000+ied.address;
+    	int fullAddress=ied.address;
     	sb.setLength(0);
     	sb.append(fullAddress);
     	sb.append(":");
@@ -152,6 +152,10 @@ public class FieldDataModbusPlc4jService implements FieldDataService{
 			                		reactivePower=reactivePower/1000;
 			                		}
 		                	}
+		                case ATV630->{
+		                	activePower=Double.valueOf(list.get(0)+list.get(1));
+		                	reactivePower=0.0;
+		                }
 		                default-> throw new DeviceTypeNotSupported("Device type not supported"); 
 		               
 		            	}
