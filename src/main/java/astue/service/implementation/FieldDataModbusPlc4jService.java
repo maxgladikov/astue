@@ -1,4 +1,4 @@
-package astue.service;
+package astue.service.implementation;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ import astue.exception.fieldbus.ResponseTimeOutException;
 import astue.exception.fieldbus.UnknownException;
 import astue.model.Device;
 import astue.model.PowerRecord;
-import astue.service.interfaces.FieldDataService;
+import astue.service.FieldDataService;
 import astue.util.Ied;
 import astue.util.TesysDate;
 

@@ -1,3 +1,4 @@
+
 plugins {
 	id 'java-library'
 	id 'eclipse'
@@ -9,13 +10,13 @@ group = 'com.gladikov'
 version = ''
 sourceCompatibility = '17'
 
-eclipse {
+//eclipse {
 	
-    classpath {
-      downloadSources=true
-      downloadJavadoc=true
-    }
-}
+//    classpath {
+//      downloadSources=true
+//      downloadJavadoc=true
+//    }
+//}
 //shadowJar{}
 
 

@@ -1,11 +1,12 @@
-package astue.service;
+package astue.service.implementation;
 
 import astue.exception.ResourceNotFoundException;
 import astue.model.Division;
 import astue.model.Plant;
 import astue.repository.DivisionRepository;
 import astue.repository.PlantRepository;
-import astue.service.interfaces.DivisionService;
+import astue.service.DivisionService;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DivisionServiceImpl implements DivisionService{
 
 	private final DivisionRepository repository;
-	public DivisionServiceImpl(DivisionRepository repository) {
-		this.repository = repository;
-	}
 
+	
 	public List<Division> getAll() {
 		return repository.findAll();
 	}

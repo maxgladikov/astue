@@ -1,4 +1,4 @@
-package astue.service.interfaces;
+package astue.service;
 
 import astue.model.Substation;
 import astue.repository.SubstationRepository;

@@ -1,15 +1,7 @@
 package astue;
 
-import astue.model.Device;
-import astue.repository.UserRepository;
-import astue.service.FieldDataModbusPlc4jService;
-import astue.service.UserService;
-import astue.service.interfaces.FieldDataService;
-import lombok.RequiredArgsConstructor;
-
 import java.util.function.Function;
 
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -18,15 +10,26 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import astue.model.Device;
+import astue.repository.UserRepository;
+import astue.service.FieldDataService;
+import astue.service.ReportService;
+import astue.service.implementation.FieldDataModbusPlc4jService;
+import astue.service.implementation.UserService;
+import astue.service.RecordService;
+import astue.service.implementation.report.ReportCsv;
+import astue.service.implementation.report.ReportServiceRecordsPdf;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
 	
 	private final UserRepository userRepository;
+	private final RecordService recordService;
     
 	
 	
@@ -63,6 +66,17 @@ public class BeanConfiguration {
 	@Scope(value="prototype")
 	public FieldDataService fieldDataService(Device device) {
 		return new FieldDataModbusPlc4jService(device);
+	}
+	
+	// Report services
+	@Bean(name="reportPdf")
+	public ReportService getReportPdf() {
+		return new ReportServiceRecordsPdf(recordService);
+	}
+	
+	@Bean(name="reportCsv")
+	public ReportService getReportCsv() {
+		return new ReportCsv(recordService);
 	}
 	
 

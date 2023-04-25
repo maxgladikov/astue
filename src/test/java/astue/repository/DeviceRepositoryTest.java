@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import astue.model.Device;
-import astue.service.SpringAux;
+import astue.service.implementation.SpringAux;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 //@SpringBootTest

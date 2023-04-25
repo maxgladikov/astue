@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import astue.model.Division;
-import astue.service.interfaces.DivisionService;
+import astue.service.DivisionService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

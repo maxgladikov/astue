@@ -1,4 +1,4 @@
-package astue.service;
+package astue.service.implementation;
 
 import java.util.List;
 

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import astue.model.Plant;
 import astue.security.JwtService;
-import astue.service.interfaces.PlantService;
+import astue.service.PlantService;
 
 @WebMvcTest(controllers=PlantController.class)
 class PlantControllerTest {

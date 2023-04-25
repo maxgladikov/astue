@@ -1,4 +1,4 @@
-package astue.service;
+package astue.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import astue.model.Device;
 import astue.model.PowerRecord;
-import astue.service.interfaces.DeviceService;
-import astue.service.interfaces.FieldDataService;
-import astue.service.interfaces.RecordService;
+import astue.service.DeviceService;
+import astue.service.FieldDataService;
+import astue.service.RecordService;
 
 @Service
 @EnableScheduling

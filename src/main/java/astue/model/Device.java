@@ -89,6 +89,8 @@ public class Device extends BaseEntity {
 				'}';
 	}
 
+	
+	
 	public static Builder newBuilder(){
 		return new Device().new Builder();
 	}

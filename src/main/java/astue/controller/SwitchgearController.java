@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import astue.model.Switchgear;
-import astue.service.interfaces.SwitchgearService;
+import astue.service.SwitchgearService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import astue.model.Device;
+import astue.service.implementation.FieldDataModbusPlc4jService;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class FieldDataModbusPlc4jServiceTest {

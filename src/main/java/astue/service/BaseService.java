@@ -1,4 +1,4 @@
-package astue.service.interfaces;
+package astue.service;
 
 import java.util.Collection;
 import java.util.List;

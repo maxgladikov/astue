@@ -1,13 +1,13 @@
-package astue.service;
+package astue.service.implementation;
 
 import astue.exception.ResourceNotFoundException;
 import astue.model.Device;
 import astue.model.Division;
 import astue.model.Switchgear;
 import astue.repository.DeviceRepository;
-import astue.service.interfaces.DeviceService;
-import astue.service.interfaces.DivisionService;
-import astue.service.interfaces.SwitchgearService;
+import astue.service.DeviceService;
+import astue.service.DivisionService;
+import astue.service.SwitchgearService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;

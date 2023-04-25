@@ -1,9 +1,9 @@
-package astue.service;
+package astue.service.implementation;
 
 import astue.exception.ResourceNotFoundException;
 import astue.model.Substation;
 import astue.repository.SubstationRepository;
-import astue.service.interfaces.SubstationService;
+import astue.service.SubstationService;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

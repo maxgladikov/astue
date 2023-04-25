@@ -1,4 +1,4 @@
-package astue.service.interfaces;
+package astue.service;
 
 import astue.model.Plant;
 import astue.util.CustomResponse;

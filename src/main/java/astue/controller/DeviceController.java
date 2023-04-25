@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import astue.model.Device;
-import astue.service.interfaces.DeviceService;
+import astue.service.DeviceService;
 import astue.util.Ied;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

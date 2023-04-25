@@ -1,13 +1,13 @@
-package astue.service;
+package astue.service.implementation;
 
 import astue.model.Division;
 import astue.model.Plant;
 import astue.model.Substation;
 import astue.model.Switchgear;
-import astue.service.interfaces.DivisionService;
-import astue.service.interfaces.PlantService;
-import astue.service.interfaces.SubstationService;
-import astue.service.interfaces.SwitchgearService;
+import astue.service.DivisionService;
+import astue.service.PlantService;
+import astue.service.SubstationService;
+import astue.service.SwitchgearService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

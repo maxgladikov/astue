@@ -17,9 +17,7 @@ import astue.model.Device;
 import astue.repository.DeviceRepository;
 import astue.repository.DivisionRepository;
 import astue.repository.SwitchgearRepository;
-import astue.service.interfaces.DeviceService;
-import astue.service.interfaces.DivisionService;
-import astue.service.interfaces.SwitchgearService;
+import astue.service.implementation.DeviceServiceImpl;
 @ExtendWith(MockitoExtension.class)
 class DeviceServiceTest {
 	

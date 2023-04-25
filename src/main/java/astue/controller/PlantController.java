@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import astue.model.Plant;
-import astue.service.interfaces.PlantService;
+import astue.service.PlantService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

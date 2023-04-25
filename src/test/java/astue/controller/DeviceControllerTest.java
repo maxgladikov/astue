@@ -21,9 +21,9 @@ import astue.model.Device;
 import astue.model.Division;
 import astue.model.Switchgear;
 import astue.security.JwtService;
-import astue.service.interfaces.DeviceService;
-import astue.service.interfaces.DivisionService;
-import astue.service.interfaces.SwitchgearService;
+import astue.service.DeviceService;
+import astue.service.DivisionService;
+import astue.service.SwitchgearService;
 @WebMvcTest(controllers=DeviceController.class)
 class DeviceControllerTest {
 	

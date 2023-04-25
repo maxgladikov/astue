@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import astue.security.AuthenticationRequest;
 import astue.security.AuthenticationResponse;
 import astue.security.RegistrationRequest;
-import astue.service.AuthenticationService;
+import astue.service.implementation.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

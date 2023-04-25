@@ -1,12 +1,12 @@
-package astue.service;
+package astue.service.implementation;
 
 import org.springframework.stereotype.Service;
 
 import astue.model.Device;
 import astue.model.PowerRecord;
-import astue.service.interfaces.DeviceService;
-import astue.service.interfaces.RecordService;
-import astue.service.interfaces.SubstationService;
+import astue.service.DeviceService;
+import astue.service.RecordService;
+import astue.service.SubstationService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -54,12 +54,12 @@ public class TestReport {
 		Map<Substation, List<Switchgear>> switchgearsTmp=switchgearService.getAll().stream().collect(Collectors.groupingBy(Switchgear::getSubstation));
 		Map<String, List<Switchgear>> switchgearsMap=switchgearsTmp.keySet().stream().collect(Collectors.toMap(x->x.getName(), x->switchgearsTmp.get(x)));
 		// Add switchgears to substations
-		substations.stream().forEach(ss->ss.setSwitchgears(switchgearsMap.get(ss.getName())));
+		substations.stream().forEach(ss -> ss.setSwitchgears(switchgearsMap.get(ss.getName())));
 		// Add records to device
 		substations.stream().forEach(
 								ss->ss.getSwitchgears().stream().forEach(
-													swgr->swgr.getDevices().stream().forEach(
-																				dev->dev.setRecords( recordsMap.get(dev.getName())
+													swgr -> swgr.getDevices().stream().forEach(
+																				dev -> dev.setRecords( recordsMap.get(dev.getName())
 //																						.stream().sorted(Comparator.comparing(Record::getCreated)).toList() 
 																						))));
 		ElectricReport report=new ElectricReport(substations);

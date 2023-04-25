@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import astue.model.Substation;
-import astue.service.interfaces.SubstationService;
+import astue.service.SubstationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

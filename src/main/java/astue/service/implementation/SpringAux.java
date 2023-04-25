@@ -1,4 +1,4 @@
-package astue.service;
+package astue.service.implementation;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -18,8 +18,8 @@ import astue.model.Role;
 import astue.model.Substation;
 import astue.model.Switchgear;
 import astue.model.User;
-import astue.service.interfaces.PlantService;
-import astue.service.interfaces.SubstationService;
+import astue.service.PlantService;
+import astue.service.SubstationService;
 import lombok.RequiredArgsConstructor;
 
 @Service

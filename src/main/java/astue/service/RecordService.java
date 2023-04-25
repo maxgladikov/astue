@@ -1,4 +1,4 @@
-package astue.service.interfaces;
+package astue.service;
 
 import java.time.LocalDateTime;
 import java.util.List;

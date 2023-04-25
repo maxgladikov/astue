@@ -1,4 +1,4 @@
-package astue.service;
+package astue.service.implementation;
 
 import astue.model.Device;
 import astue.util.ProcessorCSV;

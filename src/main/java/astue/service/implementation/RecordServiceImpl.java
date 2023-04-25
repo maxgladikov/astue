@@ -1,8 +1,8 @@
-package astue.service;
+package astue.service.implementation;
 
 import astue.model.PowerRecord;
 import astue.repository.RecordRepository;
-import astue.service.interfaces.RecordService;
+import astue.service.RecordService;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
