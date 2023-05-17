@@ -18,6 +18,7 @@ import org.apache.plc4x.java.api.value.PlcValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import astue.constants.Ied;
 import astue.exception.fieldbus.DeviceNotAvailable;
 import astue.exception.fieldbus.DeviceTypeNotSupported;
 import astue.exception.fieldbus.ResponseTimeOutException;
@@ -25,7 +26,6 @@ import astue.exception.fieldbus.UnknownException;
 import astue.model.Device;
 import astue.model.PowerRecord;
 import astue.service.FieldDataService;
-import astue.util.Ied;
 import astue.util.TesysDate;
 
 public class FieldDataModbusPlc4jService implements FieldDataService{

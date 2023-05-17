@@ -10,9 +10,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import astue.constants.Ied;
 import astue.util.DeviceDeserializer;
 import astue.util.DeviceSerializer;
-import astue.util.Ied;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -55,18 +55,15 @@ public class Device extends BaseEntity {
 	@CreationTimestamp
 	@Column(updatable=false,nullable = false)
 	private LocalDateTime created;
-//	@JsonBackReference(value="switchgear->device")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "switchgear_id")
 	private Switchgear switchgear;
 
-//	@JsonBackReference(value="division->device")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "division_id")
 	private Division division;
 
 	@OneToMany(mappedBy = "device",fetch = FetchType.LAZY)
-//	@JsonIgnore
 	private List<PowerRecord> records=new ArrayList<>();
 
 	@Override

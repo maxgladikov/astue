@@ -11,9 +11,9 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import astue.constants.ReportServiceType;
 import astue.service.RecordService;
 import astue.service.ReportService;
-import astue.service.ReportServiceType;
 import astue.service.implementation.report.dto.RecordCsvDto;
 import lombok.RequiredArgsConstructor;
 

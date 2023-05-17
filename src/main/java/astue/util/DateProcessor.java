@@ -10,12 +10,6 @@ public class DateProcessor {
 		
 		private Date date;
 		private  int[] arr=new int[4];
-		private Map<String,Integer> secs;
-		private Map<String,Integer> mins;
-		private Map<String,Integer> hours;
-		private Map<String,Integer> day;
-		private Map<String,Integer> month;
-		private Map<String,Integer> year;
 		
 		public static DateProcessor getProcessor() {
 			return new DateProcessor();
@@ -56,14 +50,13 @@ public class DateProcessor {
 		return tempMap;
 	}
 	private  Map<String,Integer> getFour(String pat) {
-		String pattern = pat;
 		SimpleDateFormat simpleDateFormat =new SimpleDateFormat(pat);
 		String dateString = simpleDateFormat.format(date);
 		Integer num=Integer.valueOf(dateString);
 		
-		Integer mostSign= (int) Math.floor(Integer.valueOf(num/1000));
-		Integer secondSign= (int) Math.floor(Integer.valueOf(num/100))-mostSign*10;
-		Integer thirdSign= (int) Math.floor(Integer.valueOf(num/10))-mostSign*100- secondSign*10;
+		Integer mostSign= (int) Math.floor(num/1000);
+		Integer secondSign= (int) Math.floor(num/100)-mostSign*10;
+		Integer thirdSign= (int) Math.floor(num/10)-mostSign*100- secondSign*10;
 		Integer leastSign= num-thirdSign*10-secondSign*100-mostSign*1000;
 		Map<String,Integer> tempMap=new HashMap<>();
 		tempMap.put("mostSign", mostSign);

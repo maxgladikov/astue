@@ -1,35 +1,24 @@
 
 plugins {
 	id 'java-library'
-	id 'eclipse'
 	id 'org.springframework.boot' version '3.0.5'
 }
+
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.gladikov'
 version = ''
 sourceCompatibility = '17'
 
-//eclipse {
-	
-//    classpath {
-//      downloadSources=true
-//      downloadJavadoc=true
-//    }
-//}
-//shadowJar{}
 
 
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
 
 repositories {
 	mavenCentral()
 }
+
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -54,6 +43,7 @@ dependencies {
 	implementation 'org.apache.plc4x:plc4j-transport-test:0.10.0'
 	testImplementation 'org.apache.plc4x:plc4j-driver-mock:0.10.0'
 	
+	
 	implementation 'org.jfree:jfreechart:1.5.4'
 	implementation 'com.itextpdf:itextpdf:5.5.13.3'
 	implementation 'net.sf.supercsv:super-csv:2.4.0'
@@ -69,6 +59,40 @@ dependencies {
 	implementation 'org.webjars:font-awesome:6.2.0'
 	implementation 'org.webjars.npm:jquery-datetimepicker:2.5.21'
 	
+	
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+}
+
+
+
+testing {
+    suites { 
+        test { 
+            useJUnitJupiter() 
+        }
+
+        integrationTest(JvmTestSuite) { 
+        	 testType = TestSuiteType.INTEGRATION_TEST
+            dependencies {
+                implementation project() 
+            }
+
+            targets { 
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('check') { 
+    dependsOn(testing.suites.integrationTest)
 }
 
 tasks.named('test') {
@@ -83,19 +107,7 @@ tasks.named('bootRun') {
 
 
 
-//tasks.register("integration") {
-//    group = "application"
-//    description = "Runs the Spring Boot application with the dev profile"
-//    doFirst {
-//        tasks.test.configure {
-//            systemProperty("spring.profiles.active", "dev")
-//        }
-//    }
-//    finalizedBy("bootRun")
-//}
 
 
-tasks.register("hell") {
-	println 'hello, world'
-}
+
 

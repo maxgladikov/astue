@@ -18,35 +18,35 @@ import lombok.ToString;
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1075550895985504661L;
+	private static final long serialVersionUID = 1075550895985504661L;
 	@Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
-    @NotBlank(message = "Name is mandatory")
-    @Column(unique=true)
-    private String name;
-    private String description;
-	
-    
-    @Override
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@NotBlank(message = "Name is mandatory")
+	@Column(unique = true)
+	private String name;
+	private String description;
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
-		// If the object is compared with itself then return true 
+		// If the object is compared with itself then return true
 		if (this == obj)
 			return true;
-		
+
 		if (obj == null)
 			return false;
-		
+
 		if (getClass() != obj.getClass())
 			return false;
-		
+
 		BaseEntity other = (BaseEntity) obj;
 		if (name == null) {
 			if (other.name != null)
@@ -55,18 +55,5 @@ public class BaseEntity implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-//	@Override
-//	public boolean equals(Object obj) {
-//		if ( obj.getClass().equals(this.getClass()) )
-//			this.name.equals(obj.)
-//		boolean same= ) 
-//		if (this.name.equals(obj.))
-//	}
-    
-    
-    
+
 }

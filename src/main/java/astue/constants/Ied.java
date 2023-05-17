@@ -1,4 +1,4 @@
-package astue.util;
+package astue.constants;
 
 import java.util.HashMap;
 import java.util.Map;

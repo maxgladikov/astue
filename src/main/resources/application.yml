@@ -173,7 +173,7 @@ spring:
     datasource:
         username: aumadmin
         password: metafrax
-        url: jdbc:postgresql://localhost:5002/astue
+        url: jdbc:postgresql://localhost:5001/astue
     jpa:
         show_sql: true
         generate-ddl: true

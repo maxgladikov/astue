@@ -41,14 +41,10 @@ class FieldDataModbusPlc4jServiceTest {
 	@DisplayName("Check if connection string is correct")
 	@Disabled
 	void buildConnectionStringTest() {
-		
-		
-		
 		String strTesys=serviceTesys.buildConnectionString();
 		String strF650=serviceF650.buildConnectionString();
 		assertThat(strTesys).isEqualTo("modbus-tcp:tcp://192.168.0.1:502");
 		assertThat(strF650).isEqualTo("modbus-tcp:tcp://192.168.0.2:502");
-		
 	}
 	
 	@Test
@@ -59,7 +55,6 @@ class FieldDataModbusPlc4jServiceTest {
 		String strF650=serviceF650.buildAddressString();
 		assertThat(strTesys).isEqualTo("40143:UINT[4]");
 		assertThat(strF650).isEqualTo("43908:INT[8]");
-		
 	}
 	
 //	

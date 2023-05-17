@@ -1,7 +1,7 @@
 package astue.service.implementation;
 
 import astue.model.Device;
-import astue.util.ProcessorCSV;
+import astue.util.CsvUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class DeviceFactory {
 
     public Set<Device> createDevices(String path){
         pool.refresh();
-        List<List<String>> raw= ProcessorCSV.readUTF(path);
+        List<List<String>> raw= CsvUtil.readUTF(path);
         Set<Device> result= raw.stream()
                         .skip(1)
                         .map(x->Device.newBuilder()

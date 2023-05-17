@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import astue.ReportServiceFactory;
-import astue.service.ReportServiceType;
+import astue.constants.ReportServiceType;
+import astue.service.implementation.report.ReportServiceFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -47,7 +47,7 @@ public class ReportController {
 	                .ok()
 	                .headers(headers)
 	                .contentType(MediaType.APPLICATION_PDF)
-	                .body(serviceFactory.getService(ReportServiceType.RECORDS_PDF).create(startDate, endDate));
+	                .body(serviceFactory.getService(ReportServiceType.PROCESS_PDF).create(startDate, endDate));
 		}
 		
 	}

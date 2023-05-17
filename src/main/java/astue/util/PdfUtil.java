@@ -19,11 +19,9 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
-import astue.service.implementation.report.Chart;
 import lombok.Getter;
 
 public class PdfUtil {
-	@Getter
 	private final static Font titleFont=new Font(Font.FontFamily.TIMES_ROMAN, 18,Font.BOLD);
 	private final static Font paragraphNameFont=new Font(Font.FontFamily.TIMES_ROMAN, 14,Font.BOLD);
 	private final static Font contentFont=new Font(Font.FontFamily.TIMES_ROMAN, 14,Font.BOLD);
@@ -40,7 +38,7 @@ public class PdfUtil {
 		document.add(PdfUtil.createTable(header, body));
 	}
 	
-	private static PdfPTable createTable(List<String> header,List<List<String>> body) throws DocumentException {
+	private static PdfPTable createTable(List<String> header,List<List<String>> body) {
 		 
 		// create a table
 		 PdfPTable table = new PdfPTable(header.size());
@@ -64,7 +62,7 @@ public class PdfUtil {
 		return cell;
 	}
 	
-	public static void addImage(Document document, BufferedImage image) throws IOException, BadElementException, DocumentException {
+	public static void addImage(Document document, BufferedImage image) throws IOException, DocumentException {
 		document.add( new Paragraph(" "));
 		ByteArrayOutputStream baos=new ByteArrayOutputStream();
 		ImageIO.write( image ,"png" , baos);

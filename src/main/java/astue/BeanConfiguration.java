@@ -15,13 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import astue.model.Device;
 import astue.repository.UserRepository;
+import astue.service.DivisionService;
 import astue.service.FieldDataService;
+import astue.service.PlantService;
 import astue.service.ReportService;
 import astue.service.implementation.FieldDataModbusPlc4jService;
 import astue.service.implementation.UserService;
 import astue.service.RecordService;
 import astue.service.implementation.report.ReportCsv;
-import astue.service.implementation.report.ReportServiceRecordsPdf;
+import astue.service.implementation.report.ReportProcessService;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -29,6 +31,8 @@ import lombok.RequiredArgsConstructor;
 public class BeanConfiguration {
 	
 	private final UserRepository userRepository;
+	private final PlantService plantService;
+	private final DivisionService divisionService;
 	private final RecordService recordService;
     
 	
@@ -69,9 +73,14 @@ public class BeanConfiguration {
 	}
 	
 	// Report services
-	@Bean(name="reportPdf")
+//	@Bean(name="reportPdf")
+//	public ReportService getReportPdf() {
+//		return new ReportServiceRecordsPdf(recordService);
+//	}
+	
+	@Bean(name="processPdf")
 	public ReportService getReportPdf() {
-		return new ReportServiceRecordsPdf(recordService);
+		return new ReportProcessService(plantService,divisionService,recordService);
 	}
 	
 	@Bean(name="reportCsv")

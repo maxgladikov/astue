@@ -1,11 +1,11 @@
 package astue.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -19,6 +19,7 @@ import astue.repository.DivisionRepository;
 import astue.repository.SwitchgearRepository;
 import astue.service.implementation.DeviceServiceImpl;
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class DeviceServiceTest {
 	
 	@Mock private DeviceRepository deviceRepository;

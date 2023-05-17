@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProcessorCSV {
+public class CsvUtil {
 
 	public static List<List<String>> read(String name) throws IOException {
 	List<List<String>> records = new ArrayList<>();
